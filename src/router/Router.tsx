@@ -15,6 +15,7 @@ import SingUp from "pages/SingUp";
 import Search from "pages/Search";
 import NotFound from "pages/NotFound";
 import Order from "pages/Order";
+import User from "pages/User";
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +28,7 @@ const Router = createBrowserRouter(
         <Route path="/search/:value" element={<Search />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/user" element={<User />} />
         <Route path="/order" element={<Order />} />
         <Route path="/likes" element={<Likes />} />
       </Route>
