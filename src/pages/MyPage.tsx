@@ -8,6 +8,7 @@ import {
   HiOutlineChevronRight,
 } from "react-icons/hi2";
 import colors from "constants/colors";
+import MaleAvatar from "components/myPage/MaleAvatar";
 
 interface LinkItem {
   icon?: JSX.Element;
@@ -42,9 +43,15 @@ const MyPage = () => {
   return (
     <Block>
       <H1>마이페이지</H1>
-      <NameWrapper>
-        <span>가나다라</span>님 환영합니다.
-      </NameWrapper>
+
+      <ProfileWrapper>
+        {/* 남성 여성에 따른 아바타? */}
+        <MaleAvatar />
+        {/* <FemaleAvatar /> */}
+        <div>
+          <span>가나다라</span>님 환영합니다.
+        </div>
+      </ProfileWrapper>
 
       <ul>
         {LINK_ITEM.map(({ icon, label, to }) => (
@@ -69,18 +76,26 @@ const Block = styled.section`
 `;
 
 const H1 = styled.h1`
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 `;
 
-const NameWrapper = styled.div`
+const ProfileWrapper = styled.div`
   padding: 16px 0;
-  border-top: 1px solid ${colors["GRAY-4"]};
+  /* border-top: 1px solid ${colors["GRAY-4"]}; */
   border-bottom: 1px solid ${colors["GRAY-4"]};
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 
   span {
     color: ${colors["INDIGO-8"]};
     font-weight: 600;
+  }
+
+  svg {
+    border-radius: 50%;
+    border: 1px solid ${colors["INDIGO-3"]};
   }
 `;
 
