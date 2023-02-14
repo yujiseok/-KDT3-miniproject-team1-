@@ -7,42 +7,45 @@ import {
   GroupLeftBox,
 } from "components/untils/StyledUntils";
 import colors from "constants/colors";
-import { MdAlternateEmail } from "react-icons/md";
+
+import { useState } from "react";
+import InputModule from "components/auth/InputModule";
+
+interface IForm {
+  email?: string;
+  password?: string;
+}
 
 const SignIn = () => {
+  const [form, setForm] = useState<IForm>({});
+
+  function ChangeState(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
+    console.log("target", event.target);
+    console.log("value", name, value);
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  }
+
   return (
     <Container>
       <TitleBox>
         <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
         <Bold>회원 로그인</Bold>
       </TitleBox>
-      <GroupLeftBox>
-        <Pretendard color={colors["GRAY-7"]}>이메일</Pretendard>
-        <LoginEmail>
-          <MdAlternateEmail />
-        </LoginEmail>
-      </GroupLeftBox>
+      <form
+        onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+          event.preventDefault();
+          console.log(form.email);
+        }}
+      >
+        <InputModule ChangeState={() => ChangeState} form={form} />
+
+        <button type="submit">로그인</button>
+      </form>
     </Container>
   );
 };
 export default SignIn;
-
-const LoginEmail = styled.input`
-  box-sizing: border-box;
-
-  /* Auto layout */
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px 0px 0px 12px;
-  gap: 12px;
-
-  width: 366px;
-  height: 48px;
-
-  /* Primary Color/INDIGO 9 */
-
-  border: 1px solid #364fc7;
-  border-radius: 8px;
-`;

@@ -4,6 +4,9 @@ import colors from "constants/colors";
 // {Bold, Pretendard, info, input}
 
 export const Bold = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 800;
@@ -13,6 +16,9 @@ export const Bold = styled.div`
 `;
 
 export const Pretendard = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
@@ -25,6 +31,9 @@ export const Pretendard = styled.div`
 `;
 
 export const Info = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
@@ -34,6 +43,9 @@ export const Info = styled.div`
 `;
 
 export const Input = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
