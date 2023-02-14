@@ -41,6 +41,10 @@ input {
   font-size: inherit;
 }
 
+ul, li {
+  list-style: none;
+}
+
 .App {
   max-width: 390px;
   margin-inline: auto;
