@@ -1,3 +1,4 @@
+import Footer from "components/Footer";
 import { Outlet } from "react-router-dom";
 
 const Layout = () => {
@@ -7,7 +8,7 @@ const Layout = () => {
       <main>
         <Outlet />
       </main>
-      <footer>푸터</footer>
+      <Footer />
     </>
   );
 };
