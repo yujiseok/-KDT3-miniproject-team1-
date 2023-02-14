@@ -46,6 +46,7 @@ input {
   margin-inline: auto;
   background-color: #fff;
   height: 100vh;
+  position: relative;
 }
 
 
