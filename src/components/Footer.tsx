@@ -8,7 +8,13 @@ import { BiHomeAlt, BiSearchAlt, BiStar, BiLogInCircle } from "react-icons/bi";
 const Footer = () => {
   const [clickTab, setClickTab] = useState(0);
 
-  const menuContent = [
+  interface TabItem {
+    name: string;
+    content: JSX.Element;
+    path: string;
+  }
+
+  const menuContent: TabItem[] = [
     { name: "home", content: <BiHomeAlt />, path: "/" },
     { name: "search", content: <BiSearchAlt />, path: "/search/null" },
     { name: "likes", content: <BiStar />, path: "/likes" },
