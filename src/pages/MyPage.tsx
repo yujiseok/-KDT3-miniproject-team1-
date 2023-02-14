@@ -74,8 +74,8 @@ const H1 = styled.h1`
 
 const NameWrapper = styled.div`
   padding: 16px 0;
-  border-top: 1px solid lightgray;
-  border-bottom: 1px solid lightgray;
+  border-top: 1px solid ${colors["GRAY-4"]};
+  border-bottom: 1px solid ${colors["GRAY-4"]};
   margin-bottom: 24px;
 
   span {
@@ -85,7 +85,7 @@ const NameWrapper = styled.div`
 `;
 
 const List = styled.li`
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid ${colors["GRAY-4"]};
 
   a {
     display: flex;
