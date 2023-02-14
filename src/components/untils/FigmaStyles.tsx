@@ -24,7 +24,7 @@ export const Pretendard = styled.div`
   color: ${(props) => props.color || colors["GRAY-9"]};
 `;
 
-export const info = styled.div`
+export const Info = styled.div`
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
@@ -33,7 +33,7 @@ export const info = styled.div`
   color: ${(props) => props.color || colors["GRAY-9"]};
 `;
 
-export const input = styled.div`
+export const Input = styled.div`
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;

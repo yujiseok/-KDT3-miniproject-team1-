@@ -7,15 +7,17 @@ import styled from "styled-components";
  * @color : 글자색
  */
 export const Container = styled.div`
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 0px 12px;
+
   gap: 24px;
 
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100%;
 
   background: #ffffff;
