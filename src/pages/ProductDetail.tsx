@@ -15,10 +15,10 @@ const ProductDetail = () => {
     <Wrapper>
       <ImgBox />
       <BankTitle>우리은행 신용대출</BankTitle>
-      <Box>
+      <ProductBox>
         <ProductTitle>우리금융인클럽 신용대출</ProductTitle>
         <HiOutlineHeart />
-      </Box>
+      </ProductBox>
       <AverageBox>
         <AverageContent>
           <AverageTitle>평균 금리</AverageTitle>
@@ -67,14 +67,14 @@ const Wrapper = styled.div`
   gap: 10px;
 `;
 
-const Box = styled.div`
+const ProductBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-right: 20px;
   svg {
     font-size: 25px;
-    color: #fa5252;
+    color: ${colors["RED-9"]};
   }
 `;
 

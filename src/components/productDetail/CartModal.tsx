@@ -75,8 +75,9 @@ const Btn = styled.button<{ primary: boolean }>`
   width: 100%;
   font-size: 14px;
   font-weight: 600;
+  border: 1px solid ${({ primary }) => (primary ? colors["INDIGO-9"] : "white")};
   color: ${({ primary }) => (primary ? colors["INDIGO-9"] : "white")};
   background-color: ${({ primary }) =>
-    primary ? colors["INDIGO-1"] : colors["INDIGO-9"]};
+    primary ? "white" : colors["INDIGO-9"]};
   padding: 10px;
 `;
