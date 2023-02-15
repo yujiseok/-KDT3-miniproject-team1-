@@ -19,6 +19,7 @@ const colors = {
   "GRAY-2": "#E9ECEF",
   "GRAY-1": "#F1F3F5",
   "GRAY-0": "#F8F9FA",
+  "RED-9": "#FA5252",
 };
 
 export default colors;
