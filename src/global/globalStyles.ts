@@ -1,5 +1,6 @@
 import colors from "constants/colors";
 import { createGlobalStyle } from "styled-components";
+import "./fonts.css";
 
 const GlobalStyles = createGlobalStyle`
 
@@ -41,11 +42,16 @@ input {
   font-size: inherit;
 }
 
+ul, li {
+  list-style: none;
+}
+
 .App {
   max-width: 390px;
   margin-inline: auto;
   background-color: #fff;
   height: 100vh;
+  position: relative;
 }
 
 
