@@ -1,3 +1,4 @@
+import colors from "constants/colors";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
@@ -7,6 +8,7 @@ body {
     Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   background-color: #333;
   font-size: 16px;
+  color: ${colors["GRAY-9"]};
 }
 
 * {

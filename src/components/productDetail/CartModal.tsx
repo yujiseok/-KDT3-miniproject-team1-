@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useRef } from "react";
+import colors from "constants/colors";
 
 interface ICartModalProps {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CartModal = ({ setOpenModal }: ICartModalProps) => {
-  const modalRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   const checkCart = () => {
@@ -21,11 +20,15 @@ const CartModal = ({ setOpenModal }: ICartModalProps) => {
 
   return (
     <Overlay>
-      <Wrapper ref={modalRef}>
+      <Wrapper>
         선택한 상품이 장바구니에 담겼습니다.
         <BtnBox>
-          <CheckCart onClick={checkCart}>장바구니 확인</CheckCart>
-          <KeepShopping onClick={keepShopping}>계속 쇼핑하기</KeepShopping>
+          <Btn primary onClick={checkCart}>
+            장바구니 확인
+          </Btn>
+          <Btn primary={false} onClick={keepShopping}>
+            계속 쇼핑하기
+          </Btn>
         </BtnBox>
       </Wrapper>
     </Overlay>
@@ -67,22 +70,13 @@ const BtnBox = styled.div`
   margin-top: 10px;
 `;
 
-const CheckCart = styled.button`
+const Btn = styled.button<{ primary: boolean }>`
   border-radius: 10px;
   width: 100%;
   font-size: 14px;
   font-weight: 600;
-  color: #364fc7;
-  background-color: #dbe4ff;
-  padding: 10px;
-`;
-
-const KeepShopping = styled.button`
-  border-radius: 10px;
-  width: 100%;
-  font-size: 14px;
-  font-weight: 600;
-  background-color: #364fc7;
-  color: #fff;
+  color: ${({ primary }) => (primary ? colors["INDIGO-9"] : "white")};
+  background-color: ${({ primary }) =>
+    primary ? colors["INDIGO-1"] : colors["INDIGO-9"]};
   padding: 10px;
 `;

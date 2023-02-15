@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
 import CartModal from "components/productDetail/CartModal";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { Action } from "@reduxjs/toolkit";
+import { HiOutlineShoppingCart, HiOutlineHeart } from "react-icons/hi";
+import colors from "constants/colors";
 
 const ProductDetail = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -15,7 +15,10 @@ const ProductDetail = () => {
     <Wrapper>
       <ImgBox />
       <BankTitle>우리은행 신용대출</BankTitle>
-      <ProductTitle>우리금융인클럽 신용대출</ProductTitle>
+      <Box>
+        <ProductTitle>우리금융인클럽 신용대출</ProductTitle>
+        <HiOutlineHeart />
+      </Box>
       <AverageBox>
         <AverageContent>
           <AverageTitle>평균 금리</AverageTitle>
@@ -27,11 +30,10 @@ const ProductDetail = () => {
         </AverageContent>
       </AverageBox>
       <BtnBox>
-        <LikeBtn>찜하기</LikeBtn>
-        <CartBtn onClick={handleClick}>
-          <AiOutlineShoppingCart />
+        <Btn onClick={handleClick}>
+          <HiOutlineShoppingCart />
           장바구니에 담기
-        </CartBtn>
+        </Btn>
         {openModal && <CartModal setOpenModal={setOpenModal} />}
       </BtnBox>
       <DetailBox>
@@ -63,6 +65,17 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
+
+const Box = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 20px;
+  svg {
+    font-size: 25px;
+    color: #fa5252;
+  }
 `;
 
 const ImgBox = styled.div`
@@ -120,21 +133,13 @@ const BtnBox = styled.div`
   margin-top: 10px;
 `;
 
-const LikeBtn = styled.button`
+const Btn = styled.button`
   border-radius: 10px;
   width: 100%;
+  font-size: 14px;
   font-weight: 600;
-  color: #364fc7;
-  background-color: #dbe4ff;
-  padding: 10px;
-`;
-
-const CartBtn = styled.button`
-  border-radius: 10px;
-  width: 100%;
-  font-weight: 500;
-  background-color: #364fc7;
-  color: #fff;
+  color: ${colors["INDIGO-1"]};
+  background-color: ${colors["INDIGO-9"]};
   padding: 10px;
   display: flex;
   align-items: center;

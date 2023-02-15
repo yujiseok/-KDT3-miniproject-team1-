@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import colors from "constants/colors";
 
 const Cart = () => {
   const [cartItem, setCartItem] = useState([]);
@@ -36,7 +37,7 @@ const CartBtn = styled.button`
   border-radius: 10px;
   width: 100%;
   font-weight: 700;
-  color: #364fc7;
-  background-color: #dbe4ff;
+  color: ${colors["INDIGO-9"]};
+  background-color: ${colors["INDIGO-1"]};
   padding: 10px;
 `;
