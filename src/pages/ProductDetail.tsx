@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import { useState } from "react";
 import CartModal from "components/productDetail/CartModal";
-import { HiOutlineShoppingCart } from "react-icons/hi";
-import { HiOutlineHeart, HiHeart } from "react-icons/hi2";
+import {
+  HiOutlineShoppingCart,
+  HiOutlineHeart,
+  HiHeart,
+} from "react-icons/hi2";
 import colors from "constants/colors";
 
 const ProductDetail = () => {
@@ -144,7 +147,7 @@ const Btn = styled.button`
   width: 100%;
   font-size: 14px;
   font-weight: 600;
-  color: ${colors["INDIGO-1"]};
+  color: ${colors["GRAY-0"]};
   background-color: ${colors["INDIGO-9"]};
   padding: 10px;
   display: flex;
