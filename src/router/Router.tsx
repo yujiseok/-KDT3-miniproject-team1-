@@ -22,11 +22,13 @@ const Router = createBrowserRouter(
     <Route>
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SingUp />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
       <Route element={<Root />}>
+        <Route path="/home" element={<Main />} />
+        <Route path="/mypage" element={<MyPage />} />
         <Route path="/" element={<Main />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/search/:value" element={<Search />} />
-        <Route path="/cart" element={<Cart />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/user" element={<User />} />
         <Route path="/order" element={<Order />} />
