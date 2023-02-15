@@ -13,16 +13,16 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import InputModule from "components/auth/InputModule";
 
-interface IForm {
-  email?: string | ErrorType;
-  password?: string;
+interface ErrorType {
+  message?: string;
+  ref?: HTMLElement;
+  type?: string;
 }
-
-type ErrorType = {
-  message: string;
-  ref: HTMLElement;
-  type: string;
-};
+interface IForm {
+  [index: string]: string | ErrorType | undefined;
+  email?: string | ErrorType | undefined;
+  password?: string | ErrorType | undefined;
+}
 
 const SignIn = () => {
   const {
@@ -51,7 +51,7 @@ const SignIn = () => {
             label={label}
             type={type}
             options={options}
-            error={errors[label as keyof IForm]}
+            error={errors[label]}
           />
         ))}
 

@@ -31,7 +31,13 @@ interface Props {
   label?: string;
   type: string;
   options?: Options;
-  error?: object;
+  error?: ErrorType;
+}
+
+interface ErrorType {
+  message?: string;
+  ref?: HTMLElement;
+  type?: string;
 }
 
 const InputModule = ({
@@ -39,8 +45,9 @@ const InputModule = ({
   label,
   type = "text",
   options = {},
-  error,
+  error = {},
 }: Props) => {
+  console.log(error);
   return (
     <GroupLeftBox>
       <Pretendard color={colors["GRAY-7"]}>이메일</Pretendard>
@@ -48,10 +55,12 @@ const InputModule = ({
         <MdAlternateEmail />
         <InputComp type={type} {...register(`${label}`, options)} />
       </LoginEmail>
-      <Info color="#C92A2A">
-        <MdInfo />
-        이메일을 입력해주세요.
-      </Info>
+      {error.message && (
+        <Info color="#C92A2A">
+          <MdInfo />
+          {error.message}
+        </Info>
+      )}
     </GroupLeftBox>
   );
 };
