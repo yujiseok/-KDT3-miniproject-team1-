@@ -1,23 +1,36 @@
 import styled from "styled-components";
 import { useState } from "react";
 import CartModal from "components/productDetail/CartModal";
-import { HiOutlineShoppingCart, HiOutlineHeart } from "react-icons/hi";
+import { HiOutlineShoppingCart } from "react-icons/hi";
+import { HiOutlineHeart, HiHeart } from "react-icons/hi2";
 import colors from "constants/colors";
 
 const ProductDetail = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [liked, setLiked] = useState(false);
 
-  const handleClick = () => {
+  const handleCart = () => {
     setOpenModal(true);
+  };
+
+  const handleLike = () => {
+    setLiked((prev) => !prev);
   };
 
   return (
     <Wrapper>
-      <ImgBox />
+      <BankImg
+        src="https://cdn.banksalad.com/graphic/color/logo/circle/woori.png"
+        alt="은행 이미지"
+      />
       <BankTitle>우리은행 신용대출</BankTitle>
       <ProductBox>
         <ProductTitle>우리금융인클럽 신용대출</ProductTitle>
-        <HiOutlineHeart />
+        {liked ? (
+          <HiHeart onClick={handleLike} />
+        ) : (
+          <HiOutlineHeart onClick={handleLike} />
+        )}
       </ProductBox>
       <AverageBox>
         <AverageContent>
@@ -30,7 +43,7 @@ const ProductDetail = () => {
         </AverageContent>
       </AverageBox>
       <BtnBox>
-        <Btn onClick={handleClick}>
+        <Btn onClick={handleCart}>
           <HiOutlineShoppingCart />
           장바구니에 담기
         </Btn>
@@ -78,15 +91,11 @@ const ProductBox = styled.div`
   }
 `;
 
-const ImgBox = styled.div`
+const BankImg = styled.img`
   margin: 10px 15px;
-  font-size: 18px;
   margin-bottom: 10px;
   width: 40px;
   height: 40px;
-  background-image: url("https://cdn.banksalad.com/graphic/color/logo/circle/woori.png");
-  background-size: 100%;
-  background-repeat: no-repeat;
 `;
 
 const BankTitle = styled.h1`
@@ -109,7 +118,7 @@ const AverageBox = styled.div`
   width: 60%;
 `;
 
-const AverageContent = styled.p`
+const AverageContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -128,9 +137,6 @@ const AverageValue = styled.p`
 const BtnBox = styled.div`
   padding: 0 15px;
   margin: 10px 0;
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
 `;
 
 const Btn = styled.button`
