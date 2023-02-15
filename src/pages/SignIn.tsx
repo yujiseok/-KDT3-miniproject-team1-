@@ -8,26 +8,34 @@ import {
 } from "components/untils/StyledUntils";
 import colors from "constants/colors";
 
+import { useForm } from "react-hook-form";
+
 import { useState } from "react";
 import InputModule from "components/auth/InputModule";
 
 interface IForm {
-  email?: string;
+  email?: string | ErrorType;
   password?: string;
 }
 
-const SignIn = () => {
-  const [form, setForm] = useState<IForm>({});
+type ErrorType = {
+  message: string;
+  ref: HTMLElement;
+  type: string;
+};
 
-  function ChangeState(event: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = event.target;
-    console.log("target", event.target);
-    console.log("value", name, value);
-    setForm({
-      ...form,
-      [name]: value,
-    });
-  }
+const SignIn = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<IForm>();
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+    console.log(errors);
+  };
 
   return (
     <Container>
@@ -35,13 +43,17 @@ const SignIn = () => {
         <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
         <Bold>회원 로그인</Bold>
       </TitleBox>
-      <form
-        onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-          console.log(form.email);
-        }}
-      >
-        <InputModule ChangeState={() => ChangeState} form={form} />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {forms.map(({ label, type, options }) => (
+          <InputModule
+            key={label}
+            register={register}
+            label={label}
+            type={type}
+            options={options}
+            error={errors[label as keyof IForm]}
+          />
+        ))}
 
         <button type="submit">로그인</button>
       </form>
@@ -49,3 +61,38 @@ const SignIn = () => {
   );
 };
 export default SignIn;
+
+interface Forms {
+  label: string;
+  type: string;
+  options?: Options;
+}
+
+type Options = {
+  required?: FormHandler | boolean;
+  min?: FormHandler | any;
+  max?: FormHandler | any;
+  minLength?: FormHandler | number;
+  maxLength?: FormHandler | number;
+  pattern?: FormHandler | RegExp;
+  validate?: FormHandler | any;
+};
+type FormHandler = {
+  value: string | boolean | number | RegExp;
+  message: string;
+};
+
+const forms: Forms[] = [
+  {
+    label: "email",
+    type: "text",
+    options: {
+      required: { value: true, message: "이메일을 작성해주세요" },
+      pattern: {
+        value: /@naver.com/,
+        message: "naver.com 이메일만 가능합니다.",
+      },
+    },
+  },
+  { label: "password", type: "text" },
+];

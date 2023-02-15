@@ -8,30 +8,45 @@ import { MdAlternateEmail, MdInfo } from "react-icons/md";
 import colors from "constants/colors";
 import styled from "styled-components";
 
+type Options = {
+  required?: FormHandler | boolean;
+  min?: FormHandler | any;
+  max?: FormHandler | any;
+  minLength?: FormHandler | number;
+  maxLength?: FormHandler | number;
+  pattern?: FormHandler | RegExp;
+  validate?: FormHandler | any;
+};
+type FormHandler = {
+  value: string | boolean | number | RegExp;
+  message: string;
+};
 interface IForm {
   email?: string;
   password?: string;
 }
 
-type Props = {
-  ChangeState: React.Dispatch<React.ChangeEvent<HTMLInputElement>>;
-  form: IForm;
-};
+interface Props {
+  register: any;
+  label?: string;
+  type: string;
+  options?: Options;
+  error?: object;
+}
 
-const InputModule = ({ ChangeState, form }: Props) => {
-  console.log("form", form);
+const InputModule = ({
+  register,
+  label,
+  type = "text",
+  options = {},
+  error,
+}: Props) => {
   return (
     <GroupLeftBox>
       <Pretendard color={colors["GRAY-7"]}>이메일</Pretendard>
       <LoginEmail>
         <MdAlternateEmail />
-        <InputComp
-          type="text"
-          name="email"
-          placeholder="이메일을 입력해주세요."
-          onChange={(event) => ChangeState(event)}
-          onBlur={(event) => ChangeState(event)}
-        />
+        <InputComp type={type} {...register(`${label}`, options)} />
       </LoginEmail>
       <Info color="#C92A2A">
         <MdInfo />
