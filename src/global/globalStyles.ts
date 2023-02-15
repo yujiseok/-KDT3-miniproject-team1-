@@ -1,5 +1,6 @@
 import colors from "constants/colors";
 import { createGlobalStyle } from "styled-components";
+import "./fonts.css";
 
 const GlobalStyles = createGlobalStyle`
 
@@ -39,6 +40,10 @@ input {
   outline: none;
   font-family: inherit;
   font-size: inherit;
+}
+
+ul, li {
+  list-style: none;
 }
 
 .App {
