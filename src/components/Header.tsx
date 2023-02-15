@@ -25,10 +25,12 @@ const Header = () => {
   };
 
   const submitEvent = () => {
-    navigate(`/search/${searchData.search}`);
-    setSearchData({
-      search: "",
-    });
+    if (searchData.search) {
+      navigate(`/search/${searchData.search}`);
+      setSearchData({
+        search: "",
+      });
+    }
   };
   return (
     <HeaderContent>
