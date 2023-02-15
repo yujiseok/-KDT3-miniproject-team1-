@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import colors from "constants/colors";
 
-import { BiHomeAlt, BiSearchAlt, BiStar, BiLogInCircle } from "react-icons/bi";
+import { BiHomeAlt, BiSearchAlt, BiLogInCircle } from "react-icons/bi";
+import { HiOutlineHeart } from "react-icons/hi2";
 
 const Footer = () => {
   const [clickTab, setClickTab] = useState(0);
@@ -17,7 +18,7 @@ const Footer = () => {
   const menuContent: TabItem[] = [
     { name: "home", content: <BiHomeAlt />, path: "/" },
     { name: "search", content: <BiSearchAlt />, path: "/search/null" },
-    { name: "likes", content: <BiStar />, path: "/likes" },
+    { name: "likes", content: <HiOutlineHeart />, path: "/likes" },
     { name: "login", content: <BiLogInCircle />, path: "/signin" },
   ];
 
