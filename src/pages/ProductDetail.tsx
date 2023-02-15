@@ -177,5 +177,5 @@ const DetailContent = styled.p`
   color: #434242;
   font-size: 15px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #b8b5b576;
+  border-bottom: 1px solid ${colors["GRAY-4"]};
 `;
