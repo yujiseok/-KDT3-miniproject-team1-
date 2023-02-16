@@ -47,6 +47,7 @@
         "labelAttributes": ["htmlFor"]
       }
     ],
-    "react/button-has-type": "off"
+    "react/button-has-type": "off",
+    "import/no-extraneous-dependencies": "off"
   }
 }
