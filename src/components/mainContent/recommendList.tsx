@@ -12,20 +12,20 @@ const RecommendList = ({ item }: ListProps) => {
   const productUrl = `/product/${item.id}`;
   return (
     <ListContent>
-      <ImgContent>
-        <img src={item.bankimg} alt="bank img" />
-      </ImgContent>
-
-      <TextContent>
-        <h3>{item.bank}</h3>
-        <p>{item.title}</p>
-        <h3>평균 {item.avg_rate}%</h3>
-        <TagContent>
-          <span>{item.type}</span>
-        </TagContent>
-      </TextContent>
-
       <Link to={productUrl}>
+        <ImgContent>
+          <img src={item.bankimg} alt="bank img" />
+        </ImgContent>
+
+        <TextContent>
+          <h3>{item.bank}</h3>
+          <p>{item.title}</p>
+          <h3>평균 {item.avg_rate}%</h3>
+          <TagContent>
+            <span>{item.type}</span>
+          </TagContent>
+        </TextContent>
+
         <ArrowContent>
           <MdKeyboardArrowRight size={22} />
         </ArrowContent>
