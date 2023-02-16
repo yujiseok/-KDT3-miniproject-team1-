@@ -21,7 +21,7 @@ const Form = styled(Container.withComponent("form"))`
   padding: 0;
   height: fit-content;
 `;
-const forms: Forms[] = [
+const inputs: InputFields[] = [
   {
     name: "이메일",
     Prefix: <MdAlternateEmail style={reactIcons} />,
@@ -60,7 +60,7 @@ const SignIn = () => {
     formState: { errors },
   } = useForm<IForm>();
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: IForm) => {
     console.log(data);
   };
 
@@ -71,7 +71,7 @@ const SignIn = () => {
         <Bold>회원 로그인</Bold>
       </TitleBox>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {forms.map(({ label, type, options, Prefix, name }) => (
+        {inputs.map(({ label, type, options, Prefix, name }) => (
           <InputModule
             key={label}
             Prefix={Prefix}
@@ -130,7 +130,7 @@ const Button = styled.button`
   border-radius: 10px;
 `;
 
-interface Forms {
+interface InputFields {
   Prefix?: JSX.Element;
   name: string;
   label: string;
@@ -141,8 +141,8 @@ interface Forms {
 
 type Options = {
   required?: FormHandler | boolean;
-  min?: FormHandler | any;
-  max?: FormHandler | any;
+  min?: FormHandler | number;
+  max?: FormHandler | number;
   minLength?: FormHandler | number;
   maxLength?: FormHandler | number;
   pattern?: FormHandler | RegExp;
@@ -160,6 +160,4 @@ interface ErrorType {
 }
 interface IForm {
   [index: string]: string | FieldError;
-  email: string | FieldError;
-  password: string | FieldError;
 }

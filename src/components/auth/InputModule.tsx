@@ -3,27 +3,18 @@ import { GroupLeftBox } from "components/untils/StyledUntils";
 import { MdInfo } from "react-icons/md";
 import colors from "constants/colors";
 import styled from "styled-components";
-import type { FieldError, CustomElement, FieldValues } from "react-hook-form";
-
-type Options = {
-  required?: FormHandler | boolean;
-  min?: FormHandler | any;
-  max?: FormHandler | any;
-  minLength?: FormHandler | number;
-  maxLength?: FormHandler | number;
-  pattern?: FormHandler | RegExp;
-  validate?: FormHandler | any;
-};
-type FormHandler = {
-  value: string | boolean | number | RegExp;
-  message: string;
-};
+import type {
+  FieldError,
+  FieldValues,
+  UseFormRegister,
+  RegisterOptions,
+} from "react-hook-form";
 
 interface Props {
-  register: any;
+  register: UseFormRegister<FieldValues>;
   label: string;
   type?: string;
-  options?: Options;
+  options?: RegisterOptions<FieldValues, string>;
   error?: FieldError;
   Prefix?: JSX.Element;
   name: string;
@@ -35,7 +26,7 @@ const InputModule = ({
   register,
   label,
   type = "text",
-  options = {},
+  options,
   error,
   Prefix,
   placeholder,
@@ -49,7 +40,7 @@ const InputModule = ({
           type={type}
           {...register(`${label}`, options)}
           placeholder={placeholder}
-          autocomplete={label}
+          autoComplete={label}
         />
       </LoginEmail>
       {error && (
