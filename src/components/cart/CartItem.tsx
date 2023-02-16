@@ -23,7 +23,7 @@ const CartItem = () => {
           </AverageContent>
         </AverageBox>
       </ProductContent>
-      <GrFormClose />
+      <GrFormClose className="closeBtn" />
     </Wrapper>
   );
 };
@@ -42,6 +42,8 @@ const Wrapper = styled.li`
     position: absolute;
     top: 15px;
     right: 0;
+    color: red;
+    background-color: red;
   }
 `;
 
