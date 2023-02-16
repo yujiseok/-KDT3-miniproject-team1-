@@ -11,8 +11,6 @@ const Header = () => {
   const navigate = useNavigate();
   const [searchData, setSearchData] = useState("");
 
-  // const { search } = searchData;
-
   const searchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     value.trim();
@@ -56,13 +54,15 @@ const Header = () => {
 };
 
 const HeaderContent = styled.header`
-  width: 100%;
+  width: 390px;
   height: 50px;
   padding: 13px 20px 7px 25px;
   background-color: #fff;
   display: flex;
   justify-content: space-between;
   gap: 20px;
+  position: fixed;
+  top: 0;
   svg {
     color: ${colors["INDIGO-9"]};
   }
