@@ -1,13 +1,9 @@
-import { Bold, Pretendard, Info, Input } from "components/untils/FigmaStyles";
-import {
-  Container,
-  TitleBox,
-  GroupLeftBox,
-} from "components/untils/StyledUntils";
-import { MdAlternateEmail, MdInfo } from "react-icons/md";
+import { Pretendard, Info, Input } from "components/untils/FigmaStyles";
+import { GroupLeftBox } from "components/untils/StyledUntils";
+import { MdInfo } from "react-icons/md";
 import colors from "constants/colors";
 import styled from "styled-components";
-import type { CustomElement, FieldValues } from "react-hook-form";
+import type { FieldError, CustomElement, FieldValues } from "react-hook-form";
 
 type Options = {
   required?: FormHandler | boolean;
@@ -25,35 +21,45 @@ type FormHandler = {
 
 interface Props {
   register: any;
-  label?: string;
-  type: string;
+  label: string;
+  type?: string;
   options?: Options;
-  error?: ErrorType;
+  error?: FieldError;
+  Prefix?: JSX.Element;
+  name: string;
+  placeholder?: string;
 }
 
 interface ErrorType {
-  message?: string;
-  ref?: CustomElement<FieldValues>;
-  type?: string;
+  message: string | undefined;
+  ref: CustomElement<FieldValues>;
+  type: string;
 }
 
 const InputModule = ({
+  name,
   register,
   label,
   type = "text",
   options = {},
-  error = {},
+  error,
+  Prefix,
+  placeholder,
 }: Props) => {
-  console.log(error);
   return (
     <GroupLeftBox>
-      <Pretendard color={colors["GRAY-7"]}>이메일</Pretendard>
+      <Pretendard color={colors["GRAY-7"]}>{name}</Pretendard>
       <LoginEmail>
-        <MdAlternateEmail />
-        <InputComp type={type} {...register(`${label}`, options)} />
+        {Prefix}
+        <InputComp
+          type={type}
+          {...register(`${label}`, options)}
+          placeholder={placeholder}
+          autocomplete={label}
+        />
       </LoginEmail>
-      {error.message && (
-        <Info color="#C92A2A">
+      {error && (
+        <Info color={colors["RED-9"]}>
           <MdInfo />
           {error.message}
         </Info>
