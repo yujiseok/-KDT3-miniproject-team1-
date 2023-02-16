@@ -30,12 +30,6 @@ interface Props {
   placeholder?: string;
 }
 
-interface ErrorType {
-  message: string | undefined;
-  ref: CustomElement<FieldValues>;
-  type: string;
-}
-
 const InputModule = ({
   name,
   register,
