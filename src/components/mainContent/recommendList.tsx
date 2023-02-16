@@ -2,34 +2,36 @@ import colors from "constants/colors";
 import type { RecommendType } from "pages/Main";
 import styled from "styled-components";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface ListProps {
   item: RecommendType;
 }
 
 const RecommendList = ({ item }: ListProps) => {
-  const productUrl = `/product/${item.id}`;
+  const navigate = useNavigate();
   return (
-    <ListContent>
-      <Link to={productUrl}>
-        <ImgContent>
-          <img src={item.bankimg} alt="bank img" />
-        </ImgContent>
+    <ListContent
+      onClick={() => {
+        navigate(`/product/${item.id}`);
+      }}
+    >
+      <ImgContent>
+        <img src={item.bankimg} alt="bank img" />
+      </ImgContent>
 
-        <TextContent>
-          <h3>{item.bank}</h3>
-          <p>{item.title}</p>
-          <h3>평균 {item.avg_rate}%</h3>
-          <TagContent>
-            <span>{item.type}</span>
-          </TagContent>
-        </TextContent>
+      <TextContent>
+        <h3>{item.bank}</h3>
+        <p>{item.title}</p>
+        <h3>평균 {item.avg_rate}%</h3>
+        <TagContent>
+          <span>{item.type}</span>
+        </TagContent>
+      </TextContent>
 
-        <ArrowContent>
-          <MdKeyboardArrowRight size={22} />
-        </ArrowContent>
-      </Link>
+      <ArrowContent>
+        <MdKeyboardArrowRight size={22} />
+      </ArrowContent>
     </ListContent>
   );
 };
