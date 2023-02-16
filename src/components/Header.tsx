@@ -9,27 +9,20 @@ import { useState } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [searchData, setSearchData] = useState({
-    search: "",
-  });
+  const [searchData, setSearchData] = useState("");
 
-  const { search } = searchData;
+  // const { search } = searchData;
 
   const searchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     value.trim();
-    setSearchData({
-      ...searchData,
-      [name]: value,
-    });
+    setSearchData(value);
   };
 
   const submitEvent = () => {
-    if (searchData.search) {
-      navigate(`/search/${searchData.search}`);
-      setSearchData({
-        search: "",
-      });
+    if (searchData) {
+      navigate(`/search/${searchData}`);
+      setSearchData("");
     }
   };
   return (
@@ -38,25 +31,21 @@ const Header = () => {
         <FaPiggyBank size={30} />
       </Link>
       <RightContent>
-        <SearchContent>
+        <SearchContent
+          onSubmit={() => {
+            submitEvent();
+          }}
+        >
           <input
             type="text"
             name="search"
-            value={search}
+            value={searchData}
             onChange={searchValue}
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                submitEvent();
-              }
-            }}
             placeholder="상품을 검색해보세요."
           />
-          <BiSearchAlt
-            size={25}
-            onClick={() => {
-              submitEvent();
-            }}
-          />
+          <button type="submit">
+            <BiSearchAlt size={25} />
+          </button>
         </SearchContent>
         <Link to="/cart">
           <HiOutlineShoppingCart size={25} />
@@ -95,7 +84,7 @@ const RightContent = styled.div`
   }
 `;
 
-const SearchContent = styled.div`
+const SearchContent = styled.form`
   width: 75%;
   margin-left: 20px;
   position: relative;
