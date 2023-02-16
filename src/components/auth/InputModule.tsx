@@ -7,6 +7,7 @@ import {
 import { MdAlternateEmail, MdInfo } from "react-icons/md";
 import colors from "constants/colors";
 import styled from "styled-components";
+import type { CustomElement, FieldValues } from "react-hook-form";
 
 type Options = {
   required?: FormHandler | boolean;
@@ -21,10 +22,6 @@ type FormHandler = {
   value: string | boolean | number | RegExp;
   message: string;
 };
-interface IForm {
-  email?: string;
-  password?: string;
-}
 
 interface Props {
   register: any;
@@ -36,7 +33,7 @@ interface Props {
 
 interface ErrorType {
   message?: string;
-  ref?: HTMLElement;
+  ref?: CustomElement<FieldValues>;
   type?: string;
 }
 

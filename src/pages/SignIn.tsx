@@ -19,9 +19,9 @@ interface ErrorType {
   type?: string;
 }
 interface IForm {
-  [index: string]: string | ErrorType | undefined;
-  email?: string | ErrorType | undefined;
-  password?: string | ErrorType | undefined;
+  [index: string]: string | ErrorType;
+  email: string | ErrorType;
+  password: string | ErrorType;
 }
 
 const SignIn = () => {
@@ -51,7 +51,9 @@ const SignIn = () => {
             label={label}
             type={type}
             options={options}
-            error={errors[label]}
+            error={
+              typeof errors[label] !== "string" ? errors[label] : undefined
+            }
           />
         ))}
 
