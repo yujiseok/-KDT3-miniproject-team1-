@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Bold, Pretendard } from "components/untils/FigmaStyles";
-import { Container, TitleBox } from "components/untils/StyledUntils";
+import { Bold, Pretendard } from "global/FigmaStyles";
+import { Container, TitleBox } from "components/auth/StyledUtils";
 import colors from "constants/colors";
 
 import { useForm } from "react-hook-form";
@@ -48,9 +48,7 @@ const inputs: InputFields[] = [
   },
 ];
 
-interface IForm {
-  [index: string]: string | FieldError;
-}
+type IForm = Record<string, FieldError | string>;
 
 interface InputFields {
   Prefix?: JSX.Element;

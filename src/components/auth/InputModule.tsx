@@ -1,5 +1,4 @@
-import { Pretendard, Info, Input } from "components/untils/FigmaStyles";
-import { GroupLeftBox } from "components/untils/StyledUntils";
+import { Pretendard, Info, Input } from "global/FigmaStyles";
 import { MdInfo } from "react-icons/md";
 import colors from "constants/colors";
 import styled from "styled-components";
@@ -9,6 +8,7 @@ import type {
   UseFormRegister,
   RegisterOptions,
 } from "react-hook-form";
+import { GroupLeftBox } from "./StyledUtils";
 
 interface Props {
   register: UseFormRegister<FieldValues>;
