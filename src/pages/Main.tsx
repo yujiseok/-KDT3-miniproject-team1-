@@ -2,7 +2,7 @@ import colors from "constants/colors";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import RecommendList from "components/mainContent/recommendList";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import data from "data/listData.json";
 
@@ -43,20 +43,13 @@ const Main = () => {
       </TitleContent>
 
       <BtnContent>
-        <BtnWhite
-          onClick={() => {
-            navigate("/signup");
-          }}
-        >
-          회원가입
-        </BtnWhite>
-        <BtnIndigo
-          onClick={() => {
-            navigate("/signin");
-          }}
-        >
-          로그인
-        </BtnIndigo>
+        <Link to="/signup">
+          <BtnWhite>회원가입</BtnWhite>
+        </Link>
+
+        <Link to="/signin">
+          <BtnIndigo>로그인</BtnIndigo>
+        </Link>
       </BtnContent>
 
       <RecommendContent>
@@ -92,6 +85,9 @@ const BtnContent = styled.div`
   display: flex;
   gap: 30px;
   justify-content: center;
+  a {
+    width: 35%;
+  }
 `;
 
 const BtnWhite = styled.button`
@@ -99,7 +95,7 @@ const BtnWhite = styled.button`
   color: ${colors["INDIGO-9"]};
   border: 1px solid ${colors["INDIGO-9"]};
   border-radius: 10px;
-  width: 35%;
+  width: 100%;
   padding: 13px 0;
   font-weight: 700;
 `;
@@ -108,7 +104,7 @@ const BtnIndigo = styled.button`
   background-color: ${colors["INDIGO-9"]};
   color: #fff;
   border-radius: 10px;
-  width: 35%;
+  width: 100%;
   padding: 13px 0;
   font-weight: 700;
 `;
