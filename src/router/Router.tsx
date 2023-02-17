@@ -16,6 +16,7 @@ import Search from "pages/Search";
 import NotFound from "pages/NotFound";
 import Order from "pages/Order";
 import User from "pages/User";
+import CompleteOrder from "pages/CompleteOrder";
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +25,7 @@ const Router = createBrowserRouter(
       <Route path="/signup" element={<SingUp />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/product/:id" element={<ProductDetail />} />
+      <Route path="/completeOrder" element={<CompleteOrder />} />
       <Route element={<Root />}>
         <Route path="/home" element={<Main />} />
         <Route path="/mypage" element={<MyPage />} />
