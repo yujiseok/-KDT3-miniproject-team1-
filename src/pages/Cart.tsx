@@ -2,12 +2,18 @@ import { useState } from "react";
 import styled from "styled-components";
 import colors from "constants/colors";
 import CartItem from "components/cart/CartItem";
+import { useNavigate } from "react-router-dom";
 
 const products = [{ id: 1 }, { id: 2 }, { id: 3 }];
 type TCartItems = { id: number };
+
 const Cart = () => {
-  const [cartItems, setCartItems] = useState<TCartItems[]>(products);
+  const [cartItems, setCartItems] = useState<TCartItems[]>([]);
   const emptyCart = cartItems?.length === 0;
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/completeOrder");
+  };
 
   return (
     <Wrapper>
@@ -22,7 +28,13 @@ const Cart = () => {
           {cartItems && cartItems.map((item) => <CartItem key={item.id} />)}
         </>
       )}
-      <CartBtn>{emptyCart ? "상품을 담아주세요" : "주문하기"}</CartBtn>
+      {emptyCart ? (
+        <CartBtn primary>상품을 담아주세요</CartBtn>
+      ) : (
+        <CartBtn onClick={handleClick} primary={false}>
+          신청하기
+        </CartBtn>
+      )}
     </Wrapper>
   );
 };
@@ -67,13 +79,14 @@ const CheckBox = styled.input.attrs({ type: "checkbox" })`
   position: relative;
 `;
 
-const CartBtn = styled.button`
+const CartBtn = styled.button<{ primary: boolean }>`
   position: absolute;
   bottom: 20px;
   border-radius: 10px;
   width: 90%;
   font-weight: 700;
-  color: ${colors["INDIGO-9"]};
+  color: ${({ primary }) => (primary ? colors["INDIGO-9"] : "white")};
   border: 1px solid ${colors["INDIGO-9"]};
+  background: ${({ primary }) => (primary ? "white" : colors["INDIGO-9"])};
   padding: 10px;
 `;

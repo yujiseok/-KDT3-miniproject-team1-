@@ -24,7 +24,7 @@ const CartItem = () => {
         </AverageBox>
       </ProductContent>
       <CloseBtn>
-        <GrFormClose className="closeBtn" stroke="red" />
+        <GrFormClose className="closeBtn" />
       </CloseBtn>
     </Wrapper>
   );
@@ -97,5 +97,6 @@ const CloseBtn = styled.div`
   right: 0;
   .closeBtn path {
     stroke: #605e5e;
+    cursor: pointer;
   }
 `;
