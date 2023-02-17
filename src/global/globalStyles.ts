@@ -52,6 +52,10 @@ ul, li {
   background-color: #fff;
   height: 100vh;
   position: relative;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 }
 
 
