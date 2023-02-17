@@ -53,7 +53,6 @@ const InputModule = ({ register, options, error }: Props) => {
             inputMode="numeric"
             size={1}
             maxLength={1}
-            required
             {...register(`back`, options)}
             placeholder="0"
             autoComplete="SecurityBackNumber"

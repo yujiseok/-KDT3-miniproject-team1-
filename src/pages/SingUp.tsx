@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Bold, Pretendard } from "global/FigmaStyles";
+import { Bold, Pretendard, Info } from "global/FigmaStyles";
 import { Container, TitleBox, GroupLeftBox } from "components/auth/StyledUtils";
 import colors from "constants/colors";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import type { FieldError, RegisterOptions } from "react-hook-form";
-import { MdAlternateEmail } from "react-icons/md";
+import { MdAlternateEmail, MdInfo } from "react-icons/md";
 import { CgLock } from "react-icons/cg";
 import InputModule from "components/auth/InputModule";
 import SecurityNumberInput from "components/auth/SecurityNumberInput";
@@ -108,17 +108,19 @@ const SignUp = () => {
     },
   ];
 
+  const interestsLabel = "interest";
+
   const interests: InputField[] = [
     {
       name: "신용대출",
-      label: "interest",
+      label: interestsLabel,
       options: {
         // eslint-disable-next-line consistent-return
         validate: () => {
           if (
-            watch("interest")?.length === undefined ||
-            watch("interest").length === 0 ||
-            watch("interest") === false
+            watch(interestsLabel)?.length === undefined ||
+            watch(interestsLabel).length === 0 ||
+            watch(interestsLabel) === false
           ) {
             return "옵션을 선택해주세요";
           }
@@ -127,19 +129,19 @@ const SignUp = () => {
     },
     {
       name: "생활비대출",
-      label: "interest",
+      label: interestsLabel,
     },
     {
       name: "주택담보대출",
-      label: "interest",
+      label: interestsLabel,
     },
     {
       name: "저소득자대출",
-      label: "interest",
+      label: interestsLabel,
     },
     {
       name: "학자금 대출",
-      label: "interest",
+      label: interestsLabel,
     },
   ];
   return (
@@ -178,17 +180,27 @@ const SignUp = () => {
           }}
           error={{ front: errors.front, back: errors.back }}
         />
-        <InterestBox>
-          {interests.map(({ label, options, name }) => (
-            <CheckBoxButton
-              key={name}
-              label={label}
-              name={name}
-              register={register}
-              options={options}
-            />
-          ))}
-        </InterestBox>
+        <GroupLeftBox>
+          <Pretendard color={colors["GRAY-7"]}>가입 목적</Pretendard>
+
+          <InterestBox>
+            {interests.map(({ label, options, name }) => (
+              <CheckBoxButton
+                key={name}
+                label={label}
+                name={name}
+                register={register}
+                options={options}
+              />
+            ))}
+          </InterestBox>
+          {errors.interest && (
+            <Info color={colors["RED-9"]}>
+              <MdInfo />
+              {errors.interest.message}
+            </Info>
+          )}
+        </GroupLeftBox>
 
         <SummitBox>
           <Button type="submit">
@@ -201,6 +213,7 @@ const SignUp = () => {
           </Signin>
         </SummitBox>
       </Form>
+      <TitleBox />
     </Container>
   );
 };
@@ -245,6 +258,7 @@ const reactIcons = {
 };
 
 const Form = styled(Container.withComponent("form"))`
+  position: relative;
   padding: 0;
   height: fit-content;
 `;

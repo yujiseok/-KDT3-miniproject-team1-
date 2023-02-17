@@ -17,6 +17,7 @@ interface Props {
   options?: RegisterOptions;
   Prefix?: JSX.Element;
   name: string;
+  error?: FieldError;
 }
 
 const CheckBoxButton = ({
@@ -25,6 +26,7 @@ const CheckBoxButton = ({
   label,
   type = "checkbox",
   options,
+  error,
 }: Props) => {
   return (
     <ButtonWarpper>
