@@ -19,22 +19,22 @@ interface LinkItem {
 const LINK_ITEM: LinkItem[] = [
   {
     icon: <HiOutlineUserCircle />,
-    to: "/user",
+    to: "user",
     label: "회원정보 수정",
   },
   {
     icon: <HiOutlineQueueList />,
-    to: "/order",
+    to: "order",
     label: "신청내역",
   },
   {
     icon: <HiOutlineShoppingCart />,
-    to: "/cart",
+    to: "cart",
     label: "장바구니",
   },
   {
     icon: <HiOutlineHeart />,
-    to: "/likes",
+    to: "likes",
     label: "관심상품",
   },
 ];
@@ -49,7 +49,11 @@ const MyPage = () => {
         <MaleAvatar />
         {/* <FemaleAvatar /> */}
         <div>
-          <span>가나다라</span>님 환영합니다.
+          <Username>가나다라</Username>님 환영합니다.
+          <div>
+            {/* <Button primary={false}>로그아웃</Button> */}
+            <LogOutBtn>로그아웃</LogOutBtn>
+          </div>
         </div>
       </ProfileWrapper>
 
@@ -72,7 +76,7 @@ const MyPage = () => {
 
 const Block = styled.section`
   margin-top: 24px;
-  padding: 0 16px;
+  /* padding: 0 16px; */
 `;
 
 const H1 = styled.h1`
@@ -99,9 +103,25 @@ const ProfileWrapper = styled.div`
   }
 `;
 
+const Username = styled.span`
+  color: ${colors["INDIGO-8"]};
+  font-weight: 600;
+  font-size: 17px;
+`;
+
+const LogOutBtn = styled.button`
+  margin-top: 8px;
+  color: ${colors["RED-9"]};
+  padding: 4px;
+  border: 1px solid ${colors["RED-9"]};
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 400;
+`;
+
 const List = styled.li`
   border-bottom: 1px solid ${colors["GRAY-4"]};
-
+  line-height: 1.4;
   a {
     display: flex;
     align-items: center;
@@ -112,6 +132,10 @@ const List = styled.li`
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+    svg {
+      font-size: 20px;
+      color: ${colors["GRAY-9"]};
     }
   }
 `;
