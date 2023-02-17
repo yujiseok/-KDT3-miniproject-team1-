@@ -29,7 +29,7 @@ const LINK_ITEM: LinkItem[] = [
   },
   {
     icon: <HiOutlineShoppingCart />,
-    to: "cart",
+    to: "/cart",
     label: "장바구니",
   },
   {
