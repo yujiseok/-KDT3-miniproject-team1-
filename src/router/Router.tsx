@@ -29,11 +29,11 @@ const Router = createBrowserRouter(
         <Route path="/" element={<Main />} />
         <Route path="/search/:value" element={<Search />} />
       </Route>
-      <Route element={<MyPageLayout />}>
+      <Route path="/mypage" element={<MyPageLayout />}>
         <Route path="/mypage" element={<MyPage />} />
-        <Route path="/user" element={<User />} />
-        <Route path="/order" element={<Order />} />
-        <Route path="/likes" element={<Likes />} />
+        <Route path="user" element={<User />} />
+        <Route path="order" element={<Order />} />
+        <Route path="likes" element={<Likes />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Route>,
