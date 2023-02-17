@@ -14,7 +14,7 @@ interface Props {
   register: UseFormRegister<FieldValues>;
   label: string;
   type?: string;
-  options?: RegisterOptions<FieldValues, string>;
+  options?: RegisterOptions;
   error?: FieldError;
   Prefix?: JSX.Element;
   name: string;

@@ -5,7 +5,7 @@ import { Container, TitleBox } from "components/untils/StyledUntils";
 import colors from "constants/colors";
 
 import { useForm } from "react-hook-form";
-import type { FieldError } from "react-hook-form";
+import type { FieldError, RegisterOptions } from "react-hook-form";
 import { MdAlternateEmail } from "react-icons/md";
 import { CgLock } from "react-icons/cg";
 import InputModule from "components/auth/InputModule";
@@ -17,10 +17,6 @@ const reactIcons = {
   color: colors["INDIGO-9"],
 };
 
-const Form = styled(Container.withComponent("form"))`
-  padding: 0;
-  height: fit-content;
-`;
 const inputs: InputFields[] = [
   {
     name: "이메일",
@@ -51,6 +47,19 @@ const inputs: InputFields[] = [
     },
   },
 ];
+
+interface IForm {
+  [index: string]: string | FieldError;
+}
+
+interface InputFields {
+  Prefix?: JSX.Element;
+  name: string;
+  label: string;
+  type?: string;
+  options?: RegisterOptions;
+  placeholder?: string;
+}
 
 const SignIn = () => {
   const {
@@ -130,34 +139,7 @@ const Button = styled.button`
   border-radius: 10px;
 `;
 
-interface InputFields {
-  Prefix?: JSX.Element;
-  name: string;
-  label: string;
-  type?: string;
-  options?: Options;
-  placeholder?: string;
-}
-
-type Options = {
-  required?: FormHandler | boolean;
-  min?: FormHandler | number;
-  max?: FormHandler | number;
-  minLength?: FormHandler | number;
-  maxLength?: FormHandler | number;
-  pattern?: FormHandler | RegExp;
-  validate?: FormHandler | any;
-};
-type FormHandler = {
-  value: string | boolean | number | RegExp;
-  message: string;
-};
-
-interface ErrorType {
-  message: string;
-  ref: HTMLElement;
-  type: string;
-}
-interface IForm {
-  [index: string]: string | FieldError;
-}
+const Form = styled(Container.withComponent("form"))`
+  padding: 0;
+  height: fit-content;
+`;
