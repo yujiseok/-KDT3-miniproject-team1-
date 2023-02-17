@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import colors from "constants/colors";
 
@@ -8,6 +8,13 @@ import { HiOutlineHeart } from "react-icons/hi2";
 
 const Footer = () => {
   const [clickTab, setClickTab] = useState(0);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname.slice(1, 7) === "search") {
+      setClickTab(1);
+    }
+  }, [location.pathname]);
 
   interface TabItem {
     name: string;
@@ -17,7 +24,7 @@ const Footer = () => {
 
   const menuContent: TabItem[] = [
     { name: "home", content: <BiHomeAlt />, path: "/" },
-    { name: "search", content: <BiSearchAlt />, path: "/search/null" },
+    { name: "search", content: <BiSearchAlt />, path: "/search/page" },
     { name: "likes", content: <HiOutlineHeart />, path: "/likes" },
     { name: "login", content: <BiLogInCircle />, path: "/signin" },
   ];
