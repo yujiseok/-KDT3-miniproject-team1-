@@ -16,6 +16,7 @@ import Search from "pages/Search";
 import NotFound from "pages/NotFound";
 import Order from "pages/Order";
 import User from "pages/User";
+import MyPageLayout from "components/layout/MypageLayout";
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,10 +26,10 @@ const Router = createBrowserRouter(
       <Route path="/cart" element={<Cart />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route element={<Root />}>
-        <Route path="/home" element={<Main />} />
-        <Route path="/mypage" element={<MyPage />} />
         <Route path="/" element={<Main />} />
         <Route path="/search/:value" element={<Search />} />
+      </Route>
+      <Route element={<MyPageLayout />}>
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/user" element={<User />} />
         <Route path="/order" element={<Order />} />
