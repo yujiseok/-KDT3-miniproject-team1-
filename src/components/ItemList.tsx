@@ -26,7 +26,7 @@ const ItemList = ({ item, icon }: ListProps) => {
           </TagContent>
         </TextContent>
 
-        <ArrowContent>{icon}</ArrowContent>
+        <IconContent>{icon}</IconContent>
       </Link>
     </ListContent>
   );
@@ -82,7 +82,7 @@ const TagContent = styled.div`
   }
 `;
 
-const ArrowContent = styled.div`
+const IconContent = styled.div`
   width: 10%;
   padding-top: 10px;
   svg {
