@@ -38,9 +38,9 @@ const InputModule = ({
         {Prefix}
         <InputComp
           type={type}
-          {...register(`${label}`, options)}
           placeholder={placeholder}
           autoComplete={label}
+          {...register(`${label}`, options)}
         />
       </LoginEmail>
       {error && (

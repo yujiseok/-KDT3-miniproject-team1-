@@ -78,12 +78,13 @@ const SignIn = () => {
         <Bold>회원 로그인</Bold>
       </TitleBox>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {inputs.map(({ label, type, options, Prefix, name }) => (
+        {inputs.map(({ label, type, options, Prefix, name, placeholder }) => (
           <InputModule
             key={label}
             Prefix={Prefix}
             name={name}
             register={register}
+            placeholder={placeholder}
             label={label}
             type={type}
             options={options}

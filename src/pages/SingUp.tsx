@@ -151,11 +151,12 @@ const SignUp = () => {
         <Bold>회원가입</Bold>
       </TitleBox>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {inputs.map(({ label, type, options, Prefix, name }) => (
+        {inputs.map(({ label, type, options, Prefix, name, placeholder }) => (
           <InputModule
             key={label}
             Prefix={Prefix}
             name={name}
+            placeholder={placeholder}
             register={register}
             label={label}
             type={type}
