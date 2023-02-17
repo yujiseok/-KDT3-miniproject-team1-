@@ -43,9 +43,9 @@ const Footer = () => {
 
 const FooterContent = styled.footer`
   height: 60px;
-  width: 100%;
+  width: 390px;
   background-color: #fff;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   ul {
     display: flex;
