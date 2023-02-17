@@ -23,7 +23,9 @@ const CartItem = () => {
           </AverageContent>
         </AverageBox>
       </ProductContent>
-      <GrFormClose className="closeBtn" />
+      <CloseBtn>
+        <GrFormClose className="closeBtn" stroke="red" />
+      </CloseBtn>
     </Wrapper>
   );
 };
@@ -38,13 +40,6 @@ const Wrapper = styled.li`
   justify-content: space-around;
   padding: 15px 0;
   border-bottom: 1px solid ${colors["GRAY-4"]};
-  svg {
-    position: absolute;
-    top: 15px;
-    right: 0;
-    color: red;
-    background-color: red;
-  }
 `;
 
 const CheckBox = styled.input.attrs({ type: "checkbox" })`
@@ -94,4 +89,13 @@ const AverageTitle = styled.p`
 const AverageValue = styled.p`
   font-weight: 800;
   font-size: 13px;
+`;
+
+const CloseBtn = styled.div`
+  position: absolute;
+  top: 15px;
+  right: 0;
+  .closeBtn path {
+    stroke: #605e5e;
+  }
 `;
