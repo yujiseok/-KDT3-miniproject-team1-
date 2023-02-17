@@ -1,4 +1,4 @@
-import { Pretendard, Info, Input } from "global/FigmaStyles";
+import { Pretendard, Info, InputFontStyle } from "global/FigmaStyles";
 import { MdInfo } from "react-icons/md";
 import colors from "constants/colors";
 import styled from "styled-components";

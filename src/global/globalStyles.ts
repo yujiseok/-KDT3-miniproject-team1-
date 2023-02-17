@@ -50,7 +50,9 @@ ul, li {
   max-width: 390px;
   margin-inline: auto;
   background-color: #fff;
-  height: 100vh;
+  height: fit-content;
+  min-height : 100vh;
+
   position: relative;
 }
 
