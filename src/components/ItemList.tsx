@@ -1,48 +1,47 @@
 import colors from "constants/colors";
-import type { RecommendType } from "pages/Main";
+import type { ItemType } from "pages/Main";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
 
 interface ListProps {
-  item: RecommendType;
+  item: ItemType;
+  icon: JSX.Element;
 }
 
-const RecommendList = ({ item }: ListProps) => {
-  const navigate = useNavigate();
+const ItemList = ({ item, icon }: ListProps) => {
+  const detailUrl = `/product/${item.id}`;
   return (
-    <ListContent
-      onClick={() => {
-        navigate(`/product/${item.id}`);
-      }}
-    >
-      <ImgContent>
-        <img src={item.bankimg} alt="bank img" />
-      </ImgContent>
+    <ListContent>
+      <Link to={detailUrl}>
+        <ImgContent>
+          <img src={item.bankimg} alt="bank img" />
+        </ImgContent>
 
-      <TextContent>
-        <h3>{item.bank}</h3>
-        <p>{item.title}</p>
-        <h3>평균 {item.avg_rate}%</h3>
-        <TagContent>
-          <span>{item.type}</span>
-        </TagContent>
-      </TextContent>
+        <TextContent>
+          <h3>{item.bank}</h3>
+          <p>{item.title}</p>
+          <h3>평균 {item.avg_rate}%</h3>
+          <TagContent>
+            <span>{item.type}</span>
+          </TagContent>
+        </TextContent>
 
-      <ArrowContent>
-        <MdKeyboardArrowRight size={22} />
-      </ArrowContent>
+        <IconContent>{icon}</IconContent>
+      </Link>
     </ListContent>
   );
 };
 
-const ListContent = styled.div`
+const ListContent = styled.li`
   width: 100%;
-  display: flex;
-  justify-content: center;
   border-bottom: 1px solid ${colors["INDIGO-1"]};
   margin-bottom: 30px;
   padding-bottom: 25px;
+  a {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
   &:last-child {
     border: none;
   }
@@ -83,9 +82,12 @@ const TagContent = styled.div`
   }
 `;
 
-const ArrowContent = styled.div`
+const IconContent = styled.div`
   width: 10%;
   padding-top: 10px;
+  svg {
+    float: right;
+  }
 `;
 
-export default RecommendList;
+export default ItemList;
