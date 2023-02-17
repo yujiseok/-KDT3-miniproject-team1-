@@ -17,9 +17,10 @@ const Header = () => {
     setSearchData(value);
   };
 
-  const submitEvent = () => {
+  const submitEvent = (e: React.FormEvent<HTMLFormElement>) => {
     if (searchData) {
-      navigate(`/search/${searchData}`);
+      e.preventDefault();
+      navigate(`/search/${searchData}`, { state: searchData });
       setSearchData("");
     }
   };
@@ -29,11 +30,7 @@ const Header = () => {
         <FaPiggyBank size={30} />
       </Link>
       <RightContent>
-        <SearchContent
-          onSubmit={() => {
-            submitEvent();
-          }}
-        >
+        <SearchContent onSubmit={submitEvent}>
           <input
             type="text"
             name="search"
