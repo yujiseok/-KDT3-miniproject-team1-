@@ -1,12 +1,13 @@
 import colors from "constants/colors";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import RecommendList from "components/mainContent/recommendList";
-import { Link, useNavigate } from "react-router-dom";
+import ItemList from "components/ItemList";
+import { MdKeyboardArrowRight } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 import data from "data/listData.json";
 
-export type RecommendType = {
+export type ItemType = {
   id: string;
   title: string;
   bank: string;
@@ -16,8 +17,7 @@ export type RecommendType = {
 };
 
 const Main = () => {
-  const navigate = useNavigate();
-  const [recommend, setRecommend] = useState<Array<RecommendType>>([]);
+  const [recommend, setRecommend] = useState<Array<ItemType>>([]);
 
   useEffect(() => {
     async function getData() {
@@ -56,7 +56,13 @@ const Main = () => {
         <h2>가장 인기 있는 대출 상품입니다.</h2>
         {recommend.length > 0
           ? recommend.map((item) => {
-              return <RecommendList key={item.id} item={item} />;
+              return (
+                <ItemList
+                  key={item.id}
+                  item={item}
+                  icon={<MdKeyboardArrowRight />}
+                />
+              );
             })
           : null}
       </RecommendContent>
@@ -109,7 +115,7 @@ const BtnIndigo = styled.button`
   font-weight: 700;
 `;
 
-const RecommendContent = styled.div`
+const RecommendContent = styled.ul`
   margin-top: 70px;
   h2 {
     margin-bottom: 30px;
