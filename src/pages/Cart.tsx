@@ -1,7 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
 import colors from "constants/colors";
-import CartItem from "components/cart/CartItem";
 import { useNavigate } from "react-router-dom";
 import ItemList from "components/ItemList";
 import { GrFormClose } from "react-icons/gr";
@@ -10,10 +9,22 @@ import type { ItemType } from "./Main";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState<ItemType[]>(data.items);
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const emptyCart = cartItems?.length === 0;
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/completeOrder");
+  };
+
+  const handleAllChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target;
+    if (checked) {
+      const newArr: string[] = [];
+      data.items.forEach((item) => newArr.push(item.id));
+      setCheckedItems(newArr);
+    } else {
+      setCheckedItems([]);
+    }
   };
 
   return (
@@ -24,11 +35,22 @@ const Cart = () => {
       ) : (
         <>
           <CheckWrapper>
-            <CheckBox /> 전체 선택
+            <CheckBox
+              onChange={handleAllChecked}
+              checked={checkedItems?.length === data.items.length}
+            />{" "}
+            전체 선택
           </CheckWrapper>
           {cartItems &&
             cartItems.map((item) => (
-              <ItemList key={item.id} item={item} icon={<GrFormClose />} cart />
+              <ItemList
+                key={item.id}
+                item={item}
+                icon={<GrFormClose />}
+                cart
+                checkedItems={checkedItems}
+                setCheckedItems={setCheckedItems}
+              />
             ))}
         </>
       )}

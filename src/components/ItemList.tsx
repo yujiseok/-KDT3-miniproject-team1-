@@ -1,5 +1,6 @@
 import colors from "constants/colors";
 import type { ItemType } from "pages/Main";
+import type { SetStateAction } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -7,13 +8,36 @@ interface ListProps {
   item: ItemType;
   icon: JSX.Element;
   cart: boolean;
+  checkedItems?: string[];
+  setCheckedItems?: React.Dispatch<SetStateAction<string[]>>;
 }
 
-const ItemList = ({ item, icon, cart }: ListProps) => {
+const ItemList = ({
+  item,
+  icon,
+  cart,
+  checkedItems,
+  setCheckedItems,
+}: ListProps) => {
   const detailUrl = `/product/${item.id}`;
+  const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target;
+    if (!checkedItems || !setCheckedItems) {
+      return;
+    }
+    if (checked) {
+      setCheckedItems((prev) => [...prev, item.id]);
+    } else {
+      setCheckedItems(checkedItems.filter((el) => el !== item.id));
+    }
+  };
   return (
     <ListContent cart={cart}>
-      <CheckBox cart={cart} />
+      <CheckBox
+        cart={cart}
+        onChange={handleChecked}
+        checked={!!checkedItems?.includes(item.id)}
+      />
       <Link to={detailUrl}>
         <ImgContent>
           <img src={item.bankimg} alt="bank img" />
