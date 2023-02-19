@@ -3,12 +3,13 @@ import styled from "styled-components";
 import colors from "constants/colors";
 import CartItem from "components/cart/CartItem";
 import { useNavigate } from "react-router-dom";
-
-const products = [{ id: 1 }, { id: 2 }, { id: 3 }];
-type TCartItems = { id: number };
+import ItemList from "components/ItemList";
+import { GrFormClose } from "react-icons/gr";
+import data from "data/listData.json";
+import type { ItemType } from "./Main";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState<TCartItems[]>([]);
+  const [cartItems, setCartItems] = useState<ItemType[]>(data.items);
   const emptyCart = cartItems?.length === 0;
   const navigate = useNavigate();
   const handleClick = () => {
@@ -25,7 +26,10 @@ const Cart = () => {
           <CheckWrapper>
             <CheckBox /> 전체 선택
           </CheckWrapper>
-          {cartItems && cartItems.map((item) => <CartItem key={item.id} />)}
+          {cartItems &&
+            cartItems.map((item) => (
+              <ItemList key={item.id} item={item} icon={<GrFormClose />} cart />
+            ))}
         </>
       )}
       {emptyCart ? (
@@ -43,7 +47,6 @@ export default Cart;
 const Wrapper = styled.div`
   position: relative;
   padding: 15px;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,21 +70,16 @@ const CheckWrapper = styled.div`
   border-bottom: 1px solid ${colors["GRAY-4"]};
   width: 90%;
   padding: 15px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   gap: 5px;
   font-size: 14px;
 `;
 
-const CheckBox = styled.input.attrs({ type: "checkbox" })`
-  width: 10px;
-  height: 10px;
-  position: relative;
-`;
+const CheckBox = styled.input.attrs({ type: "checkbox" })``;
 
 const CartBtn = styled.button<{ primary: boolean }>`
-  position: absolute;
-  bottom: 20px;
   border-radius: 10px;
   width: 90%;
   font-weight: 700;

@@ -61,6 +61,7 @@ const Main = () => {
                   key={item.id}
                   item={item}
                   icon={<MdKeyboardArrowRight />}
+                  cart={false}
                 />
               );
             })

@@ -6,12 +6,14 @@ import styled from "styled-components";
 interface ListProps {
   item: ItemType;
   icon: JSX.Element;
+  cart: boolean;
 }
 
-const ItemList = ({ item, icon }: ListProps) => {
+const ItemList = ({ item, icon, cart }: ListProps) => {
   const detailUrl = `/product/${item.id}`;
   return (
-    <ListContent>
+    <ListContent cart={cart}>
+      <CheckBox cart={cart} />
       <Link to={detailUrl}>
         <ImgContent>
           <img src={item.bankimg} alt="bank img" />
@@ -32,8 +34,10 @@ const ItemList = ({ item, icon }: ListProps) => {
   );
 };
 
-const ListContent = styled.li`
-  width: 100%;
+const ListContent = styled.li<{ cart: boolean }>`
+  display: ${(props) => (props.cart ? "flex" : "block")};
+  gap: 10px;
+  width: ${(props) => (props.cart ? "80%" : "100%")};
   border-bottom: 1px solid ${colors["INDIGO-1"]};
   margin-bottom: 30px;
   padding-bottom: 25px;
@@ -45,6 +49,11 @@ const ListContent = styled.li`
   &:last-child {
     border: none;
   }
+`;
+
+const CheckBox = styled.input.attrs({ type: "checkbox" })<{ cart: boolean }>`
+  display: ${(props) => (props.cart ? "block" : "none")};
+  border: 1px solid #999;
 `;
 
 const ImgContent = styled.div`
