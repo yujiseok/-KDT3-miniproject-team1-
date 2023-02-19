@@ -6,11 +6,12 @@ interface Props {
   primary: boolean;
   children: ReactNode;
   type?: "button" | "submit";
+  disabled?: boolean;
 }
 
-const Button = ({ primary, children, type }: Props) => {
+const Button = ({ primary, children, type, disabled }: Props) => {
   return (
-    <Btn primary={primary} type={type}>
+    <Btn primary={primary} type={type} disabled={disabled}>
       {children}
     </Btn>
   );

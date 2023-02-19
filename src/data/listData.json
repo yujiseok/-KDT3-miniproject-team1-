@@ -1,0 +1,44 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "title": "우리아파트론",
+      "bank": "우리은행",
+      "bankimg": "https://cdn.banksalad.com/graphic/color/logo/circle/woori.png",
+      "avg_rate": "3.45",
+      "type": "주택담보"
+    },
+    {
+      "id": "2",
+      "title": "제주홈대출",
+      "bank": "제주은행",
+      "bankimg": "https://www.shinhanaitas.com/wp/wp-content/uploads/2022/09/logo_p.png",
+      "avg_rate": "3.4",
+      "type": "주택담보"
+    },
+    {
+      "id": "3",
+      "title": "딴딴한전세론",
+      "bank": "흥국생명보험주식회사",
+      "bankimg": "http://wiki.hash.kr/images/8/88/흥국생명_로고.png",
+      "avg_rate": "3.37",
+      "type": "전세자금"
+    },
+    {
+      "id": "4",
+      "title": "One-stop 직장인 프로미론",
+      "bank": "DB손해보험주식회사",
+      "bankimg": "https://cdn.banksalad.com/graphic/color/logo/circle/db.png",
+      "avg_rate": "3.55",
+      "type": "개인신용"
+    },
+    {
+      "id": "5",
+      "title": "Easy 직장인 프로미론",
+      "bank": "DB손해보험주식회사",
+      "bankimg": "https://cdn.banksalad.com/graphic/color/logo/circle/db.png",
+      "avg_rate": "3.65",
+      "type": "개인신용"
+    }
+  ]
+}
