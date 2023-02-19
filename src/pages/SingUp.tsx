@@ -28,7 +28,6 @@ const SignUp = () => {
     register,
     handleSubmit,
     watch,
-    trigger,
     formState: { errors },
   } = useForm<IForm>();
   const a = Object.keys(watch()).length;
@@ -167,7 +166,7 @@ const SignUp = () => {
           />
         ))}
         <SecurityNumberInput
-          register={(text, option) => register(text, option)}
+          register={register}
           options={{
             pattern: {
               value: /^[0-9]$/,
