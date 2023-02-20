@@ -51,15 +51,14 @@ const ItemList = ({
             <span>{item.type}</span>
           </TagContent>
         </TextContent>
-
-        <IconContent>{icon}</IconContent>
       </Link>
+      <IconContent>{icon}</IconContent>
     </ListContent>
   );
 };
 
 const ListContent = styled.li<{ cart: boolean }>`
-  display: ${(props) => (props.cart ? "flex" : "block")};
+  display: flex;
   gap: 10px;
   width: ${(props) => (props.cart ? "80%" : "100%")};
   border-bottom: 1px solid ${colors["INDIGO-1"]};
@@ -68,6 +67,7 @@ const ListContent = styled.li<{ cart: boolean }>`
   a {
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%;
   }
   &:last-child {

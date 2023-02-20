@@ -2,7 +2,7 @@ import colors from "constants/colors";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import ItemList from "components/ItemList";
-import { MdKeyboardArrowRight } from "react-icons/md";
+import { HiOutlineChevronRight } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 
 import data from "data/listData.json";
@@ -60,7 +60,11 @@ const Main = () => {
                 <ItemList
                   key={item.id}
                   item={item}
-                  icon={<MdKeyboardArrowRight />}
+                  icon={
+                    <Link to={`/product/${item.id}`}>
+                      <HiOutlineChevronRight />
+                    </Link>
+                  }
                   cart={false}
                 />
               );
@@ -122,4 +126,5 @@ const RecommendContent = styled.ul`
     margin-bottom: 30px;
   }
 `;
+
 export default Main;

@@ -64,7 +64,9 @@ const Likes = () => {
               key={item.id}
               icon={
                 <IconWrapper>
-                  <HiOutlineChevronRight />
+                  <Link to={`/product/${item.id}`}>
+                    <HiOutlineChevronRight />
+                  </Link>
                   <Link to="/cart">
                     <HiOutlineShoppingCart />
                   </Link>

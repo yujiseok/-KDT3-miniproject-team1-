@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ItemList from "components/ItemList";
 import { GrFormClose } from "react-icons/gr";
 import data from "data/listData.json";
+import CartHeader from "components/cart/CartHeader";
 import type { ItemType } from "./Main";
 
 const Cart = () => {
@@ -29,7 +30,7 @@ const Cart = () => {
 
   return (
     <Wrapper>
-      <Title>장바구니</Title>
+      <CartHeader />
       {emptyCart ? (
         <EmptyCart>장바구니에 담긴 상품이 없습니다.</EmptyCart>
       ) : (
@@ -72,12 +73,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Title = styled.h1`
-  font-size: 18px;
-  text-align: center;
-  margin-bottom: 15px;
 `;
 
 const EmptyCart = styled.p`
