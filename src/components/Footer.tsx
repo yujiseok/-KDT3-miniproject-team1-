@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import colors from "constants/colors";
@@ -13,6 +12,11 @@ const Footer = () => {
 
   if (pathName.slice(1, 7) === "search") {
     pathName = "/search/page";
+  } else if (
+    pathName.slice(1, 7) === "mypage" &&
+    pathName !== "/mypage/likes"
+  ) {
+    pathName = "/mypage";
   }
 
   interface TabItem {
