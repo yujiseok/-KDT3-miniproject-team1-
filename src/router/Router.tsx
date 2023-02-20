@@ -17,12 +17,16 @@ import NotFound from "pages/NotFound";
 import Order from "pages/Order";
 import User from "pages/User";
 import MyPageLayout from "components/layout/MypageLayout";
+import GotoBackLayout from "components/layout/GotoBackLayout";
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/signup" element={<SingUp />} />
+      <Route element={<GotoBackLayout />}>
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SingUp />} />
+      </Route>
+
       <Route path="/cart" element={<Cart />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route element={<Root />}>

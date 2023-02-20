@@ -64,7 +64,6 @@ const LoginEmail = styled(Pretendard.withComponent("label"))`
 `;
 
 const InputComp = styled.input`
-  font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
   font-size: 18px;

@@ -30,8 +30,8 @@ const SignUp = () => {
     watch,
     formState: { errors },
   } = useForm<IForm>();
-  const a = Object.keys(watch()).length;
-  const b = Object.keys(errors).length;
+  const completeFroms = Object.keys(watch()).length;
+  const errorForms = Object.keys(errors).length;
 
   const onSubmit = (data: IForm) => {
     console.log(data);
@@ -48,14 +48,14 @@ const SignUp = () => {
       label: "name",
       placeholder: "홍길동",
       options: {
-        required: { value: true, message: "이름을 작성해주세요" },
+        required: { value: true, message: "이름을 입력해주세요" },
         pattern: {
           value: /^[가-힣]+$/,
-          message: "한글로 작성해주세요",
+          message: "한글로 입력해주세요",
         },
         minLength: {
           value: 2,
-          message: "이름은 2글자 이상 작성해주세요",
+          message: "이름은 2글자 이상 입력해주세요",
         },
       },
     },
@@ -64,10 +64,10 @@ const SignUp = () => {
       label: "email",
       placeholder: "email@example.com",
       options: {
-        required: { value: true, message: "이메일을 작성해주세요" },
+        required: { value: true, message: "이메일을 입력해주세요" },
         pattern: {
           value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-          message: "이메일 주소를 다시 확인해주세요.",
+          message: "이메일 주소를 확인해주세요.",
         },
       },
     },
@@ -77,7 +77,12 @@ const SignUp = () => {
       type: "password",
       placeholder: "Password",
       options: {
-        required: { value: true, message: "비밀번호를 작성해주세요" },
+        required: { value: true, message: "비밀번호를 입력해주세요" },
+        minLength: { value: 8, message: "비밀번호는 8자 이상 입력해주세요." },
+        maxLength: {
+          value: 20,
+          message: "비밀번호는 20자 이하로 입력해주세요.",
+        },
         pattern: {
           value:
             /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
@@ -91,7 +96,12 @@ const SignUp = () => {
       type: "password",
       placeholder: "Password",
       options: {
-        required: { value: true, message: "비밀번호를 다시 작성해주세요" },
+        required: { value: true, message: "비밀번호를 다시 입력해주세요" },
+        minLength: { value: 8, message: "비밀번호는 8자 이상 입력해주세요." },
+        maxLength: {
+          value: 20,
+          message: "비밀번호는 20자 이하로 입력해주세요.",
+        },
         pattern: {
           value:
             /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
@@ -117,9 +127,10 @@ const SignUp = () => {
         // eslint-disable-next-line consistent-return
         validate: () => {
           if (
-            watch(interestsLabel)?.length === undefined ||
-            watch(interestsLabel).length === 0 ||
-            watch(interestsLabel) === false
+            // [] 또는 선언되지 않는 경우가 있음
+            !!watch(interestsLabel).length === false ||
+            // 초기 값이 false인 경우가 있음
+            !!watch(interestsLabel) === false
           ) {
             return "옵션을 선택해주세요";
           }
@@ -174,7 +185,7 @@ const SignUp = () => {
             },
             required: {
               value: true,
-              message: "주민번호 뒷자리를 작성해주세요",
+              message: "주민번호 뒷자리를 입력해주세요",
             },
             // eslint-disable-next-line consistent-return
           }}
@@ -205,7 +216,7 @@ const SignUp = () => {
         <SummitBox>
           <Button type="submit">
             <Bold color={colors["GRAY-0"]}>
-              회원가입 {a - b}/{a}
+              회원가입 {completeFroms - errorForms}/{completeFroms}
             </Bold>
           </Button>
           <Signin color={colors["GRAY-9"]}>
