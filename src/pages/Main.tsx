@@ -22,7 +22,7 @@ const Main = () => {
   useEffect(() => {
     async function getData() {
       try {
-        setRecommend(data.items);
+        await setRecommend(data.items);
       } catch (error) {
         console.log(error);
       }

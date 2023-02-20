@@ -1,13 +1,19 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import colors from "constants/colors";
 
 import { BiHomeAlt, BiSearchAlt, BiLogInCircle } from "react-icons/bi";
 import { HiOutlineHeart } from "react-icons/hi2";
+import { HiOutlineUserCircle } from "react-icons/hi";
 
 const Footer = () => {
-  const [clickTab, setClickTab] = useState(0);
+  const location = useLocation();
+  let pathName = location.pathname;
+
+  if (pathName.slice(1, 7) === "search") {
+    pathName = "/search/page";
+  }
 
   interface TabItem {
     name: string;
@@ -15,22 +21,27 @@ const Footer = () => {
     path: string;
   }
 
-  const menuContent: TabItem[] = [
+  const nonMemberMenu: TabItem[] = [
     { name: "home", content: <BiHomeAlt />, path: "/" },
-    { name: "search", content: <BiSearchAlt />, path: "/search/null" },
-    { name: "likes", content: <HiOutlineHeart />, path: "/likes" },
+    { name: "search", content: <BiSearchAlt />, path: "/search/page" },
+    { name: "likes", content: <HiOutlineHeart />, path: "/mypage/likes" },
     { name: "login", content: <BiLogInCircle />, path: "/signin" },
+  ];
+
+  const memberMenu: TabItem[] = [
+    { name: "home", content: <BiHomeAlt />, path: "/" },
+    { name: "search", content: <BiSearchAlt />, path: "/search/page" },
+    { name: "likes", content: <HiOutlineHeart />, path: "/mypage/likes" },
+    { name: "mypage", content: <HiOutlineUserCircle />, path: "/mypage" },
   ];
 
   return (
     <FooterContent>
-      <ul>
-        {menuContent.map((item, i) => (
+      <ul role="navigation">
+        {memberMenu.map((item, i) => (
           <Link to={item.path} key={item.name}>
             <li
-              role="presentation"
-              className={i === clickTab ? "tabmenu focused" : "tabmenu"}
-              onClick={() => setClickTab(i)}
+              className={item.path === pathName ? "tabmenu focused" : "tabmenu"}
             >
               {item.content}
             </li>

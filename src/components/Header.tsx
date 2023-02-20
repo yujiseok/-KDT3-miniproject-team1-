@@ -13,7 +13,6 @@ const Header = () => {
 
   const searchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    value.trim();
     setSearchData(value);
   };
 
