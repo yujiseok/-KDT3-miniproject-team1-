@@ -5,6 +5,7 @@ import colors from "constants/colors";
 
 import { BiHomeAlt, BiSearchAlt, BiLogInCircle } from "react-icons/bi";
 import { HiOutlineHeart } from "react-icons/hi2";
+import { HiOutlineUserCircle } from "react-icons/hi";
 
 const Footer = () => {
   const [clickTab, setClickTab] = useState(0);
@@ -22,22 +23,29 @@ const Footer = () => {
     path: string;
   }
 
-  const menuContent: TabItem[] = [
+  const nonMemberMenu: TabItem[] = [
     { name: "home", content: <BiHomeAlt />, path: "/" },
     { name: "search", content: <BiSearchAlt />, path: "/search/page" },
-    { name: "likes", content: <HiOutlineHeart />, path: "/likes" },
+    { name: "likes", content: <HiOutlineHeart />, path: "/mypage/likes" },
     { name: "login", content: <BiLogInCircle />, path: "/signin" },
+  ];
+
+  const memberMenu: TabItem[] = [
+    { name: "home", content: <BiHomeAlt />, path: "/" },
+    { name: "search", content: <BiSearchAlt />, path: "/search/page" },
+    { name: "likes", content: <HiOutlineHeart />, path: "/mypage/likes" },
+    { name: "mypage", content: <HiOutlineUserCircle />, path: "/mypage" },
   ];
 
   return (
     <FooterContent>
-      <ul>
-        {menuContent.map((item, i) => (
-          <Link to={item.path} key={item.name}>
+      <ul role="navigation">
+        {memberMenu.map((item, i) => (
+          <Link to={item.path} key={item.name} onClick={() => setClickTab(i)}>
             <li
-              role="presentation"
-              className={i === clickTab ? "tabmenu focused" : "tabmenu"}
-              onClick={() => setClickTab(i)}
+              className={
+                item.path === location.pathname ? "tabmenu focused" : "tabmenu"
+              }
             >
               {item.content}
             </li>
