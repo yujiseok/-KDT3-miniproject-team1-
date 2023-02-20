@@ -8,14 +8,12 @@ import { HiOutlineHeart } from "react-icons/hi2";
 import { HiOutlineUserCircle } from "react-icons/hi";
 
 const Footer = () => {
-  const [clickTab, setClickTab] = useState(0);
   const location = useLocation();
+  let pathName = location.pathname;
 
-  useEffect(() => {
-    if (location.pathname.slice(1, 7) === "search") {
-      setClickTab(1);
-    }
-  }, [location.pathname]);
+  if (pathName.slice(1, 7) === "search") {
+    pathName = "/search/page";
+  }
 
   interface TabItem {
     name: string;
@@ -41,11 +39,9 @@ const Footer = () => {
     <FooterContent>
       <ul role="navigation">
         {memberMenu.map((item, i) => (
-          <Link to={item.path} key={item.name} onClick={() => setClickTab(i)}>
+          <Link to={item.path} key={item.name}>
             <li
-              className={
-                item.path === location.pathname ? "tabmenu focused" : "tabmenu"
-              }
+              className={item.path === pathName ? "tabmenu focused" : "tabmenu"}
             >
               {item.content}
             </li>
