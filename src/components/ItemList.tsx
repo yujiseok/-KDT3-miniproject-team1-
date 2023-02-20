@@ -43,7 +43,7 @@ const ItemList = ({
           <img src={item.bankimg} alt="bank img" />
         </ImgContent>
 
-        <TextContent>
+        <TextContent cart={cart}>
           <h3>{item.bank}</h3>
           <p>{item.title}</p>
           <h3>평균 {item.avg_rate}%</h3>
@@ -89,17 +89,18 @@ const ImgContent = styled.div`
   }
 `;
 
-const TextContent = styled.div`
+const TextContent = styled.div<{ cart: boolean }>`
   width: 60%;
   h3 {
     margin-bottom: 5px;
-    font-size: 22px;
+    font-size: ${(props) => (props.cart ? "16px" : "22px")};
     &:first-child {
-      font-size: 20px;
+      font-size: ${(props) => (props.cart ? "16px" : "20px")};
     }
   }
   p {
     color: ${colors["GRAY-6"]};
+    font-size: ${(props) => (props.cart ? "14px" : "")};
     margin-bottom: 10px;
   }
 `;
