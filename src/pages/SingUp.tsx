@@ -27,6 +27,7 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
+    trigger,
     watch,
     formState: { errors },
   } = useForm<IForm>();
@@ -38,7 +39,7 @@ const SignUp = () => {
   };
 
   useEffect(() => {
-    handleSubmit(onSubmit)();
+    trigger();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -246,6 +247,7 @@ const SummitBox = styled.div`
 `;
 
 const Button = styled.button`
+  font-family: Pretendard;
   display: flex;
   flex-direction: row;
   justify-content: center;
