@@ -8,7 +8,7 @@ import {
   HiOutlineChevronRight,
 } from "react-icons/hi2";
 import colors from "constants/colors";
-import MaleAvatar from "components/myPage/MaleAvatar";
+import MaleAvatar from "components/svg/MaleAvatar";
 
 interface LinkItem {
   icon?: JSX.Element;
@@ -22,11 +22,11 @@ const LINK_ITEM: LinkItem[] = [
     to: "user",
     label: "회원정보 수정",
   },
-  {
-    icon: <HiOutlineQueueList />,
-    to: "order",
-    label: "신청내역",
-  },
+  // {
+  //   icon: <HiOutlineQueueList />,
+  //   to: "order",
+  //   label: "신청내역",
+  // },
   {
     icon: <HiOutlineShoppingCart />,
     to: "/cart",
@@ -51,7 +51,6 @@ const MyPage = () => {
         <div>
           <Username>가나다라</Username>님 환영합니다.
           <div>
-            {/* <Button primary={false}>로그아웃</Button> */}
             <LogOutBtn>로그아웃</LogOutBtn>
           </div>
         </div>
@@ -76,7 +75,6 @@ const MyPage = () => {
 
 const Block = styled.section`
   margin-top: 24px;
-  /* padding: 0 16px; */
 `;
 
 const H1 = styled.h1`
@@ -85,7 +83,6 @@ const H1 = styled.h1`
 
 const ProfileWrapper = styled.div`
   padding: 16px 0;
-  /* border-top: 1px solid ${colors["GRAY-4"]}; */
   border-bottom: 1px solid ${colors["GRAY-4"]};
   margin-bottom: 16px;
   display: flex;
