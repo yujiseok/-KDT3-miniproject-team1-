@@ -88,11 +88,9 @@ const ProductDetail = () => {
         <DetailTitle>연체 이자율</DetailTitle>
         <DetailContent>{delayRate}</DetailContent>
         <DetailTitle>상품 이자율</DetailTitle>
-        {longRateDTO.map(
-          (item): IItem => (
-            <LoanInterest key={item.id} item={item} />
-          ),
-        )}
+        {longRateDTO.map((item): any => (
+          <LoanInterest key={item.id} item={item} />
+        ))}
         <DetailTitle>대출 부대비용</DetailTitle>
         <DetailContent>{loanIncidentalExpenses}</DetailContent>
         <DetailTitle>중도상환 수수료</DetailTitle>
