@@ -46,7 +46,7 @@ const ItemList = ({
         <TextContent cart={typeof cart === "boolean" ? cart : false}>
           <h3>{item.bank}</h3>
           <p>{item.title}</p>
-          <h3>평균 {item.avg_rate}%</h3>
+          <h2>평균 {item.avg_rate}%</h2>
           <TagContent>
             <span>{item.type}</span>
           </TagContent>

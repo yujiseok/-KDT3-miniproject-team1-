@@ -1,4 +1,4 @@
-import { Pretendard, Info, Input } from "global/FigmaStyles";
+import { Pretendard, Info, InputFontStyle } from "global/FigmaStyles";
 import { MdInfo } from "react-icons/md";
 import colors from "constants/colors";
 import styled from "styled-components";
@@ -38,9 +38,9 @@ const InputModule = ({
         {Prefix}
         <InputComp
           type={type}
-          {...register(`${label}`, options)}
           placeholder={placeholder}
           autoComplete={label}
+          {...register(`${label}`, options)}
         />
       </LoginEmail>
       {error && (
