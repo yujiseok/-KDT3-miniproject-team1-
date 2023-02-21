@@ -6,19 +6,12 @@ import colors from "constants/colors";
 const CompleteOrder = () => {
   // 신청 번호
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const random = [];
-  while (numbers.length > 0) {
-    const num = Math.floor(Math.random() * numbers.length);
-    const newArr = numbers.splice(num, 1);
-    const value = newArr[0];
-    random.push(value);
-  }
+  const shuffle = (array: number[]) => {
+    return [...array].sort(() => Math.random() - 0.5);
+  };
+  const orderNumber = shuffle(numbers);
   // 신청 날짜
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = `0${today.getMonth() + 1}`.slice(-2);
-  const day = `0${today.getDate()}`.slice(-2);
-  const orderDate = `${year}.${month}.${day}`;
+  const orderDate = new Date().toLocaleDateString();
 
   return (
     <Wrapper>
@@ -26,7 +19,7 @@ const CompleteOrder = () => {
       <Message>신청이 완료되었습니다.</Message>
       <OrderInfo>
         <Title>주문 번호</Title>
-        <Content>{random.join("")}</Content>
+        <Content>{orderNumber}</Content>
       </OrderInfo>
       <OrderInfo>
         <Title>신청 날짜</Title>
