@@ -19,6 +19,7 @@ import User from "pages/User";
 import CompleteOrder from "pages/CompleteOrder";
 import MyPageLayout from "components/layout/MypageLayout";
 import GotoBackLayout from "components/layout/GotoBackLayout";
+import Password from "pages/Password";
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +39,7 @@ const Router = createBrowserRouter(
       <Route path="/mypage" element={<MyPageLayout />}>
         <Route path="/mypage" element={<MyPage />} />
         <Route path="user" element={<User />} />
+        <Route path="user/password" element={<Password />} />
         <Route path="order" element={<Order />} />
         <Route path="likes" element={<Likes />} />
       </Route>
