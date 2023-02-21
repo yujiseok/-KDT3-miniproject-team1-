@@ -20,7 +20,7 @@ const ItemList = ({ item, icon }: ListProps) => {
         <TextContent>
           <h3>{item.bank}</h3>
           <p>{item.title}</p>
-          <h3>평균 {item.avg_rate}%</h3>
+          <h2>평균 {item.avg_rate}%</h2>
           <TagContent>
             <span>{item.type}</span>
           </TagContent>
@@ -60,10 +60,7 @@ const TextContent = styled.div`
   width: 60%;
   h3 {
     margin-bottom: 5px;
-    font-size: 22px;
-    &:first-child {
-      font-size: 20px;
-    }
+    font-size: 20px;
   }
   p {
     color: ${colors["GRAY-6"]};

@@ -3,7 +3,7 @@ import { BiSearchAlt } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
 import colors from "constants/colors";
 import { RiFileListLine } from "react-icons/ri";
-import { MdKeyboardArrowRight } from "react-icons/md";
+import { HiOutlineChevronRight } from "react-icons/hi2";
 
 import data from "data/listData.json";
 import { useEffect, useState } from "react";
@@ -54,7 +54,7 @@ const Search = () => {
               <ItemList
                 key={item.id}
                 item={item}
-                icon={<MdKeyboardArrowRight />}
+                icon={<HiOutlineChevronRight />}
               />
             );
           })}
@@ -80,7 +80,7 @@ const SearchContent = styled.div`
   width: 100%;
   height: 100%;
   .title {
-    margin: 20px 10px;
+    margin: 0 10px;
     letter-spacing: 0.5px;
     font-size: 23px;
     span {
