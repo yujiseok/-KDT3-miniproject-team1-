@@ -82,7 +82,9 @@ const SignIn = () => {
   return (
     <Container>
       <TitleBox>
-        <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
+        <Link to="/">
+          <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
+        </Link>
         <Bold>회원 로그인</Bold>
       </TitleBox>
       <Form onSubmit={handleSubmit(onSubmit)}>

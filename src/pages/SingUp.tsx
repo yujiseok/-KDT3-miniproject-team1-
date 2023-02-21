@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Bold, Pretendard, Info } from "global/FigmaStyles";
 import { Container, TitleBox, GroupLeftBox } from "components/auth/StyledUtils";
 import colors from "constants/colors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import type { FieldError, RegisterOptions } from "react-hook-form";
 import { MdAlternateEmail, MdInfo } from "react-icons/md";
@@ -11,6 +11,8 @@ import { CgLock } from "react-icons/cg";
 import InputModule from "components/auth/InputModule";
 import SecurityNumberInput from "components/auth/SecurityNumberInput";
 import CheckBoxButton from "components/auth/CheckBoxButton";
+import { useAxios } from "hooks/useAxios";
+import Loading from "components/Loading";
 
 interface InputField {
   Prefix?: JSX.Element;
@@ -24,18 +26,25 @@ interface InputField {
 type IForm = Record<string, FieldError | string>;
 
 const SignUp = () => {
+  const [test, setTest] = useState("200");
+  const { fetchData, cancelRequest, response, error, loading } = useAxios();
+
   const {
     register,
     handleSubmit,
-    trigger,
     watch,
     formState: { errors },
   } = useForm<IForm>();
-
+  const completeFroms = Object.keys(watch()).length;
+  const errorForms = Object.keys(errors).length;
   const onSubmit = (data: IForm) => {
     console.log(data);
   };
 
+  useEffect(() => {
+    return cancelRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const inputs: InputField[] = [
     {
@@ -151,8 +160,11 @@ const SignUp = () => {
   ];
   return (
     <Container>
+      {loading ? <Loading loading={loading} /> : null}
       <TitleBox>
-        <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
+        <Link to="/">
+          <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
+        </Link>
         <Bold>회원가입</Bold>
       </TitleBox>
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -209,10 +221,15 @@ const SignUp = () => {
         </GroupLeftBox>
 
         <SummitBox>
-          <Button type="submit">
-            <Bold color={colors["GRAY-0"]}>
-              회원가입
-            </Bold>
+          <Button
+            type="submit"
+            onClick={(event) => {
+              event.preventDefault();
+
+              fetchData("401");
+            }}
+          >
+            <Bold color={colors["GRAY-0"]}>회원가입</Bold>
           </Button>
           <Signin color={colors["GRAY-9"]}>
             <Link to="/signin"> 로그인</Link>
