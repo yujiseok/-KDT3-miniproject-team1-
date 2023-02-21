@@ -7,6 +7,35 @@ import {
   HiHeart,
 } from "react-icons/hi2";
 import colors from "constants/colors";
+import LoanInterest from "components/productDetail/LoanInterest";
+import productData from "../data/productData.json";
+import type { IItem } from "../components/productDetail/LoanInterest";
+
+// interface IDetailProps {
+//   bankName: string;
+//   categoryName: string;
+//   delayRate: string;
+//   earlyRepayFee: string;
+//   joinWay: string;
+//   loanIncidentalExpenses: string;
+//   loanLimit: string;
+//   longRateDTO: IItem[];
+//   productId: string;
+//   productName: string;
+// }
+
+const {
+  bankName,
+  categoryName,
+  delayRate,
+  earlyRepayFee,
+  joinWay,
+  loanIncidentalExpenses,
+  loanLimit,
+  productName,
+  longRateDTO,
+  productId,
+} = productData.data;
 
 const ProductDetail = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -26,9 +55,9 @@ const ProductDetail = () => {
         src="https://cdn.banksalad.com/graphic/color/logo/circle/woori.png"
         alt="은행 이미지"
       />
-      <BankTitle>우리은행 신용대출</BankTitle>
+      <BankTitle>{`${bankName} ${categoryName}`}</BankTitle>
       <ProductBox>
-        <ProductTitle>우리금융인클럽 신용대출</ProductTitle>
+        <ProductTitle>{productName}</ProductTitle>
         {liked ? (
           <HiHeart onClick={handleLike} />
         ) : (
@@ -37,12 +66,12 @@ const ProductDetail = () => {
       </ProductBox>
       <AverageBox>
         <AverageContent>
-          <AverageTitle>평균 금리</AverageTitle>
-          <AverageValue>5.04%</AverageValue>
+          <AverageTitle>최저 금리</AverageTitle>
+          <AverageValue>{longRateDTO[0].minRate}%</AverageValue>
         </AverageContent>
         <AverageContent>
-          <AverageTitle>평균 대출액</AverageTitle>
-          <AverageValue>3,420만원</AverageValue>
+          <AverageTitle>최고 금리</AverageTitle>
+          <AverageValue>{longRateDTO[0].maxRate}%</AverageValue>
         </AverageContent>
       </AverageBox>
       <BtnBox>
@@ -54,22 +83,22 @@ const ProductDetail = () => {
       </BtnBox>
       <DetailBox>
         <DetailBoxTitle>상세정보</DetailBoxTitle>
-        <DetailTitle>대출 금리</DetailTitle>
-        <DetailContent>변동금리(6개월): 최저 6.21%</DetailContent>
-        <DetailTitle>대출 부대 비용</DetailTitle>
-        <DetailContent>변동금리(6개월): 최저 6.21%</DetailContent>
-        <DetailTitle>중도 상환 수수료</DetailTitle>
-        <DetailContent>변동금리(6개월): 최저 6.21%</DetailContent>
-        <DetailTitle>연체이자율</DetailTitle>
-        <DetailContent>변동금리(6개월): 최저 6.21%</DetailContent>
-        {/* <DetailTitle>대출 한도</DetailTitle>
-        <DetailContent>변동금리(6개월): 최저 6.21%</DetailContent>
-        <DetailTitle>신청 방식</DetailTitle>
-        <DetailContent>변동금리(6개월): 최저 6.21%</DetailContent>
-        <DetailTitle>신청 조건</DetailTitle>
-        <DetailContent>변동금리(6개월): 최저 6.21%</DetailContent>
-        <DetailTitle>필요 서류</DetailTitle>
-        <DetailContent>변동금리(6개월): 최저 6.21%</DetailContent> */}
+        <DetailTitle>대출 한도</DetailTitle>
+        <DetailContent>{loanLimit}</DetailContent>
+        <DetailTitle>연체 이자율</DetailTitle>
+        <DetailContent>{delayRate}</DetailContent>
+        <DetailTitle>상품 이자율</DetailTitle>
+        {longRateDTO.map(
+          (item): IItem => (
+            <LoanInterest key={item.id} item={item} />
+          ),
+        )}
+        <DetailTitle>대출 부대비용</DetailTitle>
+        <DetailContent>{loanIncidentalExpenses}</DetailContent>
+        <DetailTitle>중도상환 수수료</DetailTitle>
+        <DetailContent>{earlyRepayFee}</DetailContent>
+        <DetailTitle>가입방법</DetailTitle>
+        <DetailContent>{joinWay}</DetailContent>
       </DetailBox>
     </Wrapper>
   );

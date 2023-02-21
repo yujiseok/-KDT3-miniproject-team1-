@@ -1,0 +1,92 @@
+{
+  "stateCode": 200,
+  "success": true,
+  "data": {
+    "categoryName": "주택담보대출",
+    "bankName": "한국산업은행",
+    "productName": "산은 주택대출\n(생활자금)",
+    "joinWay": "기타",
+    "loanIncidentalExpenses": "* 구입자금 취급중단, 기존 주택담보대출 고객에 대한 추가 생활자금대출만 취급\n\n- 인지세 : 해당세액의 50%\n- 국민주택채권 매입비용",
+    "earlyRepayFee": "- 중도상환금액 × 중도상환수수료율* × (대출잔여일수 ÷ 대출기간** )\n* 담보대출 : 고정금리 1.2%, 변동금리 0.9% / 신용대출 : 고정금리 0.8%, 변동금리 0.5%\n**대출기간이 3년을 초과하는 경우 3년",
+    "delayRate": "대출금리+3%\n최고 이자율 : 15%",
+    "loanLimit": "- LTV 70% 등",
+    "disclosureStartDay": "20230116",
+    "disclosureEndDay": "",
+    "longRateDTO": [
+      {
+        "id": 68,
+        "rateType": "변동금리",
+        "repayType": "만기일시상환방식",
+        "minRate": 5.84,
+        "maxRate": 6.64,
+        "mortgageType": "아파트외",
+        "avgRate": null
+      },
+      {
+        "id": 69,
+        "rateType": "변동금리",
+        "repayType": "분할상환방식",
+        "minRate": 6.65,
+        "maxRate": 7.55,
+        "mortgageType": "아파트외",
+        "avgRate": null
+      },
+      {
+        "id": 70,
+        "rateType": "고정금리",
+        "repayType": "만기일시상환방식",
+        "minRate": 5.21,
+        "maxRate": 6.01,
+        "mortgageType": "아파트외",
+        "avgRate": null
+      },
+      {
+        "id": 71,
+        "rateType": "고정금리",
+        "repayType": "분할상환방식",
+        "minRate": 5.38,
+        "maxRate": 6.28,
+        "mortgageType": "아파트외",
+        "avgRate": null
+      },
+      {
+        "id": 72,
+        "rateType": "변동금리",
+        "repayType": "만기일시상환방식",
+        "minRate": 5.84,
+        "maxRate": 6.64,
+        "mortgageType": "아파트",
+        "avgRate": null
+      },
+      {
+        "id": 73,
+        "rateType": "변동금리",
+        "repayType": "분할상환방식",
+        "minRate": 6.65,
+        "maxRate": 7.55,
+        "mortgageType": "아파트",
+        "avgRate": null
+      },
+      {
+        "id": 74,
+        "rateType": "고정금리",
+        "repayType": "만기일시상환방식",
+        "minRate": 5.21,
+        "maxRate": 6.01,
+        "mortgageType": "아파트",
+        "avgRate": null
+      },
+      {
+        "id": 75,
+        "rateType": "고정금리",
+        "repayType": "분할상환방식",
+        "minRate": 5.38,
+        "maxRate": 6.28,
+        "mortgageType": "아파트",
+        "avgRate": null
+      }
+    ],
+    "productId": "1"
+  },
+  "message": "정상 출력"
+}

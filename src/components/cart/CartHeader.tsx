@@ -11,9 +11,7 @@ const CartHeader = () => {
       <button onClick={() => navigate(-1)}>
         <HiOutlineChevronLeft />
       </button>
-
       <h1>장바구니</h1>
-
       <div />
     </StyledHeader>
   );
