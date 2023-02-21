@@ -2,7 +2,6 @@ import colors from "constants/colors";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import ItemList from "components/ItemList";
-import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -125,7 +124,11 @@ const Main = () => {
                 <ItemList
                   key={item.id}
                   item={item}
-                  icon={<MdKeyboardArrowRight />}
+                  icon={
+                    <Link to={`/product/${item.id}`}>
+                      <HiOutlineChevronRight />
+                    </Link>
+                  }
                 />
               );
             })

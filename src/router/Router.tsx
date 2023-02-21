@@ -16,6 +16,7 @@ import Search from "pages/Search";
 import NotFound from "pages/NotFound";
 import Order from "pages/Order";
 import User from "pages/User";
+import CompleteOrder from "pages/CompleteOrder";
 import MyPageLayout from "components/layout/MypageLayout";
 import GotoBackLayout from "components/layout/GotoBackLayout";
 
@@ -29,6 +30,7 @@ const Router = createBrowserRouter(
 
       <Route path="/cart" element={<Cart />} />
       <Route path="/product/:id" element={<ProductDetail />} />
+      <Route path="/completeOrder" element={<CompleteOrder />} />
       <Route element={<Root />}>
         <Route path="/" element={<Main />} />
         <Route path="/search/:value" element={<Search />} />
