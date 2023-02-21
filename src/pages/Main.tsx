@@ -65,7 +65,6 @@ const Main = () => {
                       <HiOutlineChevronRight />
                     </Link>
                   }
-                  cart={false}
                 />
               );
             })

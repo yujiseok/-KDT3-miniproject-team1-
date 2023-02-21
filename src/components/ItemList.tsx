@@ -7,7 +7,7 @@ import styled from "styled-components";
 interface ListProps {
   item: ItemType;
   icon: JSX.Element;
-  cart: boolean;
+  cart?: boolean;
   checkedItems?: string[];
   setCheckedItems?: React.Dispatch<SetStateAction<string[]>>;
 }
@@ -32,9 +32,9 @@ const ItemList = ({
     }
   };
   return (
-    <ListContent cart={cart}>
+    <ListContent cart={typeof cart === "boolean" ? cart : false}>
       <CheckBox
-        cart={cart}
+        cart={typeof cart === "boolean" ? cart : false}
         onChange={handleChecked}
         checked={!!checkedItems?.includes(item.id)}
       />
@@ -43,7 +43,7 @@ const ItemList = ({
           <img src={item.bankimg} alt="bank img" />
         </ImgContent>
 
-        <TextContent cart={cart}>
+        <TextContent cart={typeof cart === "boolean" ? cart : false}>
           <h3>{item.bank}</h3>
           <p>{item.title}</p>
           <h3>평균 {item.avg_rate}%</h3>

@@ -72,7 +72,6 @@ const Likes = () => {
                   </Link>
                 </IconWrapper>
               }
-              cart={false}
             />
 
             // <List key={id}>
