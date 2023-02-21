@@ -5,7 +5,13 @@ import ItemList from "components/ItemList";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
+import "swiper/scss";
+import "swiper/scss/pagination";
+
 import data from "data/listData.json";
+import { HiOutlineChevronRight } from "react-icons/hi2";
 
 export type ItemType = {
   id: string;
@@ -22,7 +28,7 @@ const Main = () => {
   useEffect(() => {
     async function getData() {
       try {
-        setRecommend(data.items);
+        await setRecommend(data.items);
       } catch (error) {
         console.log(error);
       }
@@ -30,9 +36,39 @@ const Main = () => {
     getData();
   }, []);
 
+  // return (
+  //   <MainContent>
+  //     <TitleContent>
+  //       <h2>
+  //         <span>###</span> 님이
+  //         <br />
+  //         신청하신 대출 정보 입니다.
+  //       </h2>
+  //     </TitleContent>
+
+  //     <OrderContent>
+  //       <Swiper
+  //         modules={[Pagination]}
+  //         pagination={{ clickable: true }}
+  //         loop={false} // 루프 슬라이드
+  //         spaceBetween={10} // 슬라이드간의 간격
+  //         slidesPerView={1} // 한 번에 보여지는 슬라이드 개수
+  //       >
+  //         {recommend.map((item) => {
+  //           return (
+  //             <SwiperSlide key={item.id}>
+  //               <ItemList item={item} icon={<HiOutlineChevronRight />} />
+  //             </SwiperSlide>
+  //           );
+  //         })}
+  //       </Swiper>
+  //     </OrderContent>
+  //   </MainContent>
+  // );
+
   return (
     <MainContent>
-      <TitleContent>
+      {/* <TitleContent>
         <h2>
           안녕하세요 <span>사이트 이름</span> 입니다.
         </h2>
@@ -50,10 +86,39 @@ const Main = () => {
         <Link to="/signin">
           <BtnIndigo>로그인</BtnIndigo>
         </Link>
-      </BtnContent>
+      </BtnContent> */}
+
+      <TitleContent>
+        <h2>
+          <span>###</span> 님이
+          <br />
+          신청하신 대출 정보 입니다.
+        </h2>
+      </TitleContent>
+
+      <OrderContent>
+        <Swiper
+          modules={[Pagination]}
+          pagination={{ clickable: true }}
+          loop={false} // 루프 슬라이드
+          spaceBetween={10} // 슬라이드간의 간격
+          slidesPerView={1} // 한 번에 보여지는 슬라이드 개수
+        >
+          {recommend.map((item) => {
+            return (
+              <SwiperSlide key={item.id}>
+                <ItemList item={item} icon={<HiOutlineChevronRight />} />
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      </OrderContent>
 
       <RecommendContent>
-        <h2>가장 인기 있는 대출 상품입니다.</h2>
+        {/* <h2>가장 인기 있는 대출 상품입니다.</h2> */}
+        <h2 className="recommend">
+          <span>###</span> 님의 맞춤 대출 정보 입니다.
+        </h2>
         {recommend.length > 0
           ? recommend.map((item) => {
               return (
@@ -96,6 +161,26 @@ const BtnContent = styled.div`
   }
 `;
 
+const OrderContent = styled.div`
+  .swiper {
+    display: flex;
+    flex-flow: row;
+    .swiper-wrapper {
+      display: flex;
+      flex-flow: row;
+    }
+    .swiper-pagination-bullet {
+      background-color: transparent;
+      border: 1px solid ${colors["INDIGO-9"]};
+      opacity: 1;
+      margin: 0 2px;
+    }
+    .swiper-pagination-bullet-active {
+      background-color: ${colors["INDIGO-9"]};
+    }
+  }
+`;
+
 const BtnWhite = styled.button`
   background-color: #fff;
   color: ${colors["INDIGO-9"]};
@@ -116,9 +201,13 @@ const BtnIndigo = styled.button`
 `;
 
 const RecommendContent = styled.ul`
-  margin-top: 70px;
-  h2 {
-    margin-bottom: 30px;
+  margin-top: 50px;
+  .recommend {
+    margin-bottom: 40px;
+    span {
+      color: ${colors["INDIGO-9"]};
+    }
   }
 `;
+
 export default Main;

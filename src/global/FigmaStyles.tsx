@@ -42,7 +42,7 @@ export const Info = styled.div`
   color: ${(props) => props.color || colors["GRAY-9"]};
 `;
 
-export const Input = styled.div`
+export const InputFontStyle = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
