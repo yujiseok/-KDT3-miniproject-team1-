@@ -36,7 +36,6 @@ const SignUp = () => {
     console.log(data);
   };
 
-
   const inputs: InputField[] = [
     {
       name: "이름",
@@ -210,9 +209,7 @@ const SignUp = () => {
 
         <SummitBox>
           <Button type="submit">
-            <Bold color={colors["GRAY-0"]}>
-              회원가입
-            </Bold>
+            <Bold color={colors["GRAY-0"]}>회원가입</Bold>
           </Button>
           <Signin color={colors["GRAY-9"]}>
             <Link to="/signin"> 로그인</Link>
