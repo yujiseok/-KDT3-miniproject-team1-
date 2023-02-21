@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Bold, Pretendard } from "global/FigmaStyles";
 import { Container, TitleBox } from "components/auth/StyledUtils";
@@ -24,7 +24,7 @@ const inputs: InputFields[] = [
     label: "email",
     placeholder: "email@example.com",
     options: {
-      required: { value: true, message: "이메일을 작성해주세요" },
+      required: { value: true, message: "이메일을 입력해주세요" },
       pattern: {
         value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
         message: "이메일 주소를 확인해주세요.",
@@ -38,7 +38,12 @@ const inputs: InputFields[] = [
     type: "password",
     placeholder: "Password",
     options: {
-      required: { value: true, message: "비밀번호를 작성해주세요" },
+      required: { value: true, message: "비밀번호를 입력해주세요" },
+      minLength: { value: 8, message: "비밀번호는 8자 이상 입력해주세요." },
+      maxLength: {
+        value: 20,
+        message: "비밀번호는 20자 이하로 입력해주세요.",
+      },
       pattern: {
         value:
           /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
@@ -67,8 +72,11 @@ const SignIn = () => {
     formState: { errors },
   } = useForm<IForm>();
 
+  const navigate = useNavigate();
+
   const onSubmit = (data: IForm) => {
     console.log(data);
+    navigate("/");
   };
 
   return (
@@ -78,12 +86,13 @@ const SignIn = () => {
         <Bold>회원 로그인</Bold>
       </TitleBox>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {inputs.map(({ label, type, options, Prefix, name }) => (
+        {inputs.map(({ label, type, options, Prefix, name, placeholder }) => (
           <InputModule
             key={label}
             Prefix={Prefix}
             name={name}
             register={register}
+            placeholder={placeholder}
             label={label}
             type={type}
             options={options}
