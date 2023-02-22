@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import type { AxiosError, AxiosRequestConfig } from "axios";
+import { AxiosError } from "axios";
+import type { AxiosRequestConfig } from "axios";
 import { client } from "api/api";
 import { useNavigate } from "react-router-dom";
 
@@ -31,10 +32,15 @@ export const useAxios = () => {
       setResponse(result.data);
     } catch (err: AxiosError | unknown) {
       console.log("에러", err);
-      console.log("에러", err.response.status);
-      if (err.response.status === 401) {
-        console.log("401에러");
+      if (err instanceof AxiosError) {
+        if (err.response) {
+          console.log("에러", err.response.status);
+          if (err.response.status === 401) {
+            console.log("401에러");
+          }
+        }
       }
+
       setError(err);
     } finally {
       setLoading(() => false);
