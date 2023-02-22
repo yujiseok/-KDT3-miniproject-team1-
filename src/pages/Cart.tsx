@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import colors from "constants/colors";
 import { useNavigate } from "react-router-dom";
 import ItemList from "components/ItemList";
 import { GrFormClose } from "react-icons/gr";
 import data from "data/listData.json";
-import CartHeader from "components/cart/CartHeader";
 import { getCart } from "api/api";
 import { useQuery } from "@tanstack/react-query";
 import type { ItemType } from "./Main";
@@ -23,7 +22,7 @@ const Cart = () => {
     const { checked } = event.target;
     if (checked) {
       const newArr: string[] = [];
-      data.items.forEach((item) => newArr.push(item.id));
+      data.items.forEach((item) => newArr.push(item.productId));
       setCheckedItems(newArr);
     } else {
       setCheckedItems([]);
@@ -37,11 +36,10 @@ const Cart = () => {
   } = useQuery(["cart"], () => getCart());
   const emptyCart = cartItems?.length === 0;
 
-  console.log(cartItems);
+  // console.log(cartItems);
 
   return (
     <Wrapper>
-      <CartHeader />
       {emptyCart ? (
         <EmptyCart>장바구니에 담긴 상품이 없습니다.</EmptyCart>
       ) : (
@@ -54,7 +52,7 @@ const Cart = () => {
             전체 선택
           </CheckWrapper>
           {cartItems &&
-            cartItems.map((item: any) => (
+            cartItems.map((item: ItemType) => (
               <ItemList
                 key={item.productId}
                 item={item}

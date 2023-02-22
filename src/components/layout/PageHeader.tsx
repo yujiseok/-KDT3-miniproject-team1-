@@ -1,33 +1,44 @@
-import React from "react";
-import styled from "styled-components";
+import colors from "constants/colors";
 import { HiOutlineChevronLeft } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
-import colors from "constants/colors";
+import styled from "styled-components";
 
-const CartHeader = () => {
+const PageHeader = () => {
   const navigate = useNavigate();
+
   return (
     <StyledHeader>
       <button onClick={() => navigate(-1)}>
         <HiOutlineChevronLeft />
       </button>
-      <h1>장바구니</h1>
+
+      <h1>
+        <Link to="/">Lonsliy</Link>
+      </h1>
+
       <div />
     </StyledHeader>
   );
 };
 
 const StyledHeader = styled.header`
-  height: 56px;
+  height: 58px;
   width: 100%;
   padding: 0 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  h1 {
+    margin-right: 28px;
+    /* font-size: 28px; */
+    color: ${colors["INDIGO-9"]};
+  }
+
   svg {
     font-size: 20px;
     color: ${colors["GRAY-9"]};
   }
 `;
 
-export default CartHeader;
+export default PageHeader;

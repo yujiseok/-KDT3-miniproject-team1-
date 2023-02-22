@@ -13,10 +13,10 @@ import data from "data/listData.json";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 
 export type ItemType = {
-  id: string;
-  title: string;
-  bank: string;
-  bankimg: string;
+  productId: string;
+  productName: string;
+  bankName: string;
+  bankImgPath: string;
   avg_rate: string;
   type: string;
 };
@@ -105,7 +105,7 @@ const Main = () => {
         >
           {recommend.map((item) => {
             return (
-              <SwiperSlide key={item.id}>
+              <SwiperSlide key={item.productId}>
                 <ItemList item={item} icon={<HiOutlineChevronRight />} />
               </SwiperSlide>
             );
@@ -122,10 +122,10 @@ const Main = () => {
           ? recommend.map((item) => {
               return (
                 <ItemList
-                  key={item.id}
+                  key={item.productId}
                   item={item}
                   icon={
-                    <Link to={`/product/${item.id}`}>
+                    <Link to={`/product/${item.productId}`}>
                       <HiOutlineChevronRight />
                     </Link>
                   }
