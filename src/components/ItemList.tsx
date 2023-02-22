@@ -82,8 +82,8 @@ const CheckBox = styled.input.attrs({ type: "checkbox" })<{ cart: boolean }>`
 
 const ImgContent = styled.div`
   width: 16%;
-  margin-top: -60px;
-  margin-left: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
   img {
     width: 100%;
     margin-top: 7px;
