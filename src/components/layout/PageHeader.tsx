@@ -13,7 +13,7 @@ const PageHeader = () => {
       </button>
 
       <h1>
-        <Link to="/">Home</Link>
+        <Link to="/">Lonsliy</Link>
       </h1>
 
       <div />
@@ -22,12 +22,19 @@ const PageHeader = () => {
 };
 
 const StyledHeader = styled.header`
-  height: 56px;
+  height: 58px;
   width: 100%;
   padding: 0 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  h1 {
+    margin-right: 28px;
+    /* font-size: 28px; */
+    color: ${colors["INDIGO-9"]};
+  }
+
   svg {
     font-size: 20px;
     color: ${colors["GRAY-9"]};
