@@ -56,12 +56,10 @@ const SkeletonWrapper = styled.div`
 
 const ProductSkeleton = styled.div<SkeletonStyleProps>`
   height: ${(props) => props.height || "14px"};
-  width: ${(props) => props.width || "80%"};
+  width: ${(props) => props.width || "85%"};
   animation: ${skeletonKeyframes} 1300ms ease-in-out infinite;
   background-color: #eee;
   background-image: linear-gradient(90deg, #eee, #f5f5f5, #eee);
-  /* background-color: ${colors["GRAY-2"]};
-  background-image: linear-gradient(90deg, #eee, #f5f5f5, #eee); */
   background-size: 200px 100%;
   background-repeat: no-repeat;
   border-radius: 4px;

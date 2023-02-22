@@ -3,7 +3,7 @@ import { HiOutlineChevronLeft } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const Header = () => {
+const PageHeader = () => {
   const navigate = useNavigate();
 
   return (
@@ -34,4 +34,4 @@ const StyledHeader = styled.header`
   }
 `;
 
-export default Header;
+export default PageHeader;

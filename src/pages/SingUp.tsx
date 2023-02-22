@@ -96,7 +96,6 @@ const SignUp = () => {
   const onSubmit = (data: FormValues) => {
     console.log(data);
   };
-  console.log("값 체크", watch(), errors);
 
   const inputs: InputField[] = [
     {

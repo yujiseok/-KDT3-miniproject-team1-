@@ -13,18 +13,18 @@ const validationSchema = z
       .min(8, "비밀번호는 8자 이상 입력해주세요.")
       .max(20, "비밀번호는 20자 이하로 입력해주세요.")
       .regex(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/,
+        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
 
-        "8자 이상 20자 이하 영어 대·소문자, 숫자, 특수문자!@#$%^&*가 포함되어야 합니다.",
+        "8-20자 영문, 숫자, 특수문자를 사용하세요.",
       ),
     confirmPassword: z
       .string()
       .min(8, "비밀번호는 8자 이상 입력해주세요.")
       .max(20, "비밀번호는 20자 이하로 입력해주세요.")
       .regex(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/,
+        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
 
-        "8자 이상 20자 이하 영어 대·소문자, 숫자, 특수문자!@#$%^&*가 포함되어야 합니다.",
+        "8-20자 영문, 숫자, 특수문자를 사용하세요.",
       ),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -52,14 +52,16 @@ const UserForm = ({ onSubmit }: IUserForm) => {
       <TextFiled
         id="username"
         label="이름"
+        placeholder="2글자 이상 입력해주세요."
         error={errors.username?.message}
         register={register("username")}
       />
 
       <TextFiled
         id="password"
-        label="비밀번호 번경"
+        label="비밀번호 변경"
         type="password"
+        placeholder="8-20자 영문, 숫자, 특수문자를 사용하세요."
         error={errors.password?.message}
         register={register("password")}
       />
@@ -67,6 +69,7 @@ const UserForm = ({ onSubmit }: IUserForm) => {
         id="confirmPassword"
         label="비밀번호 확인"
         type="password"
+        placeholder="8-20자 영문, 숫자, 특수문자를 사용하세요."
         error={errors.confirmPassword?.message}
         register={register("confirmPassword")}
       />
