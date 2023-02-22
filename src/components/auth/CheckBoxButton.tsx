@@ -1,14 +1,8 @@
-import { Pretendard, Info, InputFontStyle, Bold } from "global/FigmaStyles";
-import { MdInfo } from "react-icons/md";
+import { Pretendard } from "global/FigmaStyles";
 import colors from "constants/colors";
 import styled from "styled-components";
 import type { FormValues } from "pages/SingUp";
-import type {
-  FieldError,
-  FieldValues,
-  UseFormRegister,
-  RegisterOptions,
-} from "react-hook-form";
+import type { UseFormRegister, RegisterOptions } from "react-hook-form";
 import { GroupLeftBox } from "./StyledUtils";
 
 interface Props {

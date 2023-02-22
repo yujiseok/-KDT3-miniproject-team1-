@@ -9,7 +9,7 @@ import { z } from "zod";
 import type { FieldError, RegisterOptions } from "react-hook-form";
 import { MdAlternateEmail } from "react-icons/md";
 import { CgLock } from "react-icons/cg";
-import InputModule from "components/auth/InputModule";
+import InputModule from "components/auth/SigninInputModule";
 
 const validationSchema = z.object({
   email: z
@@ -55,12 +55,10 @@ const inputs: InputFields[] = [
   },
 ];
 
-type IForm = Record<string, FieldError | string>;
-
 interface InputFields {
   Prefix?: JSX.Element;
   name: string;
-  label: string;
+  label: keyof FormValues;
   type?: string;
   options?: RegisterOptions;
   placeholder?: string;
@@ -72,11 +70,11 @@ const SignIn = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<IForm>();
+  } = useForm<FormValues>();
 
   const navigate = useNavigate();
 
-  const onSubmit = (data: IForm) => {
+  const onSubmit = (data: FormValues) => {
     console.log(data);
     navigate("/");
   };
@@ -90,7 +88,7 @@ const SignIn = () => {
         <Bold>회원 로그인</Bold>
       </TitleBox>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {inputs.map(({ label, type, options, Prefix, name, placeholder }) => (
+        {inputs.map(({ label, type, Prefix, name, placeholder }) => (
           <InputModule
             key={label}
             Prefix={Prefix}
@@ -99,7 +97,6 @@ const SignIn = () => {
             placeholder={placeholder}
             label={label}
             type={type}
-            options={options}
             error={
               typeof errors[label] !== "string" ? errors[label] : undefined
             }

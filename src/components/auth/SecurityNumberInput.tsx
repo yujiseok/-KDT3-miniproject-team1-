@@ -1,6 +1,5 @@
 import type {
   FieldError,
-  FieldValues,
   UseFormRegister,
   RegisterOptions,
 } from "react-hook-form";
