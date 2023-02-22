@@ -67,8 +67,8 @@ const ListContent = styled.li<{ cart: boolean }>`
   a {
     display: flex;
     justify-content: center;
-    align-items: ${(props) => (props.cart ? "center" : "normal")};
-    width: 100%;
+    align-items: center;
+    width: 90%;
   }
   &:last-child {
     border: none;
@@ -81,10 +81,11 @@ const CheckBox = styled.input.attrs({ type: "checkbox" })<{ cart: boolean }>`
 `;
 
 const ImgContent = styled.div`
-  width: 13%;
+  width: 15%;
   margin-right: 20px;
+  margin-top: -60px;
   img {
-    width: 90%;
+    width: 100%;
     margin-top: 7px;
   }
 `;
