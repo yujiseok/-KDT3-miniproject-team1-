@@ -74,7 +74,7 @@ const ArrowBtn = styled.button`
   cursor: pointer;
 `;
 
-const Nav = styled.nav`
+const Nav = styled.ul`
   display: flex;
   gap: 1rem;
   align-items: center;
