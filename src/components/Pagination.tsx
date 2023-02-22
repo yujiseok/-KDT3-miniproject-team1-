@@ -37,7 +37,7 @@ const Pagination = ({ total, limit, page, setPage }: PaginationProps) => {
   );
 };
 
-const NumBtn = styled.button<{ current: string }>`
+const NumBtn = styled.li<{ current: string }>`
   display: flex;
   align-items: center;
   font-size: 15px;
