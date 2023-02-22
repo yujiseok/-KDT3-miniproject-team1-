@@ -12,6 +12,7 @@ const Layout = () => {
       {pathname.includes("mypage") ||
       pathname.includes("signup") ||
       pathname.includes("signin") ||
+      pathname.includes("product") ||
       pathname.includes("cart") ? (
         <PageHeader />
       ) : (
