@@ -6,12 +6,14 @@ import ItemList from "components/ItemList";
 import { GrFormClose } from "react-icons/gr";
 import data from "data/listData.json";
 import CartHeader from "components/cart/CartHeader";
+import { getCart } from "api/api";
+import { useQuery } from "@tanstack/react-query";
 import type { ItemType } from "./Main";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState<ItemType[]>(data.items);
+  // const [cartItems, setCartItems] = useState<ItemType[]>(data.items);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
-  const emptyCart = cartItems?.length === 0;
+
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/completeOrder");
@@ -28,6 +30,15 @@ const Cart = () => {
     }
   };
 
+  const {
+    isLoading,
+    error,
+    data: cartItems,
+  } = useQuery(["cart"], () => getCart());
+  const emptyCart = cartItems?.length === 0;
+
+  console.log(cartItems);
+
   return (
     <Wrapper>
       <CartHeader />
@@ -43,9 +54,9 @@ const Cart = () => {
             전체 선택
           </CheckWrapper>
           {cartItems &&
-            cartItems.map((item) => (
+            cartItems.map((item: any) => (
               <ItemList
-                key={item.id}
+                key={item.productId}
                 item={item}
                 icon={<GrFormClose />}
                 cart
