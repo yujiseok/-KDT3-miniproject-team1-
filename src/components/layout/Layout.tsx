@@ -7,8 +7,6 @@ import styled from "styled-components";
 const Layout = () => {
   const { pathname } = useLocation();
 
-  console.log(pathname.includes("/"));
-
   return (
     <>
       {pathname.includes("mypage") ||
