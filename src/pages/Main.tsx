@@ -21,6 +21,25 @@ export type ItemType = {
   type: string;
 };
 
+// export type Itemtype = {
+//   id: string;
+//   productName: string;
+//   bankName: string;
+//   bankImgPath: string;
+//   categoryName: string;
+//   loanRateList: LoanRateList[];
+// };
+
+// interface LoanRateList {
+//   id: number;
+//   rateType: string;
+//   repayType: string;
+//   minRate: number;
+//   maxRate: number;
+//   avgRate: number;
+//   mortgageType: string;
+// }
+
 const Main = () => {
   const [recommend, setRecommend] = useState<Array<ItemType>>([]);
 
