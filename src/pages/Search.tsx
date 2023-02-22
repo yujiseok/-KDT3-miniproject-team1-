@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { BiSearchAlt } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
 import colors from "constants/colors";
+import Pagination from "components/Pagination";
 import { RiFileListLine } from "react-icons/ri";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 
@@ -15,6 +16,10 @@ const Search = () => {
   const searchValue = location.state;
 
   const [result, setResult] = useState<Array<ItemType>>([]);
+
+  const [page, setPage] = useState<number>(1);
+  const limit = 4;
+  const offset = (page - 1) * limit;
 
   useEffect(() => {
     async function getData() {
@@ -49,7 +54,7 @@ const Search = () => {
         </NullContent>
       ) : (
         <ResultContent>
-          {result.map((item) => {
+          {result.slice(offset, offset + limit).map((item) => {
             return (
               <ItemList
                 key={item.id}
@@ -58,6 +63,14 @@ const Search = () => {
               />
             );
           })}
+          {Array.isArray(result) ? (
+            <Pagination
+              total={result.length}
+              limit={limit}
+              page={page}
+              setPage={setPage}
+            />
+          ) : null}
         </ResultContent>
       )}
     </SearchContent>
