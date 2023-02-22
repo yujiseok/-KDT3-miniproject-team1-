@@ -158,7 +158,7 @@ const Main = () => {
 };
 
 const MainContent = styled.div`
-  padding: 0 12px 0 12px;
+  padding: 90px 12px 0 12px;
 `;
 
 const TitleContent = styled.div`
