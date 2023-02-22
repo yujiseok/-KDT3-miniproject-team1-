@@ -4,9 +4,10 @@ import styled, { css } from "styled-components";
 
 interface ITextFiled {
   id: "username" | "password" | "confirmPassword";
-  label: "이름" | "비밀번호 번경" | "비밀번호 확인";
+  label: "이름" | "비밀번호 변경" | "비밀번호 확인";
   type?: "text" | "password";
   error?: string;
+  placeholder?: string;
   register?: {
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onBlur: (e: FocusEvent<HTMLInputElement>) => void;
@@ -22,12 +23,24 @@ interface ITextFiled {
   };
 }
 
-const TextFiled = ({ id, label, type, error, register }: ITextFiled) => {
+const TextFiled = ({
+  id,
+  label,
+  type,
+  error,
+  placeholder,
+  register,
+}: ITextFiled) => {
   return (
     <>
       <InputWrapper>
         <Label htmlFor={id}>{label}</Label>
-        <input {...(register ?? {})} type={type ?? "text"} id={id} />
+        <input
+          {...(register ?? {})}
+          type={type ?? "text"}
+          id={id}
+          placeholder={placeholder}
+        />
       </InputWrapper>
       {error ? <ErrorMessage>{error}</ErrorMessage> : null}
     </>
@@ -54,6 +67,7 @@ const InputWrapper = styled.div`
 
     &::placeholder {
       color: ${colors["GRAY-7"]};
+      font-size: 14px;
     }
   }
 `;

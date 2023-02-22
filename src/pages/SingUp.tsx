@@ -31,17 +31,10 @@ const SignUp = () => {
     watch,
     formState: { errors },
   } = useForm<IForm>();
-  const completeFroms = Object.keys(watch()).length;
-  const errorForms = Object.keys(errors).length;
 
   const onSubmit = (data: IForm) => {
     console.log(data);
   };
-
-  useEffect(() => {
-    handleSubmit(onSubmit)();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const inputs: InputField[] = [
     {
@@ -76,7 +69,7 @@ const SignUp = () => {
       name: "비밀번호",
       label: "new-password",
       type: "password",
-      placeholder: "Password",
+      placeholder: "8-20자 영문, 숫자, 특수문자를 사용하세요",
       options: {
         required: { value: true, message: "비밀번호를 입력해주세요" },
         minLength: { value: 8, message: "비밀번호는 8자 이상 입력해주세요." },
@@ -95,7 +88,7 @@ const SignUp = () => {
       name: "비밀번호 확인",
       label: "current-password",
       type: "password",
-      placeholder: "Password",
+      placeholder: "8-20자 영문, 숫자, 특수문자를 사용하세요",
       options: {
         required: { value: true, message: "비밀번호를 다시 입력해주세요" },
         minLength: { value: 8, message: "비밀번호는 8자 이상 입력해주세요." },
@@ -216,9 +209,7 @@ const SignUp = () => {
 
         <SummitBox>
           <Button type="submit">
-            <Bold color={colors["GRAY-0"]}>
-              회원가입 {completeFroms - errorForms}/{completeFroms}
-            </Bold>
+            <Bold color={colors["GRAY-0"]}>회원가입</Bold>
           </Button>
           <Signin color={colors["GRAY-9"]}>
             <Link to="/signin"> 로그인</Link>

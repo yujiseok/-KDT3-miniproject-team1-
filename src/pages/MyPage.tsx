@@ -19,7 +19,7 @@ interface LinkItem {
 const LINK_ITEM: LinkItem[] = [
   {
     icon: <HiOutlineUserCircle />,
-    to: "user",
+    to: "user/password",
     label: "회원정보 수정",
   },
   // {
