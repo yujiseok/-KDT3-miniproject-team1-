@@ -37,7 +37,7 @@ const Pagination = ({ total, limit, page, setPage }: PaginationProps) => {
   );
 };
 
-const NumBtn = styled.li<{ current: string }>`
+const NumBtn = styled.button<{ current: string }>`
   display: flex;
   align-items: center;
   font-size: 15px;
@@ -74,7 +74,7 @@ const ArrowBtn = styled.button`
   cursor: pointer;
 `;
 
-const Nav = styled.ul`
+const Nav = styled.li`
   display: flex;
   gap: 1rem;
   align-items: center;
