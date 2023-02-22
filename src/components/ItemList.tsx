@@ -3,9 +3,10 @@ import type { ItemType } from "pages/Main";
 import type { SetStateAction } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import type { Item } from "types/itemType";
 
 interface ListProps {
-  item: ItemType;
+  item: Item;
   icon: JSX.Element;
   cart?: boolean;
   checkedItems?: string[];
@@ -19,16 +20,16 @@ const ItemList = ({
   checkedItems,
   setCheckedItems,
 }: ListProps) => {
-  const detailUrl = `/product/${item.id}`;
+  const detailUrl = `/product/${item.productId}`;
   const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
     if (!checkedItems || !setCheckedItems) {
       return;
     }
     if (checked) {
-      setCheckedItems((prev) => [...prev, item.id]);
+      setCheckedItems((prev) => [...prev, item.productId as string]);
     } else {
-      setCheckedItems(checkedItems.filter((el) => el !== item.id));
+      setCheckedItems(checkedItems.filter((el) => el !== item.productId));
     }
   };
   return (
@@ -36,20 +37,18 @@ const ItemList = ({
       <CheckBox
         cart={typeof cart === "boolean" ? cart : false}
         onChange={handleChecked}
-        checked={!!checkedItems?.includes(item.id)}
+        checked={!!checkedItems?.includes(item.productId as string)}
       />
       <Link to={detailUrl}>
         <ImgContent>
-          <img src={item.bankimg} alt="bank img" />
+          <img src={item.bankImgPath} alt="bank img" />
         </ImgContent>
 
         <TextContent cart={typeof cart === "boolean" ? cart : false}>
-          <h3>{item.bank}</h3>
-          <p>{item.title}</p>
-          <h2>평균 {item.avg_rate}%</h2>
-          <TagContent>
-            <span>{item.type}</span>
-          </TagContent>
+          <h3>{item.bankName}</h3>
+          <p>{item.productName}</p>
+          {/* <h2>평균 {item.}%</h2> */}
+          <TagContent>{/* <span>{item.type}</span> */}</TagContent>
         </TextContent>
       </Link>
       <IconContent>{icon}</IconContent>
