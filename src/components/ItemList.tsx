@@ -67,7 +67,7 @@ const ListContent = styled.li<{ cart: boolean }>`
   a {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: ${(props) => (props.cart ? "center" : "normal")};
     width: 100%;
   }
   &:last-child {
