@@ -11,6 +11,27 @@ import { MdAlternateEmail } from "react-icons/md";
 import { CgLock } from "react-icons/cg";
 import InputModule from "components/auth/InputModule";
 
+const validationSchema = z.object({
+  email: z
+    .string()
+    .min(0, "이메일을 입력해주세요")
+    .regex(
+      /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+      "이메일 주소를 확인해주세요.",
+    ),
+  currentPassword: z
+    .string()
+    .min(8, "비밀번호는 8자 이상 입력해주세요.")
+    .max(20, "비밀번호는 20자 이하로 입력해주세요.")
+    .regex(
+      /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/,
+
+      "8-20자 영문, 숫자, 특수문자를 사용하세요.",
+    ),
+});
+
+export type FormValues = z.infer<typeof validationSchema>;
+
 const reactIcons = {
   verticalAlign: "middle",
   width: "24px",
@@ -24,33 +45,13 @@ const inputs: InputFields[] = [
     Prefix: <MdAlternateEmail style={reactIcons} />,
     label: "email",
     placeholder: "email@example.com",
-    options: {
-      required: { value: true, message: "이메일을 입력해주세요" },
-      pattern: {
-        value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-        message: "이메일 주소를 확인해주세요.",
-      },
-    },
   },
   {
     name: "비밀번호",
-    label: "current-password",
+    label: "currentPassword",
     Prefix: <CgLock style={reactIcons} />,
     type: "password",
     placeholder: "Password",
-    options: {
-      required: { value: true, message: "비밀번호를 입력해주세요" },
-      minLength: { value: 8, message: "비밀번호는 8자 이상 입력해주세요." },
-      maxLength: {
-        value: 20,
-        message: "비밀번호는 20자 이하로 입력해주세요.",
-      },
-      pattern: {
-        value:
-          /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
-        message: "8-20자 영문, 숫자, 특수문자를 사용하세요",
-      },
-    },
   },
 ];
 

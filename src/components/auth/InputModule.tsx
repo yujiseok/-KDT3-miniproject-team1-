@@ -5,7 +5,6 @@ import styled from "styled-components";
 import type { FormValues } from "pages/SingUp";
 import type {
   FieldError,
-  FieldValues,
   UseFormRegister,
   RegisterOptions,
 } from "react-hook-form";

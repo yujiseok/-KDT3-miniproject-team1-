@@ -3,16 +3,12 @@ import styled from "styled-components";
 import { Bold, Pretendard, Info } from "global/FigmaStyles";
 import { Container, TitleBox, GroupLeftBox } from "components/auth/StyledUtils";
 import colors from "constants/colors";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import type { FieldError, RegisterOptions } from "react-hook-form";
-import { MdAlternateEmail, MdInfo } from "react-icons/md";
-import { CgLock } from "react-icons/cg";
+import { MdInfo } from "react-icons/md";
 import InputModule from "components/auth/InputModule";
 import SecurityNumberInput from "components/auth/SecurityNumberInput";
 import CheckBoxButton from "components/auth/CheckBoxButton";
-import { useAxios } from "hooks/useAxios";
-import Loading from "components/Loading";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -37,18 +33,18 @@ const validationSchema = z
       .min(8, "비밀번호는 8자 이상 입력해주세요.")
       .max(20, "비밀번호는 20자 이하로 입력해주세요.")
       .regex(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/,
+        /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/,
 
-        "8자 이상 20자 이하 영어 대·소문자, 숫자, 특수문자!@#$%^&*가 포함되어야 합니다.",
+        "8-20자 영문, 숫자, 특수문자를 사용하세요.",
       ),
     currentPassword: z
       .string()
       .min(8, "비밀번호는 8자 이상 입력해주세요.")
       .max(20, "비밀번호는 20자 이하로 입력해주세요.")
       .regex(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/,
+        /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/,
 
-        "8자 이상 20자 이하 영어 대·소문자, 숫자, 특수문자!@#$%^&*가 포함되어야 합니다.",
+        "8-20자 영문, 숫자, 특수문자를 사용하세요.",
       ),
     interest: z.string().array().nonempty({
       message: "최소 한 개 이상 선택해주세요",
@@ -81,7 +77,53 @@ interface InputField {
 }
 
 type IForm = Record<string, FieldError | string>;
+const inputs: InputField[] = [
+  {
+    name: "이름",
+    label: "username",
+    placeholder: "홍길동",
+  },
+  {
+    name: "이메일",
+    label: "email",
+    placeholder: "email@example.com",
+  },
+  {
+    name: "비밀번호",
+    label: "newPassword",
+    type: "password",
+    placeholder: "8-20자 영문, 숫자, 특수문자를 사용하세요",
+  },
+  {
+    name: "비밀번호 확인",
+    label: "currentPassword",
+    type: "password",
+    placeholder: "8-20자 영문, 숫자, 특수문자를 사용하세요",
+  },
+];
 
+const interests: InputField[] = [
+  {
+    name: "신용대출",
+    label: interestsLabel,
+  },
+  {
+    name: "생활비대출",
+    label: interestsLabel,
+  },
+  {
+    name: "주택담보대출",
+    label: interestsLabel,
+  },
+  {
+    name: "저소득자대출",
+    label: interestsLabel,
+  },
+  {
+    name: "학자금 대출",
+    label: interestsLabel,
+  },
+];
 const SignUp = () => {
   const {
     register,
@@ -97,53 +139,6 @@ const SignUp = () => {
     console.log(data);
   };
 
-  const inputs: InputField[] = [
-    {
-      name: "이름",
-      label: "username",
-      placeholder: "홍길동",
-    },
-    {
-      name: "이메일",
-      label: "email",
-      placeholder: "email@example.com",
-    },
-    {
-      name: "비밀번호",
-      label: "newPassword",
-      type: "password",
-      placeholder: "8-20자 영문, 숫자, 특수문자를 사용하세요",
-    },
-    {
-      name: "비밀번호 확인",
-      label: "currentPassword",
-      type: "password",
-      placeholder: "8-20자 영문, 숫자, 특수문자를 사용하세요",
-    },
-  ];
-
-  const interests: InputField[] = [
-    {
-      name: "신용대출",
-      label: interestsLabel,
-    },
-    {
-      name: "생활비대출",
-      label: interestsLabel,
-    },
-    {
-      name: "주택담보대출",
-      label: interestsLabel,
-    },
-    {
-      name: "저소득자대출",
-      label: interestsLabel,
-    },
-    {
-      name: "학자금 대출",
-      label: interestsLabel,
-    },
-  ];
   return (
     <Container>
       <TitleBox>
