@@ -2,6 +2,7 @@ import { Pretendard, Info, InputFontStyle } from "global/FigmaStyles";
 import { MdInfo } from "react-icons/md";
 import colors from "constants/colors";
 import styled from "styled-components";
+import type { FormValues } from "pages/SingUp";
 import type {
   FieldError,
   FieldValues,
@@ -11,11 +12,11 @@ import type {
 import { GroupLeftBox } from "./StyledUtils";
 
 interface Props {
-  register: UseFormRegister<FieldValues>;
-  label: string;
+  register: UseFormRegister<FormValues>;
+  label: keyof FormValues;
   type?: string;
   options?: RegisterOptions;
-  error?: FieldError;
+  error?: FieldError | any;
   Prefix?: JSX.Element;
   name: string;
   placeholder?: string;

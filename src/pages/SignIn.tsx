@@ -3,8 +3,9 @@ import styled from "styled-components";
 import { Bold, Pretendard } from "global/FigmaStyles";
 import { Container, TitleBox } from "components/auth/StyledUtils";
 import colors from "constants/colors";
-
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import type { FieldError, RegisterOptions } from "react-hook-form";
 import { MdAlternateEmail } from "react-icons/md";
 import { CgLock } from "react-icons/cg";

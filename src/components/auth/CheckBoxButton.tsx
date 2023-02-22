@@ -2,6 +2,7 @@ import { Pretendard, Info, InputFontStyle, Bold } from "global/FigmaStyles";
 import { MdInfo } from "react-icons/md";
 import colors from "constants/colors";
 import styled from "styled-components";
+import type { FormValues } from "pages/SingUp";
 import type {
   FieldError,
   FieldValues,
@@ -11,13 +12,12 @@ import type {
 import { GroupLeftBox } from "./StyledUtils";
 
 interface Props {
-  register: UseFormRegister<FieldValues>;
-  label: string;
+  register: UseFormRegister<FormValues>;
+  label: keyof FormValues;
   type?: string;
   options?: RegisterOptions;
   Prefix?: JSX.Element;
   name: string;
-  error?: FieldError;
 }
 
 const CheckBoxButton = ({
@@ -26,7 +26,6 @@ const CheckBoxButton = ({
   label,
   type = "checkbox",
   options,
-  error,
 }: Props) => {
   return (
     <ButtonWarpper>
