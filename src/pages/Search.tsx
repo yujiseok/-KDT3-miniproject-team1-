@@ -81,6 +81,7 @@ const NullContent = styled.div`
   width: 100%;
   height: 100%;
   text-align: center;
+  margin-top: 90px;
   svg {
     margin-top: 250px;
     color: ${colors["GRAY-4"]};
@@ -92,6 +93,7 @@ const NullContent = styled.div`
 const SearchContent = styled.div`
   width: 100%;
   height: 100%;
+  margin-top: 90px;
   .title {
     margin: 0 10px;
     letter-spacing: 0.5px;
