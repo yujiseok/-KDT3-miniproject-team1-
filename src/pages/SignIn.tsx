@@ -6,10 +6,17 @@ import colors from "constants/colors";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import type { FieldError, RegisterOptions } from "react-hook-form";
+import type { RegisterOptions } from "react-hook-form";
 import { MdAlternateEmail } from "react-icons/md";
 import { CgLock } from "react-icons/cg";
 import InputModule from "components/auth/SigninInputModule";
+import Loading from "Loading";
+
+import { useAxios } from "hooks/useLoginAxios";
+import { useEffect } from "react";
+
+import { useAppSelector, useAppDispatch } from "app/hooks";
+import { loginAction, selectAccessToken, selectuserInfo } from "reducers/auth";
 
 const validationSchema = z.object({
   email: z
@@ -68,19 +75,48 @@ const SignIn = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<FormValues>();
-
+  } = useForm<FormValues>({
+    resolver: zodResolver(validationSchema),
+  });
   const navigate = useNavigate();
+  const { fetchData, cancelRequest, response, error, loading } = useAxios();
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (response) {
+      dispatch(loginAction(response.data));
+      navigate("/");
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response]);
+
+  // const count = useAppSelector(selectAccessToken);
+  // console.log("엑세스토큰", count);
+  // const info = useAppSelector(selectuserInfo);
+  // console.log("info", info);
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
-    navigate("/");
+    fetchData("/login", {
+      method: "post",
+      data: {
+        email: data.email,
+        password: data.currentPassword,
+      },
+    });
   };
 
   return (
     <Container>
+      {loading ? (
+        <Loading
+          loading={loading}
+          outerCount={5}
+          cancelRequest={cancelRequest}
+        />
+      ) : null}
       <TitleBox>
         <Link to="/">
           <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>

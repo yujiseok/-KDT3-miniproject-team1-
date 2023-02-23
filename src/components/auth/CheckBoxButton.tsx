@@ -8,26 +8,28 @@ import { GroupLeftBox } from "./StyledUtils";
 interface Props {
   register: UseFormRegister<FormValues>;
   label: keyof FormValues;
-  type?: string;
+
   options?: RegisterOptions;
   Prefix?: JSX.Element;
   name: string;
+  typeValue?: number;
 }
 
 const CheckBoxButton = ({
   name,
   register,
   label,
-  type = "checkbox",
+
   options,
+  typeValue,
 }: Props) => {
   return (
     <ButtonWarpper>
       <InputComp
         id={name}
-        type={type}
+        type="radio"
         {...register(`${label}`, options)}
-        value={name}
+        value={typeValue}
         style={{ display: "none" }}
       />
       <LoginEmail htmlFor={name}>{name}</LoginEmail>
