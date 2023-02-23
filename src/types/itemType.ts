@@ -1,10 +1,15 @@
 export interface Item {
-  productId?: string;
-  bankImgPath?: string;
-  bankName: string;
-  productName: string;
-  loanRateList: LoanRateList[];
+  productId: string;
+  avg_rate: string;
+  type?: string;
+  id?: string;
+  cartId?: number;
   loanLimit: string;
+  productName: string;
+  bankName: string;
+  bankImgPath: string;
+  productType?: string;
+  loanRateList: LoanRateList[];
 }
 
 export interface LoanRateList {
