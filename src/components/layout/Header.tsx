@@ -60,6 +60,7 @@ const HeaderContent = styled.header`
   gap: 20px;
   position: fixed;
   top: 0;
+  z-index: 5;
   svg {
     color: ${colors["INDIGO-9"]};
   }
