@@ -59,6 +59,7 @@ const Article = styled.article`
   }
   ul {
     li {
+      cursor: pointer;
       margin-bottom: 3px;
       &:hover {
         color: ${colors["INDIGO-9"]};
