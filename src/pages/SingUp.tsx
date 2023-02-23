@@ -103,9 +103,9 @@ const SignUp = () => {
         },
         // eslint-disable-next-line consistent-return
         validate: (val: string) => {
-          if (watch("new-password") !== val) {
-            return "비밀번호가 일치하지 않습니다";
-          }
+          // if (watch("new-password") !== val) {
+          //   return "비밀번호가 일치하지 않습니다";
+          // }
         },
       },
     },

@@ -1,16 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import colors from "constants/colors";
 import { useNavigate } from "react-router-dom";
 import ItemList from "components/ItemList";
 import { GrFormClose } from "react-icons/gr";
 import data from "data/listData.json";
+import { getCart } from "api/api";
+import { useQuery } from "@tanstack/react-query";
 import type { ItemType } from "./Main";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState<ItemType[]>(data.items);
+  // const [cartItems, setCartItems] = useState<ItemType[]>(data.items);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
-  const emptyCart = cartItems?.length === 0;
+
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/completeOrder");
@@ -20,12 +22,21 @@ const Cart = () => {
     const { checked } = event.target;
     if (checked) {
       const newArr: string[] = [];
-      data.items.forEach((item) => newArr.push(item.id));
+      data.items.forEach((item) => newArr.push(item.productId));
       setCheckedItems(newArr);
     } else {
       setCheckedItems([]);
     }
   };
+
+  const {
+    isLoading,
+    error,
+    data: cartItems,
+  } = useQuery(["cart"], () => getCart());
+  const emptyCart = cartItems?.length === 0;
+
+  // console.log(cartItems);
 
   return (
     <Wrapper>
@@ -41,9 +52,9 @@ const Cart = () => {
             전체 선택
           </CheckWrapper>
           {cartItems &&
-            cartItems.map((item) => (
+            cartItems.map((item: ItemType) => (
               <ItemList
-                key={item.id}
+                key={item.productId}
                 item={item}
                 icon={<GrFormClose />}
                 cart
