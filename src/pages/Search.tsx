@@ -5,17 +5,18 @@ import colors from "constants/colors";
 import Pagination from "components/Pagination";
 import { RiFileListLine } from "react-icons/ri";
 import { HiOutlineChevronRight } from "react-icons/hi2";
-
-import data from "data/listData.json";
+import { getSearch } from "api/search";
+// import data from "data/listData.json";
 import { useEffect, useState } from "react";
 import ItemList from "components/ItemList";
-import type { ItemType } from "./Main";
+import type { Item } from "types/itemType";
 
 const Search = () => {
   const location = useLocation();
   const searchValue = location.state;
+  const search = searchValue.trim();
 
-  const [result, setResult] = useState<Array<ItemType>>([]);
+  const [result, setResult] = useState<Array<Item>>([]);
 
   const [page, setPage] = useState<number>(1);
   const limit = 4;
@@ -24,13 +25,16 @@ const Search = () => {
   useEffect(() => {
     async function getData() {
       try {
-        await setResult(data.items);
+        const searchData = await getSearch(0, 70, "", searchValue);
+        setResult(searchData);
       } catch (error) {
         console.log(error);
       }
     }
     getData();
-  }, []);
+  }, [location, searchValue]);
+
+  console.log(result);
 
   if (searchValue === null) {
     return (
@@ -41,13 +45,12 @@ const Search = () => {
     );
   }
 
-  const search = searchValue.trim();
   return (
     <SearchContent>
       <h3 className="title">
         <span>{search}</span>에 대한 검색결과입니다.
       </h3>
-      {result.length === 0 ? (
+      {result === undefined ? (
         <NullContent>
           <RiFileListLine className="icon" />
           <h3>검색결과가 존재하지 않습니다.</h3>

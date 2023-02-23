@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import ItemList from "components/ItemList";
 import { GrFormClose } from "react-icons/gr";
 import data from "data/listData.json";
-import { getCart } from "api/api";
+import { getCart } from "api/carts";
 import { useQuery } from "@tanstack/react-query";
-import type { ItemType } from "./Main";
+import type { Item } from "types/itemType";
 
 const Cart = () => {
   // const [cartItems, setCartItems] = useState<ItemType[]>(data.items);
@@ -52,7 +52,7 @@ const Cart = () => {
             전체 선택
           </CheckWrapper>
           {cartItems &&
-            cartItems.map((item: ItemType) => (
+            cartItems.map((item: Item) => (
               <ItemList
                 key={item.productId}
                 item={item}
