@@ -5,8 +5,8 @@ import colors from "constants/colors";
 import Pagination from "components/Pagination";
 import { RiFileListLine } from "react-icons/ri";
 import { HiOutlineChevronRight } from "react-icons/hi2";
-
-import data from "data/listData.json";
+import { getSearch } from "api/search";
+// import data from "data/listData.json";
 import { useEffect, useState } from "react";
 import ItemList from "components/ItemList";
 import type { ItemType } from "./Main";
@@ -24,13 +24,16 @@ const Search = () => {
   useEffect(() => {
     async function getData() {
       try {
-        await setResult(data.items);
+        const searchData = await getSearch(0, 70, "", searchValue);
+        setResult(searchData.searchList);
       } catch (error) {
         console.log(error);
       }
     }
     getData();
-  }, []);
+  }, [searchValue]);
+
+  console.log(result);
 
   if (searchValue === null) {
     return (
