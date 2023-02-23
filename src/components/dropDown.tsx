@@ -1,3 +1,4 @@
+import colors from "constants/colors";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -54,6 +55,14 @@ const Article = styled.article`
       margin-bottom: 5px;
       padding-left: 0;
       list-style: none;
+    }
+  }
+  ul {
+    li {
+      margin-bottom: 3px;
+      &:hover {
+        color: ${colors["INDIGO-9"]};
+      }
     }
   }
 `;
