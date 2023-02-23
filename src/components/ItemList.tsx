@@ -1,5 +1,4 @@
 import colors from "constants/colors";
-import type { ItemType } from "pages/Main";
 import type { SetStateAction } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";

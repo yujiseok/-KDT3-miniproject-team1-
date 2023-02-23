@@ -12,20 +12,7 @@ import "swiper/scss/pagination";
 import { getOrder, getProducts } from "api/main";
 import data from "data/listData.json";
 import { HiOutlineChevronRight } from "react-icons/hi2";
-
-export type ItemType = {
-  productId: string;
-  avg_rate: string;
-  type?: string;
-  id?: string;
-  cartId?: number;
-  loanLimit: string;
-  productName: string;
-  bankName: string;
-  bankImgPath: string;
-  productType?: string;
-  loanRateList: LoanRateList[];
-};
+import type { Item } from "types/itemType";
 
 interface LoanRateList {
   id: number;
@@ -38,9 +25,9 @@ interface LoanRateList {
 }
 
 const Main = () => {
-  const [recommend, setRecommend] = useState<Array<ItemType>>([]);
-  const [order, setOrder] = useState<Array<ItemType>>([]);
-  const [products, setProducts] = useState<Array<ItemType>>([]);
+  const [recommend, setRecommend] = useState<Array<Item>>([]);
+  const [order, setOrder] = useState<Array<Item>>([]);
+  const [products, setProducts] = useState<Array<Item>>([]);
 
   useEffect(() => {
     async function getData() {

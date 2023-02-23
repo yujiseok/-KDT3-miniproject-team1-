@@ -9,14 +9,14 @@ import { getSearch } from "api/search";
 // import data from "data/listData.json";
 import { useEffect, useState } from "react";
 import ItemList from "components/ItemList";
-import type { ItemType } from "./Main";
+import type { Item } from "types/itemType";
 
 const Search = () => {
   const location = useLocation();
   const searchValue = location.state;
   const search = searchValue.trim();
 
-  const [result, setResult] = useState<Array<ItemType>>([]);
+  const [result, setResult] = useState<Array<Item>>([]);
 
   const [page, setPage] = useState<number>(1);
   const limit = 4;
