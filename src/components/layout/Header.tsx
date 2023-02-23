@@ -23,10 +23,11 @@ const Header = () => {
       setSearchData("");
     }
   };
+
   return (
     <HeaderContent>
       <Link to="/">
-        <FaPiggyBank size={30} />
+        <h1>Lonsily</h1>
       </Link>
       <RightContent>
         <SearchContent onSubmit={submitEvent}>
@@ -59,7 +60,13 @@ const HeaderContent = styled.header`
   gap: 20px;
   position: fixed;
   top: 0;
+  z-index: 5;
   svg {
+    color: ${colors["INDIGO-9"]};
+  }
+
+  h1 {
+    font-size: 26px;
     color: ${colors["INDIGO-9"]};
   }
 `;

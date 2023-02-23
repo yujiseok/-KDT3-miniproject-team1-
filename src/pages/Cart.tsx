@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import ItemList from "components/ItemList";
 import { GrFormClose } from "react-icons/gr";
 import data from "data/listData.json";
-import CartHeader from "components/cart/CartHeader";
 import type { ItemType } from "./Main";
 
 const Cart = () => {
@@ -30,7 +29,6 @@ const Cart = () => {
 
   return (
     <Wrapper>
-      <CartHeader />
       {emptyCart ? (
         <EmptyCart>장바구니에 담긴 상품이 없습니다.</EmptyCart>
       ) : (

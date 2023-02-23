@@ -60,15 +60,15 @@ const ItemList = ({
 const ListContent = styled.li<{ cart: boolean }>`
   display: flex;
   gap: 10px;
-  width: ${(props) => (props.cart ? "80%" : "100%")};
+  width: ${(props) => (props.cart ? "80%" : "95%")};
   border-bottom: 1px solid ${colors["INDIGO-1"]};
   margin-bottom: 30px;
   padding-bottom: 25px;
   a {
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 100%;
+    align-items: ${(props) => (props.cart ? "center" : "normal")};
+    width: 90%;
   }
   &:last-child {
     border: none;
@@ -81,16 +81,18 @@ const CheckBox = styled.input.attrs({ type: "checkbox" })<{ cart: boolean }>`
 `;
 
 const ImgContent = styled.div`
-  width: 13%;
-  margin-right: 20px;
+  width: 16%;
+  margin-left: 10px;
+  margin-right: 10px;
   img {
-    width: 90%;
+    width: 100%;
     margin-top: 7px;
   }
 `;
 
 const TextContent = styled.div<{ cart: boolean }>`
-  width: 60%;
+  width: 75%;
+  padding-left: 10px;
   h3 {
     margin-bottom: 5px;
     font-size: ${(props) => (props.cart ? "16px" : "22px")};
