@@ -14,6 +14,7 @@ import type { ItemType } from "./Main";
 const Search = () => {
   const location = useLocation();
   const searchValue = location.state;
+  const search = searchValue.trim();
 
   const [result, setResult] = useState<Array<ItemType>>([]);
 
@@ -25,13 +26,13 @@ const Search = () => {
     async function getData() {
       try {
         const searchData = await getSearch(0, 70, "", searchValue);
-        setResult(searchData.searchList);
+        setResult(searchData);
       } catch (error) {
         console.log(error);
       }
     }
     getData();
-  }, [searchValue]);
+  }, [location, searchValue]);
 
   console.log(result);
 
@@ -44,13 +45,12 @@ const Search = () => {
     );
   }
 
-  const search = searchValue.trim();
   return (
     <SearchContent>
       <h3 className="title">
         <span>{search}</span>에 대한 검색결과입니다.
       </h3>
-      {result.length === 0 ? (
+      {result === undefined ? (
         <NullContent>
           <RiFileListLine className="icon" />
           <h3>검색결과가 존재하지 않습니다.</h3>
