@@ -8,6 +8,7 @@ import {
 } from "react-icons/hi2";
 import colors from "constants/colors";
 import LoanInterest from "components/productDetail/LoanInterest";
+import { useParams } from "react-router-dom";
 import productData from "../data/productData.json";
 import type { IItem } from "../components/productDetail/LoanInterest";
 
@@ -38,6 +39,8 @@ const {
 } = productData.data;
 
 const ProductDetail = () => {
+  const params = useParams();
+  console.log(params);
   const [openModal, setOpenModal] = useState(false);
   const [liked, setLiked] = useState(false);
 
@@ -156,6 +159,7 @@ const AverageContent = styled.div`
 
 const AverageTitle = styled.p`
   font-weight: 600;
+  font-size: 14px;
   color: #605e5e;
 `;
 
@@ -185,27 +189,28 @@ const Btn = styled.button`
 
 const DetailBox = styled.div`
   padding: 10px 15px;
-  border-top: 15px solid #b8b5b576;
+  border-top: 15px solid #cac7c776;
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
 
 const DetailBoxTitle = styled.h3`
+  color: #111;
   font-weight: 700;
   font-size: 18px;
   padding: 10px 0;
 `;
 
-const DetailTitle = styled.h3`
-  font-weight: 600;
-  color: #333;
+const DetailTitle = styled.p`
+  font-weight: 700;
+  color: #666b78;
   font-size: 15px;
 `;
 
 const DetailContent = styled.p`
-  color: #434242;
+  color: #666b78;
   font-size: 15px;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
   border-bottom: 1px solid ${colors["GRAY-4"]};
 `;
