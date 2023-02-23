@@ -50,8 +50,10 @@ const ItemList = ({
           {item?.loanRateList[0]?.avgRate === null ? (
             <h2>
               평균{" "}
-              {(item.loanRateList[0].maxRate + item.loanRateList[0].minRate) /
-                2}
+              {(
+                (item.loanRateList[0].maxRate + item.loanRateList[0].minRate) /
+                2
+              ).toPrecision(3)}
               %
             </h2>
           ) : (

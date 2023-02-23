@@ -92,13 +92,19 @@ const Main = () => {
           spaceBetween={10} // 슬라이드간의 간격
           slidesPerView={1} // 한 번에 보여지는 슬라이드 개수
         >
-          {order.map((item) => {
-            return (
-              <SwiperSlide key={item.cartId}>
-                <ItemList item={item} icon={<HiOutlineChevronRight />} />
-              </SwiperSlide>
-            );
-          })}
+          {order.length !== 0 ? (
+            order.map((item) => {
+              return (
+                <SwiperSlide key={item.cartId}>
+                  <ItemList item={item} icon={<HiOutlineChevronRight />} />
+                </SwiperSlide>
+              );
+            })
+          ) : (
+            <SwiperSlide>
+              <p>신청하신 상품이 없습니다.</p>
+            </SwiperSlide>
+          )}
         </Swiper>
       </OrderContent>
 
@@ -159,6 +165,13 @@ const OrderContent = styled.div`
     .swiper-wrapper {
       display: flex;
       flex-flow: row;
+      .swiper-slide {
+        p {
+          font-size: 18px;
+          text-align: center;
+          color: ${colors["GRAY-6"]};
+        }
+      }
     }
     .swiper-pagination-bullet {
       background-color: transparent;
