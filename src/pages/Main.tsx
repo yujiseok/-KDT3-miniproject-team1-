@@ -13,32 +13,26 @@ import data from "data/listData.json";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 
 export type ItemType = {
-  productId: string;
+  productId?: string;
+  avg_rate: string;
+  type?: string;
+  id?: string;
   productName: string;
   bankName: string;
   bankImgPath: string;
-  avg_rate: string;
-  type: string;
+  categoryName?: string;
+  loanRateList: LoanRateList[];
 };
 
-// export type Itemtype = {
-//   id: string;
-//   productName: string;
-//   bankName: string;
-//   bankImgPath: string;
-//   categoryName: string;
-//   loanRateList: LoanRateList[];
-// };
-
-// interface LoanRateList {
-//   id: number;
-//   rateType: string;
-//   repayType: string;
-//   minRate: number;
-//   maxRate: number;
-//   avgRate: number;
-//   mortgageType: string;
-// }
+interface LoanRateList {
+  id: number;
+  rateType: string;
+  repayType: string;
+  minRate: number;
+  maxRate: number;
+  avgRate: number;
+  mortgageType: string;
+}
 
 const Main = () => {
   const [recommend, setRecommend] = useState<Array<ItemType>>([]);

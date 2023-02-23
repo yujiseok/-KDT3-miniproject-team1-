@@ -47,10 +47,17 @@ const ItemList = ({
         <TextContent cart={typeof cart === "boolean" ? cart : false}>
           <h3>{item.bankName}</h3>
           <p>{item.productName}</p>
-          <h2>평균 {item.avg_rate}%</h2>
-          <TagContent>
-            <span>{item.type}</span>
-          </TagContent>
+          {item.loanRateList[0].avgRate === null ? (
+            <h2>
+              평균
+              {(item.loanRateList[0].maxRate + item.loanRateList[0].minRate) /
+                2}
+              %
+            </h2>
+          ) : (
+            <h2>평균 {item.loanRateList[0].avgRate}%</h2>
+          )}
+          <TagContent>{/* <span>{item.type}</span> */}</TagContent>
         </TextContent>
       </Link>
       <IconContent>{icon}</IconContent>
