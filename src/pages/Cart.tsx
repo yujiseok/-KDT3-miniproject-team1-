@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ItemList from "components/ItemList";
 import { GrFormClose } from "react-icons/gr";
 import data from "data/listData.json";
-import { getCart } from "api/api";
+import { getCart } from "api/carts";
 import { useQuery } from "@tanstack/react-query";
 import type { ItemType } from "./Main";
 
@@ -36,7 +36,7 @@ const Cart = () => {
   } = useQuery(["cart"], () => getCart());
   const emptyCart = cartItems?.length === 0;
 
-  // console.log(cartItems);
+  console.log(cartItems);
 
   return (
     <Wrapper>
