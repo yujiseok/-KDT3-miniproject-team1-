@@ -1,13 +1,13 @@
 import colors from "constants/colors";
-import type { ItemType } from "pages/Main";
 import type { SetStateAction } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { removeFromCart } from "api/carts";
+import type { Item } from "../types/itemType";
 
 interface ListProps {
-  item: ItemType;
+  item: Item;
   icon: JSX.Element;
   cart?: boolean;
   checkedItems?: string[];
@@ -53,7 +53,7 @@ const ItemList = ({
       <CheckBox
         cart={typeof cart === "boolean" ? cart : false}
         onChange={handleChecked}
-        checked={!!checkedItems?.includes(item.productId)}
+        checked={!!checkedItems?.includes(item.productId as string)}
       />
       <Link to={detailUrl}>
         <ImgContent>
@@ -63,9 +63,20 @@ const ItemList = ({
         <TextContent cart={typeof cart === "boolean" ? cart : false}>
           <h3>{item.bankName}</h3>
           <p>{item.productName}</p>
-          <h2>평균 {item.avg_rate}%</h2>
+          {item?.loanRateList[0]?.avgRate === null ? (
+            <h2>
+              평균{" "}
+              {(
+                (item.loanRateList[0].maxRate + item.loanRateList[0].minRate) /
+                2
+              ).toPrecision(3)}
+              %
+            </h2>
+          ) : (
+            <h2>평균 {item?.loanRateList[0]?.avgRate}%</h2>
+          )}
           <TagContent>
-            <span>{item.type}</span>
+            <span>{item.productType}</span>
           </TagContent>
         </TextContent>
       </Link>

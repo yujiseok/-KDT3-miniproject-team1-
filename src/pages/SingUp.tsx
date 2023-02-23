@@ -232,7 +232,6 @@ const SummitBox = styled.div`
   align-items: center;
   padding: 0px;
   gap: 16px;
-
   width: 100%;
   height: fit-content;
 `;
@@ -244,12 +243,9 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   padding: 0px;
-
   width: 100%;
   height: 48px;
-
   /* Primary Color/INDIGO 9 */
-
   background: ${colors["INDIGO-9"]};
   border-radius: 10px;
 `;

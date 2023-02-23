@@ -3,12 +3,34 @@ import styled from "styled-components";
 import { Bold, Pretendard } from "global/FigmaStyles";
 import { Container, TitleBox } from "components/auth/StyledUtils";
 import colors from "constants/colors";
-
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import type { FieldError, RegisterOptions } from "react-hook-form";
 import { MdAlternateEmail } from "react-icons/md";
 import { CgLock } from "react-icons/cg";
-import InputModule from "components/auth/InputModule";
+import InputModule from "components/auth/SigninInputModule";
+
+const validationSchema = z.object({
+  email: z
+    .string()
+    .min(0, "이메일을 입력해주세요")
+    .regex(
+      /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+      "이메일 주소를 확인해주세요.",
+    ),
+  currentPassword: z
+    .string()
+    .min(8, "비밀번호는 8자 이상 입력해주세요.")
+    .max(20, "비밀번호는 20자 이하로 입력해주세요.")
+    .regex(
+      /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/,
+
+      "8-20자 영문, 숫자, 특수문자를 사용하세요.",
+    ),
+});
+
+export type FormValues = z.infer<typeof validationSchema>;
 
 const reactIcons = {
   verticalAlign: "middle",
@@ -23,42 +45,20 @@ const inputs: InputFields[] = [
     Prefix: <MdAlternateEmail style={reactIcons} />,
     label: "email",
     placeholder: "email@example.com",
-    options: {
-      required: { value: true, message: "이메일을 입력해주세요" },
-      pattern: {
-        value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-        message: "이메일 주소를 확인해주세요.",
-      },
-    },
   },
   {
     name: "비밀번호",
-    label: "current-password",
+    label: "currentPassword",
     Prefix: <CgLock style={reactIcons} />,
     type: "password",
     placeholder: "Password",
-    options: {
-      required: { value: true, message: "비밀번호를 입력해주세요" },
-      minLength: { value: 8, message: "비밀번호는 8자 이상 입력해주세요." },
-      maxLength: {
-        value: 20,
-        message: "비밀번호는 20자 이하로 입력해주세요.",
-      },
-      pattern: {
-        value:
-          /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
-        message: "8-20자 영문, 숫자, 특수문자를 사용하세요",
-      },
-    },
   },
 ];
-
-type IForm = Record<string, FieldError | string>;
 
 interface InputFields {
   Prefix?: JSX.Element;
   name: string;
-  label: string;
+  label: keyof FormValues;
   type?: string;
   options?: RegisterOptions;
   placeholder?: string;
@@ -70,11 +70,11 @@ const SignIn = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<IForm>();
+  } = useForm<FormValues>();
 
   const navigate = useNavigate();
 
-  const onSubmit = (data: IForm) => {
+  const onSubmit = (data: FormValues) => {
     console.log(data);
     navigate("/");
   };
@@ -82,11 +82,13 @@ const SignIn = () => {
   return (
     <Container>
       <TitleBox>
-        <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
+        <Link to="/">
+          <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
+        </Link>
         <Bold>회원 로그인</Bold>
       </TitleBox>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {inputs.map(({ label, type, options, Prefix, name, placeholder }) => (
+        {inputs.map(({ label, type, Prefix, name, placeholder }) => (
           <InputModule
             key={label}
             Prefix={Prefix}
@@ -95,7 +97,6 @@ const SignIn = () => {
             placeholder={placeholder}
             label={label}
             type={type}
-            options={options}
             error={
               typeof errors[label] !== "string" ? errors[label] : undefined
             }

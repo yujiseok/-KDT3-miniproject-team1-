@@ -8,7 +8,7 @@ import data from "data/listData.json";
 import { getCart } from "api/carts";
 import { useQuery } from "@tanstack/react-query";
 import OrderModal from "components/cart/OrderModal";
-import type { ItemType } from "./Main";
+import type { Item } from "types/itemType";
 
 const Cart = () => {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
@@ -56,7 +56,7 @@ const Cart = () => {
             전체 선택
           </CheckWrapper>
           {cartItems &&
-            cartItems.map((item: ItemType) => (
+            cartItems.map((item: Item) => (
               <ItemList
                 key={item.productId}
                 item={item}
