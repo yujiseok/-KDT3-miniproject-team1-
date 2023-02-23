@@ -1,4 +1,3 @@
-import React from "react";
 import { BsCheckLg } from "react-icons/bs";
 import styled from "styled-components";
 import colors from "constants/colors";
@@ -32,7 +31,7 @@ const CompleteOrder = () => {
 export default CompleteOrder;
 
 const Wrapper = styled.div`
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;

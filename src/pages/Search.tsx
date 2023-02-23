@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { BiSearchAlt } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
 import colors from "constants/colors";
+import Pagination from "components/Pagination";
 import { RiFileListLine } from "react-icons/ri";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 
@@ -15,6 +16,10 @@ const Search = () => {
   const searchValue = location.state;
 
   const [result, setResult] = useState<Array<ItemType>>([]);
+
+  const [page, setPage] = useState<number>(1);
+  const limit = 4;
+  const offset = (page - 1) * limit;
 
   useEffect(() => {
     async function getData() {
@@ -49,7 +54,7 @@ const Search = () => {
         </NullContent>
       ) : (
         <ResultContent>
-          {result.map((item) => {
+          {result.slice(offset, offset + limit).map((item) => {
             return (
               <ItemList
                 key={item.id}
@@ -58,6 +63,14 @@ const Search = () => {
               />
             );
           })}
+          {Array.isArray(result) ? (
+            <Pagination
+              total={result.length}
+              limit={limit}
+              page={page}
+              setPage={setPage}
+            />
+          ) : null}
         </ResultContent>
       )}
     </SearchContent>
@@ -68,6 +81,7 @@ const NullContent = styled.div`
   width: 100%;
   height: 100%;
   text-align: center;
+  margin-top: 90px;
   svg {
     margin-top: 250px;
     color: ${colors["GRAY-4"]};
@@ -79,6 +93,7 @@ const NullContent = styled.div`
 const SearchContent = styled.div`
   width: 100%;
   height: 100%;
+  margin-top: 90px;
   .title {
     margin: 0 10px;
     letter-spacing: 0.5px;

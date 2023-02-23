@@ -13,13 +13,32 @@ import data from "data/listData.json";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 
 export type ItemType = {
-  id: string;
-  title: string;
-  bank: string;
-  bankimg: string;
+  productId: string;
+  productName: string;
+  bankName: string;
+  bankImgPath: string;
   avg_rate: string;
   type: string;
 };
+
+// export type Itemtype = {
+//   id: string;
+//   productName: string;
+//   bankName: string;
+//   bankImgPath: string;
+//   categoryName: string;
+//   loanRateList: LoanRateList[];
+// };
+
+// interface LoanRateList {
+//   id: number;
+//   rateType: string;
+//   repayType: string;
+//   minRate: number;
+//   maxRate: number;
+//   avgRate: number;
+//   mortgageType: string;
+// }
 
 const Main = () => {
   const [recommend, setRecommend] = useState<Array<ItemType>>([]);
@@ -105,7 +124,7 @@ const Main = () => {
         >
           {recommend.map((item) => {
             return (
-              <SwiperSlide key={item.id}>
+              <SwiperSlide key={item.productId}>
                 <ItemList item={item} icon={<HiOutlineChevronRight />} />
               </SwiperSlide>
             );
@@ -122,10 +141,10 @@ const Main = () => {
           ? recommend.map((item) => {
               return (
                 <ItemList
-                  key={item.id}
+                  key={item.productId}
                   item={item}
                   icon={
-                    <Link to={`/product/${item.id}`}>
+                    <Link to={`/product/${item.productId}`}>
                       <HiOutlineChevronRight />
                     </Link>
                   }
@@ -139,7 +158,7 @@ const Main = () => {
 };
 
 const MainContent = styled.div`
-  padding: 0 12px 0 12px;
+  padding: 90px 12px 0 12px;
 `;
 
 const TitleContent = styled.div`
