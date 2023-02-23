@@ -3,6 +3,8 @@ import type { ItemType } from "pages/Main";
 import type { SetStateAction } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { removeFromCart } from "api/carts";
 
 interface ListProps {
   item: ItemType;
@@ -20,6 +22,7 @@ const ItemList = ({
   setCheckedItems,
 }: ListProps) => {
   const detailUrl = `/product/${item.productId}`;
+  // 장바구니 선택
   const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
     if (!checkedItems || !setCheckedItems) {
@@ -30,6 +33,20 @@ const ItemList = ({
     } else {
       setCheckedItems(checkedItems.filter((el) => el !== item.productId));
     }
+  };
+
+  // 장바구니 삭제
+  const queryClient = useQueryClient();
+  const deleteCartList = useMutation(
+    (basketId: string) => removeFromCart(basketId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["cart"]);
+      },
+    },
+  );
+  const handleDelete = (cartId: string) => {
+    deleteCartList.mutate(cartId);
   };
   return (
     <ListContent cart={typeof cart === "boolean" ? cart : false}>
@@ -52,7 +69,18 @@ const ItemList = ({
           </TagContent>
         </TextContent>
       </Link>
-      <IconContent>{icon}</IconContent>
+      <IconContent
+        onClick={() => {
+          if (cart) {
+            if (!item.cartId) {
+              return;
+            }
+            handleDelete(item.cartId);
+          }
+        }}
+      >
+        {icon}
+      </IconContent>
     </ListContent>
   );
 };
@@ -121,6 +149,7 @@ const TagContent = styled.div`
 const IconContent = styled.div`
   width: 10%;
   padding-top: 10px;
+  cursor: pointer;
   svg {
     float: right;
   }

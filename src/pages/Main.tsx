@@ -13,6 +13,7 @@ import data from "data/listData.json";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 
 export type ItemType = {
+  cartId?: string;
   productId: string;
   productName: string;
   bankName: string;

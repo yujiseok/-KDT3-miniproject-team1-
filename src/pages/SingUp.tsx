@@ -96,11 +96,11 @@ const SignUp = () => {
           value: 20,
           message: "비밀번호는 20자 이하로 입력해주세요.",
         },
-        pattern: {
-          value:
-            /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
-          message: "8-20자 영문, 숫자, 특수문자를 사용하세요",
-        },
+        // pattern: {
+        //   value:
+        //     /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
+        //   message: "8-20자 영문, 숫자, 특수문자를 사용하세요",
+        // },
         // eslint-disable-next-line consistent-return
         validate: (val: string) => {
           // if (watch("new-password") !== val) {

@@ -61,10 +61,10 @@ const Likes = () => {
           ORDER_ITEM.items.map((item) => (
             <ItemList
               item={item}
-              key={item.id}
+              key={item.productId}
               icon={
                 <IconWrapper>
-                  <Link to={`/product/${item.id}`}>
+                  <Link to={`/product/${item.productId}`}>
                     <HiOutlineChevronRight />
                   </Link>
                   <Link to="/cart">
