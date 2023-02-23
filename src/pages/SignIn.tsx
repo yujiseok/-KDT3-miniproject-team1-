@@ -83,20 +83,27 @@ const SignIn = () => {
   const { fetchData, cancelRequest, response, error, loading } = useAxios();
 
   const dispatch = useAppDispatch();
-
+  const TokenUpdate = useAppSelector(selectAccessToken);
+  useEffect(() => {
+    if (TokenUpdate) {
+      console.log("잘못된 접근, 엑세스토큰 있음");
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [TokenUpdate]);
+  console.log("response", response);
   useEffect(() => {
     if (response) {
       dispatch(loginAction(response.data));
-      navigate("/");
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response]);
 
-  // const count = useAppSelector(selectAccessToken);
-  // console.log("엑세스토큰", count);
-  // const info = useAppSelector(selectuserInfo);
-  // console.log("info", info);
+  const count = useAppSelector(selectAccessToken);
+  console.log("엑세스토큰", count);
+  const info = useAppSelector(selectuserInfo);
+  console.log("info", info);
 
   const onSubmit = (data: FormValues) => {
     fetchData("/login", {

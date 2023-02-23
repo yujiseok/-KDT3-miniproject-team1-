@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Bold, Pretendard, Info } from "global/FigmaStyles";
 import { Container, TitleBox, GroupLeftBox } from "components/auth/StyledUtils";
@@ -14,8 +14,8 @@ import { z } from "zod";
 import { useEffect } from "react";
 import Loading from "Loading";
 import { useAxios } from "hooks/useLoginAxios";
-import { useAppDispatch } from "app/hooks";
-import { loginAction } from "reducers/auth";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { loginAction, selectAccessToken } from "reducers/auth";
 
 // validationSchema.z.object[interestsLabel] 이 되야함
 const interestsLabel = "interest";
@@ -151,8 +151,16 @@ const SignUp = () => {
   });
 
   const { fetchData, cancelRequest, response, error, loading } = useAxios();
-
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const TokenUpdate = useAppSelector(selectAccessToken);
+  useEffect(() => {
+    if (TokenUpdate) {
+      console.log("잘못된 접근, 엑세스토큰 있음");
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [TokenUpdate]);
 
   useEffect(() => {
     if (response) {
