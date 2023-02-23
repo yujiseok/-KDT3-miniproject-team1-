@@ -40,16 +40,23 @@ const ItemList = ({
       />
       <Link to={detailUrl}>
         <ImgContent>
-          <img src={item.bankimg} alt="bank img" />
+          <img src={item.bankImgPath} alt="bank img" />
         </ImgContent>
 
         <TextContent cart={typeof cart === "boolean" ? cart : false}>
-          <h3>{item.bank}</h3>
-          <p>{item.title}</p>
-          <h2>평균 {item.avg_rate}%</h2>
-          <TagContent>
-            <span>{item.type}</span>
-          </TagContent>
+          <h3>{item.bankName}</h3>
+          <p>{item.productName}</p>
+          {item.loanRateList[0].avgRate === null ? (
+            <h2>
+              평균
+              {(item.loanRateList[0].maxRate + item.loanRateList[0].minRate) /
+                2}
+              %
+            </h2>
+          ) : (
+            <h2>평균 {item.loanRateList[0].avgRate}%</h2>
+          )}
+          <TagContent>{/* <span>{item.type}</span> */}</TagContent>
         </TextContent>
       </Link>
       <IconContent>{icon}</IconContent>
