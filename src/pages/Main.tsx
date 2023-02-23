@@ -10,19 +10,8 @@ import "swiper/scss";
 import "swiper/scss/pagination";
 
 import { getOrder, getProducts } from "api/main";
-import data from "data/listData.json";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 import type { Item } from "types/itemType";
-
-interface LoanRateList {
-  id: number;
-  rateType: string;
-  repayType: string;
-  minRate: number;
-  maxRate: number;
-  avgRate: number;
-  mortgageType: string;
-}
 
 const Main = () => {
   const [recommend, setRecommend] = useState<Array<Item>>([]);
@@ -36,7 +25,6 @@ const Main = () => {
         const productsData = await getProducts();
         setOrder(orderData);
         setProducts(productsData.splice(0, 5));
-        // await setRecommend(data.items);
       } catch (error) {
         console.log(error);
       }
@@ -46,7 +34,8 @@ const Main = () => {
 
   return (
     <MainContent>
-      <TitleContent>
+      {/* 비회원용 */}
+      {/* <TitleContent>
         <h2>
           안녕하세요 <span>Lonsily</span> 입니다.
         </h2>
@@ -84,9 +73,10 @@ const Main = () => {
               );
             })
           : null}
-      </RecommendContent>
+      </RecommendContent> */}
 
-      {/* <TitleContent>
+      {/* 회원용 */}
+      <TitleContent>
         <h2>
           <span>###</span> 님이
           <br />
@@ -102,13 +92,19 @@ const Main = () => {
           spaceBetween={10} // 슬라이드간의 간격
           slidesPerView={1} // 한 번에 보여지는 슬라이드 개수
         >
-          {order.map((item) => {
-            return (
-              <SwiperSlide key={item.cartId}>
-                <ItemList item={item} icon={<HiOutlineChevronRight />} />
-              </SwiperSlide>
-            );
-          })}
+          {order.length !== 0 ? (
+            order.map((item) => {
+              return (
+                <SwiperSlide key={item.cartId}>
+                  <ItemList item={item} icon={<HiOutlineChevronRight />} />
+                </SwiperSlide>
+              );
+            })
+          ) : (
+            <SwiperSlide>
+              <p>신청하신 상품이 없습니다.</p>
+            </SwiperSlide>
+          )}
         </Swiper>
       </OrderContent>
 
@@ -131,7 +127,7 @@ const Main = () => {
               );
             })
           : null}
-      </RecommendContent> */}
+      </RecommendContent>
     </MainContent>
   );
 };
@@ -169,6 +165,13 @@ const OrderContent = styled.div`
     .swiper-wrapper {
       display: flex;
       flex-flow: row;
+      .swiper-slide {
+        p {
+          font-size: 18px;
+          text-align: center;
+          color: ${colors["GRAY-6"]};
+        }
+      }
     }
     .swiper-pagination-bullet {
       background-color: transparent;
