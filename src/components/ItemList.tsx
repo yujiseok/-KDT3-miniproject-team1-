@@ -49,7 +49,7 @@ const ItemList = ({
           <p>{item.productName}</p>
           {item?.loanRateList[0]?.avgRate === null ? (
             <h2>
-              평균
+              평균{" "}
               {(item.loanRateList[0].maxRate + item.loanRateList[0].minRate) /
                 2}
               %
