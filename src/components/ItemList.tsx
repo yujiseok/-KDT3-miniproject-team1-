@@ -3,9 +3,10 @@ import type { ItemType } from "pages/Main";
 import type { SetStateAction } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import type { Item } from "types/itemType";
 
 interface ListProps {
-  item: ItemType;
+  item: Item;
   icon: JSX.Element;
   cart?: boolean;
   checkedItems?: string[];
@@ -26,7 +27,7 @@ const ItemList = ({
       return;
     }
     if (checked) {
-      setCheckedItems((prev) => [...prev, item.productId]);
+      setCheckedItems((prev) => [...prev, item.productId as string]);
     } else {
       setCheckedItems(checkedItems.filter((el) => el !== item.productId));
     }
@@ -36,7 +37,7 @@ const ItemList = ({
       <CheckBox
         cart={typeof cart === "boolean" ? cart : false}
         onChange={handleChecked}
-        checked={!!checkedItems?.includes(item.productId)}
+        checked={!!checkedItems?.includes(item.productId as string)}
       />
       <Link to={detailUrl}>
         <ImgContent>
