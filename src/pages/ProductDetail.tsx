@@ -218,7 +218,7 @@ const Btn = styled.button`
 `;
 
 const DetailBox = styled.div`
-  padding: 10px 15px;
+  padding: 10px 15px 100px;
   border-top: 15px solid #cac7c776;
   display: flex;
   flex-direction: column;
