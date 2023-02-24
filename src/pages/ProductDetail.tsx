@@ -11,7 +11,7 @@ import LoanInterest from "components/productDetail/LoanInterest";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getDetail } from "api/productDetail";
-import { addToCart } from "api/carts";
+import { addToCart, addCartt } from "api/carts";
 import type { IItem } from "../components/productDetail/LoanInterest";
 
 interface IDetail {
@@ -36,22 +36,6 @@ const ProductDetail = () => {
   const { isLoading, data: detail } = useQuery([id], () =>
     getDetail(id as string),
   );
-  // data가 undefined일 경우 구조분해할당이 되지 않는 것을 방지하고자
-  // 추후 로딩화면을 구현할 예정
-  if (isLoading) return <div>로딩중입니다</div>;
-
-  const {
-    bankName,
-    categoryName,
-    delayRate,
-    joinWay,
-    loanIncidentalExpenses,
-    loanLimit,
-    productName,
-    loanRateList,
-    earlyRepayFee,
-    productId,
-  }: IDetail = detail;
 
   // console.log(detail);
 
@@ -66,55 +50,57 @@ const ProductDetail = () => {
 
   return (
     <div>
-      <Wrapper>
-        <BankImg
-          src="https://cdn.banksalad.com/graphic/color/logo/circle/woori.png"
-          alt="은행 이미지"
-        />
-        <BankTitle>{`${bankName} ${categoryName}`}</BankTitle>
-        <ProductBox>
-          <ProductTitle>{productName}</ProductTitle>
-          {liked ? (
-            <HiHeart onClick={handleLike} />
-          ) : (
-            <HiOutlineHeart onClick={handleLike} />
-          )}
-        </ProductBox>
-        <AverageBox>
-          <AverageContent>
-            <AverageTitle>최저 금리</AverageTitle>
-            <AverageValue>{loanRateList[0].minRate}%</AverageValue>
-          </AverageContent>
-          <AverageContent>
-            <AverageTitle>최고 금리</AverageTitle>
-            <AverageValue>{loanRateList[0].maxRate}%</AverageValue>
-          </AverageContent>
-        </AverageBox>
-        <BtnBox>
-          <Btn onClick={addCart}>
-            <HiOutlineShoppingCart />
-            장바구니에 담기
-          </Btn>
-          {openModal && <CartModal setOpenModal={setOpenModal} />}
-        </BtnBox>
-        <DetailBox>
-          <DetailBoxTitle>상세정보</DetailBoxTitle>
-          <DetailTitle>대출 한도</DetailTitle>
-          <DetailContent>{loanLimit}</DetailContent>
-          <DetailTitle>연체 이자율</DetailTitle>
-          <DetailContent>{delayRate}</DetailContent>
-          <DetailTitle>상품 이자율</DetailTitle>
-          {loanRateList.map((item: IItem) => (
-            <LoanInterest key={item.id} item={item} />
-          ))}
-          <DetailTitle>대출 부대비용</DetailTitle>
-          <DetailContent>{loanIncidentalExpenses}</DetailContent>
-          <DetailTitle>중도상환 수수료</DetailTitle>
-          <DetailContent>{earlyRepayFee}</DetailContent>
-          <DetailTitle>가입방법</DetailTitle>
-          <DetailContent>{joinWay}</DetailContent>
-        </DetailBox>
-      </Wrapper>
+      {detail && (
+        <Wrapper>
+          <BankImg
+            src="https://cdn.banksalad.com/graphic/color/logo/circle/woori.png"
+            alt="은행 이미지"
+          />
+          <BankTitle>{`${detail?.bankName} ${detail.categoryName}`}</BankTitle>
+          <ProductBox>
+            <ProductTitle>{detail.productName}</ProductTitle>
+            {liked ? (
+              <HiHeart onClick={handleLike} />
+            ) : (
+              <HiOutlineHeart onClick={handleLike} />
+            )}
+          </ProductBox>
+          <AverageBox>
+            <AverageContent>
+              <AverageTitle>최저 금리</AverageTitle>
+              <AverageValue>{detail.loanRateList[0].minRate}%</AverageValue>
+            </AverageContent>
+            <AverageContent>
+              <AverageTitle>최고 금리</AverageTitle>
+              <AverageValue>{detail.loanRateList[0].maxRate}%</AverageValue>
+            </AverageContent>
+          </AverageBox>
+          <BtnBox>
+            <Btn onClick={addCart}>
+              <HiOutlineShoppingCart />
+              장바구니에 담기
+            </Btn>
+            {openModal && <CartModal setOpenModal={setOpenModal} />}
+          </BtnBox>
+          <DetailBox>
+            <DetailBoxTitle>상세정보</DetailBoxTitle>
+            <DetailTitle>대출 한도</DetailTitle>
+            <DetailContent>{detail.loanLimit}</DetailContent>
+            <DetailTitle>연체 이자율</DetailTitle>
+            <DetailContent>{detail.delayRate}</DetailContent>
+            <DetailTitle>상품 이자율</DetailTitle>
+            {detail.loanRateList.map((item: IItem) => (
+              <LoanInterest key={item.id} item={item} />
+            ))}
+            <DetailTitle>대출 부대비용</DetailTitle>
+            <DetailContent>{detail.loanIncidentalExpenses}</DetailContent>
+            <DetailTitle>중도상환 수수료</DetailTitle>
+            <DetailContent>{detail.earlyRepayFee}</DetailContent>
+            <DetailTitle>가입방법</DetailTitle>
+            <DetailContent>{detail.joinWay}</DetailContent>
+          </DetailBox>
+        </Wrapper>
+      )}
     </div>
   );
 };

@@ -4,10 +4,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import TextFiled from "components/myPage/TextFiled";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { deleteUser } from "api/user";
 
 const validationSchema = z
   .object({
-    username: z.string().min(2, "2글자 이상 입력해주세요."),
+    name: z.string().min(2, "2글자 이상 입력해주세요."),
     password: z
       .string()
       .min(8, "비밀번호는 8자 이상 입력해주세요.")
@@ -26,6 +29,10 @@ const validationSchema = z
 
         "8-20자 영문, 숫자, 특수문자를 사용하세요.",
       ),
+    asset: z.number().optional(),
+    income: z.number().optional(),
+    job: z.string().min(2, "직업을 입력해주세요.").optional(),
+    region: z.string().min(2, "지역을 입력해주세요.").optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -47,14 +54,22 @@ const UserForm = ({ onSubmit }: IUserForm) => {
     resolver: zodResolver(validationSchema),
   });
 
+  const navigate = useNavigate();
+
+  const deleteMutation = useMutation((id: number) => deleteUser(id), {
+    onSuccess(data) {
+      navigate("/");
+      console.log(data);
+    },
+  });
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <TextFiled
-        id="username"
+        id="name"
         label="이름"
         placeholder="2글자 이상 입력해주세요."
-        error={errors.username?.message}
-        register={register("username")}
+        error={errors.name?.message}
+        register={register("name")}
       />
 
       <TextFiled
@@ -79,7 +94,9 @@ const UserForm = ({ onSubmit }: IUserForm) => {
         <Button primary disabled={isSubmitting} type="submit">
           {isSubmitting ? <span>제출중...</span> : <span>정보 수정</span>}
         </Button>
-        <Button primary={false}>회원 탈퇴</Button>
+        <Button primary={false} onClick={() => deleteMutation.mutate(1)}>
+          회원 탈퇴
+        </Button>
       </BtnWrapper>
     </Form>
   );
