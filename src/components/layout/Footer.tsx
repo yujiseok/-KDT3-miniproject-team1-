@@ -42,7 +42,7 @@ const Footer = () => {
     { name: "mypage", content: <HiOutlineUserCircle />, path: "/mypage" },
   ];
 
-  if (Object.keys(auth).length === 0) {
+  if (Object(auth).id === "") {
     return (
       <FooterContent>
         <ul role="navigation">
