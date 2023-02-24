@@ -9,9 +9,10 @@ import {
 import colors from "constants/colors";
 import LoanInterest from "components/productDetail/LoanInterest";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getDetail } from "api/productDetail";
 import { addToCart, addCartt } from "api/carts";
+import { postLikeLists } from "api/likes";
 import type { IItem } from "../components/productDetail/LoanInterest";
 
 interface IDetail {
@@ -37,15 +38,22 @@ const ProductDetail = () => {
     getDetail(id as string),
   );
 
-  // console.log(detail);
+  console.log(detail?.productId);
+  const queryClient = useQueryClient();
 
+  const likeMutation = useMutation((id: string) => postLikeLists(id), {
+    onSuccess(data) {
+      console.log(data.success);
+      queryClient.invalidateQueries(["like"]);
+    },
+  });
   const addCart = () => {
     setOpenModal(true);
-    addToCart(productId);
+    addToCart(detail.productId);
   };
 
   const handleLike = () => {
-    setLiked((prev) => !prev);
+    // setLiked((prev) => !prev);
   };
 
   return (
@@ -59,11 +67,13 @@ const ProductDetail = () => {
           <BankTitle>{`${detail?.bankName} ${detail.categoryName}`}</BankTitle>
           <ProductBox>
             <ProductTitle>{detail.productName}</ProductTitle>
-            {liked ? (
-              <HiHeart onClick={handleLike} />
-            ) : (
-              <HiOutlineHeart onClick={handleLike} />
-            )}
+            <button onClick={() => likeMutation.mutate(detail?.productId)}>
+              {liked ? (
+                <HiHeart onClick={handleLike} />
+              ) : (
+                <HiOutlineHeart onClick={handleLike} />
+              )}
+            </button>
           </ProductBox>
           <AverageBox>
             <AverageContent>
