@@ -81,7 +81,7 @@ const Main = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth, allProducts]);
 
-  if (Object.keys(auth).length === 0) {
+  if (Object(auth).id === "") {
     return (
       <MainContent>
         <TitleContent>
