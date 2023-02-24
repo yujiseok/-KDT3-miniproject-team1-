@@ -1,9 +1,22 @@
+export interface Auth {
+  id: number;
+  name: string;
+  email: string;
+  password: null;
+  birth: string;
+  asset: number;
+  income: number;
+  job: string | null;
+  region: string | null;
+  joinType: number;
+}
+
 export interface Item {
   productId: string;
   avg_rate: string;
   type?: string;
   id?: string;
-  cartId?: string;
+  cartId?: number;
   likeId?: number;
   loanLimit: string;
   productName: string;

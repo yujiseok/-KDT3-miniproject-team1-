@@ -4,45 +4,48 @@ import colors from "constants/colors";
 import { useNavigate } from "react-router-dom";
 import ItemList from "components/ItemList";
 import { GrFormClose } from "react-icons/gr";
-import data from "data/listData.json";
-import { getCart } from "api/carts";
-import { useQuery } from "@tanstack/react-query";
+import { postOrder } from "api/orders";
 import OrderModal from "components/cart/OrderModal";
 import type { Item } from "types/itemType";
+import useCart from "hooks/useCart";
 
 const Cart = () => {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const [openModal, setOpenModal] = useState(false);
 
   const navigate = useNavigate();
-  const handleClick = () => {
-    if (checkedItems.length === 0) {
-      setOpenModal(true);
-    }
 
-    navigate("/completeOrder");
-  };
+  // 전체 장바구니 데이터 불러오기
+  const {
+    getCartList: { data: cartItems },
+  } = useCart();
 
+  // 카트가 빈 경우, 아무것도 선택되지 않은 경우
+  const emptyCart = cartItems?.length === 0 || !cartItems;
+  const nothingChecked = checkedItems?.length === 0 || !checkedItems;
+
+  // 전체 선택
   const handleAllChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
     if (checked) {
       const newArr: string[] = [];
-      data.items.forEach((item) => newArr.push(item.productId));
+      cartItems.forEach((item: Item) => newArr.push(item.productId));
       setCheckedItems(newArr);
     } else {
       setCheckedItems([]);
     }
   };
 
-  const {
-    isLoading,
-    error,
-    data: cartItems,
-  } = useQuery(["cart"], () => getCart());
-
-  const emptyCart = cartItems?.length === 0;
-
-  console.log(cartItems);
+  // 주문
+  const handleOrder = () => {
+    if (nothingChecked) {
+      setOpenModal(true);
+      return;
+    }
+    checkedItems?.forEach((item) => postOrder(item));
+    // console.log(checkedItems);
+    navigate("/completeOrder");
+  };
 
   return (
     <Wrapper>
@@ -53,7 +56,7 @@ const Cart = () => {
           <CheckWrapper>
             <CheckBox
               onChange={handleAllChecked}
-              checked={checkedItems?.length === data.items.length}
+              checked={checkedItems?.length === cartItems.length}
             />{" "}
             전체 선택
           </CheckWrapper>
@@ -73,7 +76,7 @@ const Cart = () => {
       {emptyCart ? (
         <CartBtn primary>상품을 담아주세요</CartBtn>
       ) : (
-        <CartBtn onClick={handleClick} primary={false}>
+        <CartBtn onClick={handleOrder} primary={false}>
           신청하기
         </CartBtn>
       )}
