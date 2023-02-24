@@ -27,10 +27,13 @@ const Order = () => {
 
   return (
     <Block>
-      <H1>신청내역</H1>
+      <H1>
+        {(data?.length as number) < 1 ? "신청내역이 비었습니다." : "신청내역"}
+      </H1>
       <ItemWrapper>
-        {isLoading ? <Skeleton length={4} /> : null}
-        {!isLoading &&
+        {data && isLoading ? (
+          <Skeleton length={4} />
+        ) : (
           data?.map((item) => (
             <ItemList
               item={item}
@@ -43,7 +46,8 @@ const Order = () => {
                 </button>
               }
             />
-          ))}
+          ))
+        )}
       </ItemWrapper>
     </Block>
   );

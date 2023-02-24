@@ -20,32 +20,27 @@ const Likes = () => {
 
   const deleteMutation = useMutation((id: number) => deleteLikeList(id), {
     onSuccess(data) {
+      console.log(data.success);
       queryClient.invalidateQueries(["like"]);
-      console.log(data);
     },
   });
 
-  console.log(data);
-
   return (
     <Block>
-      <H1>관심상품</H1>
+      <H1>
+        {(data?.length as number) < 1
+          ? "관심상품 목록이 비었습니다."
+          : "관심상품"}
+      </H1>
       <ItemWrapper>
-        {isLoading ? <Skeleton length={4} /> : null}
-        {!isLoading &&
+        {data && isLoading ? (
+          <Skeleton length={4} />
+        ) : (
           data?.map((item) => (
             <ItemList
               item={item}
               key={item.productId}
               icon={
-                // <IconWrapper>
-                //   <Link to={`/product/${item.productId}`}>
-                //     <HiOutlineChevronRight />
-                //   </Link>
-                //   <Link to="/cart">
-                //     <HiOutlineShoppingCart />
-                //   </Link>
-                // </IconWrapper>
                 <button
                   onClick={() => deleteMutation.mutate(item.likeId as number)}
                 >
@@ -53,7 +48,8 @@ const Likes = () => {
                 </button>
               }
             />
-          ))}
+          ))
+        )}
       </ItemWrapper>
     </Block>
   );
