@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Bold, Pretendard, Info } from "global/FigmaStyles";
 import { Container, TitleBox, GroupLeftBox } from "components/auth/StyledUtils";
@@ -11,6 +11,11 @@ import SecurityNumberInput from "components/auth/SecurityNumberInput";
 import CheckBoxButton from "components/auth/CheckBoxButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useEffect } from "react";
+import Loading from "Loading";
+import { useAxios } from "hooks/useLoginAxios";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { loginAction, selectAccessToken } from "reducers/auth";
 
 // validationSchema.z.object[interestsLabel] 이 되야함
 const interestsLabel = "interest";
@@ -46,9 +51,14 @@ const validationSchema = z
 
         "8-20자 영문, 숫자, 특수문자를 사용하세요.",
       ),
-    interest: z.string().array().nonempty({
-      message: "최소 한 개 이상 선택해주세요",
-    }),
+    interest: z
+      .string()
+      .nullable()
+      .refine(
+        (data) => data !== null,
+
+        { message: "가입 목적을 선택해주세요." },
+      ),
     front: z
       .string()
       .min(0, "주민번호 앞자리를 입력하세요")
@@ -74,6 +84,7 @@ interface InputField {
   type?: string;
   options?: RegisterOptions;
   placeholder?: string;
+  typeValue?: number;
 }
 
 type IForm = Record<string, FieldError | string>;
@@ -106,22 +117,27 @@ const interests: InputField[] = [
   {
     name: "신용대출",
     label: interestsLabel,
+    typeValue: 1,
   },
   {
     name: "생활비대출",
     label: interestsLabel,
+    typeValue: 2,
   },
   {
     name: "주택담보대출",
     label: interestsLabel,
+    typeValue: 3,
   },
   {
     name: "저소득자대출",
     label: interestsLabel,
+    typeValue: 4,
   },
   {
     name: "학자금 대출",
     label: interestsLabel,
+    typeValue: 5,
   },
 ];
 const SignUp = () => {
@@ -134,13 +150,48 @@ const SignUp = () => {
     resolver: zodResolver(validationSchema),
   });
 
-  const errorForms = Object.keys(errors).length;
+  const { fetchData, cancelRequest, response, error, loading } = useAxios();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const TokenUpdate = useAppSelector(selectAccessToken);
+  useEffect(() => {
+    if (TokenUpdate) {
+      console.log("잘못된 접근, 엑세스토큰 있음");
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [TokenUpdate]);
+
+  useEffect(() => {
+    if (response) {
+      dispatch(loginAction(response));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response]);
+
   const onSubmit = (data: FormValues) => {
-    console.log(data);
+    fetchData("/signUp", {
+      method: "post",
+      data: {
+        email: data.email,
+        password: data.currentPassword,
+        name: data.currentPassword,
+        brith: `${data.front}${data.back}`,
+        joinType: Number(data.interest),
+      },
+    });
+    // navigate("/");
   };
 
   return (
     <Container>
+      {loading ? (
+        <Loading
+          loading={loading}
+          outerCount={5}
+          cancelRequest={cancelRequest}
+        />
+      ) : null}
       <TitleBox>
         <Link to="/">
           <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
@@ -168,12 +219,13 @@ const SignUp = () => {
           <Pretendard color={colors["GRAY-7"]}>가입 목적</Pretendard>
 
           <InterestBox>
-            {interests.map(({ label, name }) => (
+            {interests.map(({ label, name, typeValue }) => (
               <CheckBoxButton
                 key={name}
                 label={label}
                 name={name}
                 register={register}
+                typeValue={typeValue}
               />
             ))}
           </InterestBox>
