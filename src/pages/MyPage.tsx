@@ -22,11 +22,11 @@ const LINK_ITEM: LinkItem[] = [
     to: "user/password",
     label: "회원정보 수정",
   },
-  // {
-  //   icon: <HiOutlineQueueList />,
-  //   to: "order",
-  //   label: "신청내역",
-  // },
+  {
+    icon: <HiOutlineQueueList />,
+    to: "order",
+    label: "신청내역",
+  },
   {
     icon: <HiOutlineShoppingCart />,
     to: "/cart",

@@ -4,6 +4,7 @@ export interface Item {
   type?: string;
   id?: string;
   cartId?: number;
+  likeId?: number;
   loanLimit: string;
   productName: string;
   bankName: string;

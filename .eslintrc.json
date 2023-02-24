@@ -48,6 +48,7 @@
       }
     ],
     "react/button-has-type": "off",
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "@typescript-eslint/no-shadow": "off"
   }
 }
