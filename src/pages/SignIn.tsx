@@ -16,7 +16,11 @@ import { useAxios } from "hooks/useLoginAxios";
 import { useEffect } from "react";
 
 import { useAppSelector, useAppDispatch } from "app/hooks";
-import { loginAction, selectAccessToken, selectuserInfo } from "reducers/auth";
+import {
+  loginAction,
+  selectAccessToken,
+  selectuserInfo,
+} from "features/authSlice";
 
 const validationSchema = z.object({
   email: z

@@ -13,11 +13,10 @@ import SecurityNumberInput from "components/auth/SecurityNumberInput";
 import CheckBoxButton from "components/auth/CheckBoxButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useEffect } from "react";
 import Loading from "Loading";
 import { useAxios } from "hooks/useLoginAxios";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { loginAction, selectAccessToken } from "reducers/auth";
+import { loginAction, selectAccessToken } from "features/authSlice";
 
 // validationSchema.z.object[interestsLabel] 이 되야함
 const interestsLabel = "interest";
