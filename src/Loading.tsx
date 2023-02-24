@@ -14,7 +14,7 @@ interface Props {
 
 const Loading = ({ loading, outerCount, cancelRequest }: Props) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  console.log("loading 컴포넌트 loading", loading);
+  // console.log("loading 컴포넌트 loading", loading);
   const [count, setCount] = useState<number>(outerCount);
   const interval = useRef<any>(null);
 
@@ -24,7 +24,7 @@ const Loading = ({ loading, outerCount, cancelRequest }: Props) => {
   useEffect(() => {
     interval.current = setInterval(() => {
       setCount((value) => value - 1);
-      console.log("실행됨");
+      // console.log("실행됨");
       if (count < 1) {
         clearInterval(interval.current);
         interval.current = null;
@@ -32,7 +32,7 @@ const Loading = ({ loading, outerCount, cancelRequest }: Props) => {
     }, 1000);
 
     if (loading) {
-      console.log("currents", dialogRef.current);
+      // console.log("currents", dialogRef.current);
       if (dialogRef.current) {
         dialogRef.current.close();
         dialogRef.current.showModal();
@@ -46,7 +46,7 @@ const Loading = ({ loading, outerCount, cancelRequest }: Props) => {
 
   function onClose() {
     if (dialogRef.current) {
-      console.log("닫힘", dialogRef.current.closest("dialog")?.returnValue);
+      // console.log("닫힘", dialogRef.current.closest("dialog")?.returnValue);
       if (dialogRef.current.closest("dialog")?.returnValue === "cancel") {
         cancelRequest();
       }

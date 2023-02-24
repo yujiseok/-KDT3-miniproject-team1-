@@ -156,7 +156,7 @@ const SignUp = () => {
   const TokenUpdate = useAppSelector(selectAccessToken);
   useEffect(() => {
     if (TokenUpdate) {
-      console.log("잘못된 접근, 엑세스토큰 있음");
+      // console.log("잘못된 접근, 엑세스토큰 있음");
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -192,9 +192,6 @@ const SignUp = () => {
         />
       ) : null} */}
       <TitleBox>
-        <Link to="/">
-          <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
-        </Link>
         <Bold>회원가입</Bold>
       </TitleBox>
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -245,7 +242,6 @@ const SignUp = () => {
           </Signin>
         </SummitBox>
       </Form>
-      <TitleBox />
     </Container>
   );
 };
