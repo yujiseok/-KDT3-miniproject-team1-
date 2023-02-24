@@ -5,27 +5,13 @@ import { HiOutlineUserCircle } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import colors from "constants/colors";
-import { useEffect, useState } from "react";
 
-import { getUserInfo } from "api/main";
-import type { Auth } from "types/itemType";
+import { useAppSelector } from "app/hooks";
 
 const Footer = () => {
   const location = useLocation();
   let pathName = location.pathname;
-  const [authInfo, setAuthInfo] = useState<Array<Auth>>([]);
-
-  useEffect(() => {
-    async function getData() {
-      try {
-        const authData = await getUserInfo();
-        setAuthInfo(authData);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getData();
-  }, []);
+  const { auth } = useAppSelector((state) => state);
 
   if (pathName.slice(1, 7) === "search") {
     pathName = "/search/page";
@@ -56,7 +42,7 @@ const Footer = () => {
     { name: "mypage", content: <HiOutlineUserCircle />, path: "/mypage" },
   ];
 
-  if (Object.keys(authInfo).length === 0) {
+  if (Object(auth).id === "") {
     return (
       <FooterContent>
         <ul role="navigation">

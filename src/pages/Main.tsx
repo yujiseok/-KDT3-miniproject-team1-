@@ -3,28 +3,28 @@ import styled from "styled-components";
 import colors from "constants/colors";
 import { useEffect, useState } from "react";
 import ItemList from "components/ItemList";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import "swiper/scss";
 import "swiper/scss/pagination";
 import { getOrder, getProducts, getUserInfo } from "api/main";
-import type { Item, Auth } from "types/itemType";
+import type { Item } from "types/itemType";
+import { useAppSelector } from "app/hooks";
 
 const Main = () => {
   const [recommend, setRecommend] = useState<Array<Item>>([]);
   const [order, setOrder] = useState<Array<Item>>([]);
   const [allProducts, setAllProducts] = useState<Array<Item>>([]);
   const [products, setProducts] = useState<Array<Item>>([]);
-  const [authInfo, setAuthInfo] = useState<Array<Auth>>([]);
+
+  const { auth } = useAppSelector((state) => state);
 
   useEffect(() => {
     async function getData() {
       try {
         const orderData = await getOrder();
-        const authData = await getUserInfo();
         setOrder(orderData);
-        setAuthInfo(authData);
       } catch (error) {
         console.log(error);
       } finally {
@@ -65,23 +65,23 @@ const Main = () => {
 
   useEffect(() => {
     function Recommend() {
-      if (authInfo[0]?.joinType === 1) {
+      if (auth.joinType === 1) {
         setRecommend(recommend1.splice(0, 5));
-      } else if (authInfo[0]?.joinType === 2) {
+      } else if (auth?.joinType === 2) {
         setRecommend(recommend2.splice(0, 5));
-      } else if (authInfo[0]?.joinType === 3) {
+      } else if (auth?.joinType === 3) {
         setRecommend(recommend3.splice(0, 5));
-      } else if (authInfo[0]?.joinType === 4) {
+      } else if (auth?.joinType === 4) {
         setRecommend(recommend4.splice(0, 5));
-      } else if (authInfo[0]?.joinType === 5) {
+      } else if (auth?.joinType === 5) {
         setRecommend(recommend5.splice(0, 5));
       }
     }
     Recommend();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authInfo[0]?.joinType]);
+  }, [auth, allProducts]);
 
-  if (Object.keys(authInfo).length === 0) {
+  if (Object(auth).id === "") {
     return (
       <MainContent>
         <TitleContent>
@@ -132,7 +132,7 @@ const Main = () => {
       {/* 회원용 */}
       <TitleContent>
         <h2>
-          <span>{authInfo[0]?.name}</span>님이
+          <span>{Object(auth)?.name}</span>님이
           <br />
           신청하신 대출 정보 입니다.
         </h2>
@@ -164,7 +164,7 @@ const Main = () => {
 
       <RecommendContent>
         <h2 className="recommend">
-          <span>{authInfo[0]?.name}</span>님의 맞춤 대출 정보 입니다.
+          <span>{Object(auth)?.name}</span>님의 맞춤 대출 정보 입니다.
         </h2>
         {recommend.length > 0
           ? recommend.map((item) => {
@@ -222,7 +222,6 @@ const OrderContent = styled.div`
       .swiper-slide {
         p {
           font-size: 18px;
-          text-align: center;
           color: ${colors["GRAY-6"]};
         }
       }

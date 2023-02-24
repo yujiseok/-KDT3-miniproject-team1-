@@ -16,9 +16,11 @@ interface ILoanProps {
 
 const LoanInterest = ({ item }: ILoanProps) => {
   const { rateType, repayType, minRate, maxRate } = item;
+  console.log(item);
+
   return (
     <Ul>
-      <LiCase>{`${rateType}, ${repayType}`}일 경우</LiCase>
+      <LiCase>{`${rateType}, ${repayType} 일 경우`}</LiCase>
       <LiValue>{`최저 금리 ${minRate}% 최고 금리 ${maxRate}%`}</LiValue>
     </Ul>
   );
