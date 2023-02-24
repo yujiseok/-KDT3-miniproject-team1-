@@ -21,7 +21,9 @@ const ItemList = ({
   checkedItems,
   setCheckedItems,
 }: ListProps) => {
-  const detailUrl = `/product/${item.productId}`;
+  const productId = item.productId ? item.productId : item.id;
+  const detailUrl = `/product/${productId}`;
+
   // 장바구니 선택
   const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
