@@ -115,12 +115,12 @@ const inputs: InputField[] = [
 
 const interests: InputField[] = [
   {
-    name: "신용대출",
+    name: "개인신용대출",
     label: interestsLabel,
     typeValue: 1,
   },
   {
-    name: "생활비대출",
+    name: "전세자금대출",
     label: interestsLabel,
     typeValue: 2,
   },
@@ -135,7 +135,7 @@ const interests: InputField[] = [
     typeValue: 4,
   },
   {
-    name: "학자금 대출",
+    name: "직장인대출",
     label: interestsLabel,
     typeValue: 5,
   },
