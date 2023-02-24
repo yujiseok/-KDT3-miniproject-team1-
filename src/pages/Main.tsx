@@ -222,7 +222,6 @@ const OrderContent = styled.div`
       .swiper-slide {
         p {
           font-size: 18px;
-          text-align: center;
           color: ${colors["GRAY-6"]};
         }
       }
