@@ -4,7 +4,6 @@ import { Bold, Pretendard, Info } from "global/FigmaStyles";
 import { Container, TitleBox, GroupLeftBox } from "components/auth/StyledUtils";
 import colors from "constants/colors";
 import { useForm } from "react-hook-form";
-import type { FieldError, RegisterOptions } from "react-hook-form";
 import { MdInfo } from "react-icons/md";
 import InputModule from "components/auth/InputModule";
 import SecurityNumberInput from "components/auth/SecurityNumberInput";
@@ -14,8 +13,9 @@ import { z } from "zod";
 import { useEffect } from "react";
 import Loading from "Loading";
 import { useAxios } from "hooks/useLoginAxios";
+import type { FieldError, RegisterOptions } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { loginAction, selectAccessToken } from "features/auth";
+import { loginAction, selectAccessToken } from "features/authSlice";
 
 // validationSchema.z.object[interestsLabel] 이 되야함
 const interestsLabel = "interest";
