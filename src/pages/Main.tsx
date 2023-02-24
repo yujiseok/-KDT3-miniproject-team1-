@@ -64,21 +64,21 @@ const Main = () => {
 
   useEffect(() => {
     function Recommend() {
-      if (authInfo?.joinType === 1) {
-        setRecommend(recommend1);
+      if (authInfo.joinType === 1) {
+        setRecommend(recommend1.splice(0, 5));
       } else if (authInfo.joinType === 2) {
-        setRecommend(recommend2);
+        setRecommend(recommend2.splice(0, 5));
       } else if (authInfo.joinType === 3) {
-        setRecommend(recommend3);
+        setRecommend(recommend3.splice(0, 5));
       } else if (authInfo.joinType === 4) {
-        setRecommend(recommend4);
-      } else {
-        setRecommend(recommend5);
+        setRecommend(recommend4.splice(0, 5));
+      } else if (authInfo.joinType === 5) {
+        setRecommend(recommend5.splice(0, 5));
       }
     }
     Recommend();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [authInfo.joinType]);
 
   if (Object.keys(authInfo).length === 0) {
     return (
