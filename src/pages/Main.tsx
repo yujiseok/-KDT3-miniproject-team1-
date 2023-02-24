@@ -3,7 +3,7 @@ import styled from "styled-components";
 import colors from "constants/colors";
 import { useEffect, useState } from "react";
 import ItemList from "components/ItemList";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import "swiper/scss";
@@ -12,6 +12,7 @@ import { getOrder, getProducts, getUserInfo } from "api/main";
 import type { Item, Auth } from "types/itemType";
 
 const Main = () => {
+  const location = useLocation();
   const [recommend, setRecommend] = useState<Array<Item>>([]);
   const [order, setOrder] = useState<Array<Item>>([]);
   const [allProducts, setAllProducts] = useState<Array<Item>>([]);
@@ -79,7 +80,7 @@ const Main = () => {
     }
     Recommend();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [Object(authInfo)]);
+  }, [Object(authInfo), allProducts]);
 
   if (Object.keys(authInfo).length === 0) {
     return (
