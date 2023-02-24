@@ -86,6 +86,8 @@ zod 반영은 하루만에 끝났다
 - react hook form
 - zod
 
+---
+
 ### 김지원
 
 #### 장바구니 (/Cart)
@@ -100,6 +102,8 @@ zod 반영은 하루만에 끝났다
 - DetailTitle 컴포넌트와 DetailContent 컴포넌트가 반복되고 있습니다. map처럼 객체도 효율적으로 데이터를 출력하는 방법이 있을까요?
 
 #### 신청 완료(/CompleteOrder)
+
+---
 
 ### 유지석
 
@@ -129,6 +133,8 @@ zod 반영은 하루만에 끝났다
 #### 권한별 라우트 구현
 
 - PublicRouter, PrivateRouter를 통한 권한별 리다이렉트 구현
+
+---
 
 ### 박정민
 
