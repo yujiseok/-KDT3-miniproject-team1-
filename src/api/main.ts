@@ -21,3 +21,5 @@ export const getProducts = async () => {
   });
   return res.data.data;
 };
+
+// 회원용
