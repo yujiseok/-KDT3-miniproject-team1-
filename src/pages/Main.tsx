@@ -79,7 +79,7 @@ const Main = () => {
     }
     Recommend();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [Object(authInfo)?.joinType]);
+  }, [Object(authInfo)]);
 
   if (Object.keys(authInfo).length === 0) {
     return (
