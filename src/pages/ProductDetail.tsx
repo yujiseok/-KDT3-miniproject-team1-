@@ -11,7 +11,7 @@ import LoanInterest from "components/productDetail/LoanInterest";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getDetail } from "api/productDetail";
-import { addToCart, addCartt } from "api/carts";
+import useCart from "hooks/useCart";
 import { postLikeLists } from "api/likes";
 import type { IItem } from "../components/productDetail/LoanInterest";
 
@@ -29,15 +29,23 @@ interface IDetail {
 }
 
 const ProductDetail = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState("");
   const [liked, setLiked] = useState(false);
+
+  // 전체 장바구니 정보
+  const {
+    getCartList: { data: cartItems },
+    addCartList,
+  } = useCart();
 
   const { id } = useParams();
   // 상세 정보 data 불러오기
-  const { isLoading, data: detail } = useQuery([id], () =>
+  const { isLoading, data: detail } = useQuery(["data"], () =>
     getDetail(id as string),
   );
 
+  // 장바구니에 동일한 상품이 있을 경우
+  const already = cartItems?.forEach((item: any) => item.productId === id);
   console.log(detail?.productId);
   const queryClient = useQueryClient();
 
@@ -48,8 +56,14 @@ const ProductDetail = () => {
     },
   });
   const addCart = () => {
-    setOpenModal(true);
-    addToCart(detail.productId);
+    // if (already) {
+    //   setOpenModal("already");
+    //   return;
+    // }
+    addCartList.mutate(id as string);
+    setOpenModal("selected");
+    // setOpenModal(true);
+    // addToCart(detail.productId);
   };
 
   const handleLike = () => {
@@ -60,11 +74,8 @@ const ProductDetail = () => {
     <div>
       {detail && (
         <Wrapper>
-          <BankImg
-            src="https://cdn.banksalad.com/graphic/color/logo/circle/woori.png"
-            alt="은행 이미지"
-          />
-          <BankTitle>{`${detail?.bankName} ${detail.categoryName}`}</BankTitle>
+          <BankImg src={detail.bankImg} alt="은행 이미지" />
+          <BankTitle>{`${detail.bankName} ${detail.categoryName}`}</BankTitle>
           <ProductBox>
             <ProductTitle>{detail.productName}</ProductTitle>
             <button onClick={() => likeMutation.mutate(detail?.productId)}>
@@ -90,7 +101,16 @@ const ProductDetail = () => {
               <HiOutlineShoppingCart />
               장바구니에 담기
             </Btn>
-            {openModal && <CartModal setOpenModal={setOpenModal} />}
+            {openModal && (
+              <CartModal
+                setOpenModal={setOpenModal}
+                text={
+                  openModal === "selected"
+                    ? "선택한 상품이 장바구니에 담겼습니다."
+                    : "이미 장바구니에 담긴 상품입니다"
+                }
+              />
+            )}
           </BtnBox>
           <DetailBox>
             <DetailBoxTitle>상세정보</DetailBoxTitle>

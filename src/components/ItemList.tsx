@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { removeFromCart } from "api/carts";
+import useCart from "hooks/useCart";
 import type { Item } from "../types/itemType";
 
 interface ListProps {
@@ -37,18 +38,12 @@ const ItemList = ({
   };
 
   // 장바구니 삭제
-  const queryClient = useQueryClient();
-  const deleteCartList = useMutation(
-    (basketId: string) => removeFromCart(basketId),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["cart"]);
-      },
-    },
-  );
-  const handleDelete = (cartId: string) => {
+  const { deleteCartList } = useCart();
+
+  const handleDelete = (cartId: number) => {
     deleteCartList.mutate(cartId);
   };
+
   return (
     <ListContent cart={typeof cart === "boolean" ? cart : false}>
       <CheckBox

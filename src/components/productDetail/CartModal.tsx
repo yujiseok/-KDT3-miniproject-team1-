@@ -3,25 +3,26 @@ import { useNavigate } from "react-router-dom";
 import colors from "constants/colors";
 
 interface ICartModalProps {
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenModal: React.Dispatch<React.SetStateAction<string>>;
+  text: string;
 }
 
-const CartModal = ({ setOpenModal }: ICartModalProps) => {
+const CartModal = ({ setOpenModal, text }: ICartModalProps) => {
   const navigate = useNavigate();
 
   const checkCart = () => {
-    setOpenModal(false);
+    setOpenModal("");
     navigate("/cart");
   };
 
   const keepShopping = () => {
-    setOpenModal(false);
+    setOpenModal("");
   };
 
   return (
     <Overlay>
       <Wrapper>
-        선택한 상품이 장바구니에 담겼습니다.
+        {text}
         <BtnBox>
           <Btn primary onClick={checkCart}>
             장바구니 확인
