@@ -79,6 +79,7 @@ const Nav = styled.li`
   gap: 1rem;
   align-items: center;
   justify-content: center;
+  margin-bottom: 40px;
 `;
 
 export default Pagination;

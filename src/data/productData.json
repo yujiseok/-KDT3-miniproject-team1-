@@ -12,7 +12,7 @@
     "loanLimit": "- LTV 70% 등",
     "disclosureStartDay": "20230116",
     "disclosureEndDay": "",
-    "longRateDTO": [
+    "loanRateList": [
       {
         "id": 68,
         "rateType": "변동금리",

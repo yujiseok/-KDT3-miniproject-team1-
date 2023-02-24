@@ -1,9 +1,9 @@
 import type {
   FieldError,
-  FieldValues,
   UseFormRegister,
   RegisterOptions,
 } from "react-hook-form";
+import type { FormValues } from "pages/SingUp";
 import { Pretendard, Info, InputFontStyle } from "global/FigmaStyles";
 import { MdInfo } from "react-icons/md";
 import colors from "constants/colors";
@@ -11,7 +11,7 @@ import styled from "styled-components";
 import { GroupLeftBox } from "./StyledUtils";
 
 interface Props {
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<FormValues>;
   options?: RegisterOptions;
   error?: Errors;
 }

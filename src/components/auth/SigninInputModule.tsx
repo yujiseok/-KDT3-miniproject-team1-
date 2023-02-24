@@ -2,7 +2,7 @@ import { Pretendard, Info, InputFontStyle } from "global/FigmaStyles";
 import { MdInfo } from "react-icons/md";
 import colors from "constants/colors";
 import styled from "styled-components";
-import type { FormValues } from "pages/SingUp";
+import type { FormValues } from "pages/SignIn";
 import type {
   FieldError,
   UseFormRegister,

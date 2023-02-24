@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Bold, Pretendard, Info } from "global/FigmaStyles";
 import { Container, TitleBox, GroupLeftBox } from "components/auth/StyledUtils";
@@ -11,6 +11,73 @@ import { CgLock } from "react-icons/cg";
 import InputModule from "components/auth/InputModule";
 import SecurityNumberInput from "components/auth/SecurityNumberInput";
 import CheckBoxButton from "components/auth/CheckBoxButton";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useEffect } from "react";
+import Loading from "Loading";
+import { useAxios } from "hooks/useLoginAxios";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { loginAction, selectAccessToken } from "reducers/auth";
+
+// validationSchema.z.object[interestsLabel] 이 되야함
+const interestsLabel = "interest";
+
+const validationSchema = z
+  .object({
+    username: z
+      .string()
+      .min(2, "2글자 이상 입력해주세요.")
+      .regex(/^[가-힣]+$/, "한글로 입력해주세요"),
+    email: z
+      .string()
+      .min(0, "이메일을 입력해주세요")
+      .regex(
+        /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+        "이메일 주소를 확인해주세요.",
+      ),
+    newPassword: z
+      .string()
+      .min(8, "비밀번호는 8자 이상 입력해주세요.")
+      .max(20, "비밀번호는 20자 이하로 입력해주세요.")
+      .regex(
+        /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/,
+
+        "8-20자 영문, 숫자, 특수문자를 사용하세요.",
+      ),
+    currentPassword: z
+      .string()
+      .min(8, "비밀번호는 8자 이상 입력해주세요.")
+      .max(20, "비밀번호는 20자 이하로 입력해주세요.")
+      .regex(
+        /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/,
+
+        "8-20자 영문, 숫자, 특수문자를 사용하세요.",
+      ),
+    interest: z
+      .string()
+      .nullable()
+      .refine(
+        (data) => data !== null,
+
+        { message: "가입 목적을 선택해주세요." },
+      ),
+    front: z
+      .string()
+      .min(0, "주민번호 앞자리를 입력하세요")
+      .max(6, "주민번호 앞자리를 6자 이하로 입력해주세요.")
+      .regex(/^[0-9]+$/, "숫자만 입력 가능합니다"),
+    back: z
+      .string()
+      .min(0, "주민번호 뒷자리를 입력하세요")
+      .max(1, "주민번호 앞자리를 1자 이하로 입력해주세요.")
+      .regex(/^[0-9]$/, "숫자만 입력 가능합니다"),
+  })
+  .refine((data) => data.newPassword === data.currentPassword, {
+    path: ["currentPassword"],
+    message: "비밀번호가 일치하지 않습니다.",
+  });
+
+export type FormValues = z.infer<typeof validationSchema>;
 
 interface InputField {
   Prefix?: JSX.Element;
@@ -19,10 +86,38 @@ interface InputField {
   type?: string;
   options?: RegisterOptions;
   placeholder?: string;
+  typeValue?: number;
 }
 
 type IForm = Record<string, FieldError | string>;
 
+const interests: InputField[] = [
+  {
+    name: "신용대출",
+    label: interestsLabel,
+    typeValue: 1,
+  },
+  {
+    name: "생활비대출",
+    label: interestsLabel,
+    typeValue: 2,
+  },
+  {
+    name: "주택담보대출",
+    label: interestsLabel,
+    typeValue: 3,
+  },
+  {
+    name: "저소득자대출",
+    label: interestsLabel,
+    typeValue: 4,
+  },
+  {
+    name: "학자금 대출",
+    label: interestsLabel,
+    typeValue: 5,
+  },
+];
 const SignUp = () => {
   const {
     register,
@@ -32,8 +127,37 @@ const SignUp = () => {
     formState: { errors },
   } = useForm<IForm>();
 
-  const onSubmit = (data: IForm) => {
-    console.log(data);
+  const { fetchData, cancelRequest, response, error, loading } = useAxios();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const TokenUpdate = useAppSelector(selectAccessToken);
+  useEffect(() => {
+    if (TokenUpdate) {
+      console.log("잘못된 접근, 엑세스토큰 있음");
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [TokenUpdate]);
+
+  useEffect(() => {
+    if (response) {
+      dispatch(loginAction(response));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [response]);
+
+  const onSubmit = (data: FormValues) => {
+    fetchData("/signUp", {
+      method: "post",
+      data: {
+        email: data.email,
+        password: data.currentPassword,
+        name: data.currentPassword,
+        brith: `${data.front}${data.back}`,
+        joinType: Number(data.interest),
+      },
+    });
+    // navigate("/");
   };
 
   const inputs: InputField[] = [
@@ -96,16 +220,16 @@ const SignUp = () => {
           value: 20,
           message: "비밀번호는 20자 이하로 입력해주세요.",
         },
-        pattern: {
-          value:
-            /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
-          message: "8-20자 영문, 숫자, 특수문자를 사용하세요",
-        },
+        // pattern: {
+        //   value:
+        //     /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
+        //   message: "8-20자 영문, 숫자, 특수문자를 사용하세요",
+        // },
         // eslint-disable-next-line consistent-return
         validate: (val: string) => {
-          if (watch("new-password") !== val) {
-            return "비밀번호가 일치하지 않습니다";
-          }
+          // if (watch("new-password") !== val) {
+          //   return "비밀번호가 일치하지 않습니다";
+          // }
         },
       },
     },
@@ -150,6 +274,13 @@ const SignUp = () => {
   ];
   return (
     <Container>
+      {loading ? (
+        <Loading
+          loading={loading}
+          outerCount={5}
+          cancelRequest={cancelRequest}
+        />
+      ) : null}
       <TitleBox>
         <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
         <Bold>회원가입</Bold>
@@ -189,13 +320,13 @@ const SignUp = () => {
           <Pretendard color={colors["GRAY-7"]}>가입 목적</Pretendard>
 
           <InterestBox>
-            {interests.map(({ label, options, name }) => (
+            {interests.map(({ label, name, typeValue }) => (
               <CheckBoxButton
                 key={name}
                 label={label}
                 name={name}
                 register={register}
-                options={options}
+                typeValue={typeValue}
               />
             ))}
           </InterestBox>
@@ -232,7 +363,6 @@ const SummitBox = styled.div`
   align-items: center;
   padding: 0px;
   gap: 16px;
-
   width: 100%;
   height: fit-content;
 `;
@@ -244,12 +374,9 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   padding: 0px;
-
   width: 100%;
   height: 48px;
-
   /* Primary Color/INDIGO 9 */
-
   background: ${colors["INDIGO-9"]};
   border-radius: 10px;
 `;

@@ -1,11 +1,13 @@
 import colors from "constants/colors";
-import type { ItemType } from "pages/Main";
 import type { SetStateAction } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { removeFromCart } from "api/carts";
+import type { Item } from "../types/itemType";
 
 interface ListProps {
-  item: ItemType;
+  item: Item;
   icon: JSX.Element;
   cart?: boolean;
   checkedItems?: string[];
@@ -19,40 +21,77 @@ const ItemList = ({
   checkedItems,
   setCheckedItems,
 }: ListProps) => {
-  const detailUrl = `/product/${item.id}`;
+  const detailUrl = `/product/${item.productId}`;
+  // 장바구니 선택
   const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
     if (!checkedItems || !setCheckedItems) {
       return;
     }
     if (checked) {
-      setCheckedItems((prev) => [...prev, item.id]);
+      setCheckedItems((prev) => [...prev, item.productId]);
     } else {
-      setCheckedItems(checkedItems.filter((el) => el !== item.id));
+      setCheckedItems(checkedItems.filter((el) => el !== item.productId));
     }
+  };
+
+  // 장바구니 삭제
+  const queryClient = useQueryClient();
+  const deleteCartList = useMutation(
+    (basketId: string) => removeFromCart(basketId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["cart"]);
+      },
+    },
+  );
+  const handleDelete = (cartId: string) => {
+    deleteCartList.mutate(cartId);
   };
   return (
     <ListContent cart={typeof cart === "boolean" ? cart : false}>
       <CheckBox
         cart={typeof cart === "boolean" ? cart : false}
         onChange={handleChecked}
-        checked={!!checkedItems?.includes(item.id)}
+        checked={!!checkedItems?.includes(item.productId as string)}
       />
       <Link to={detailUrl}>
         <ImgContent>
-          <img src={item.bankimg} alt="bank img" />
+          <img src={item.bankImgPath} alt="bank img" />
         </ImgContent>
 
         <TextContent cart={typeof cart === "boolean" ? cart : false}>
-          <h3>{item.bank}</h3>
-          <p>{item.title}</p>
-          <h2>평균 {item.avg_rate}%</h2>
+          <h3>{item.bankName}</h3>
+          <p>{item.productName}</p>
+          {item?.loanRateList[0]?.avgRate === null ? (
+            <h2>
+              평균{" "}
+              {(
+                (item.loanRateList[0].maxRate + item.loanRateList[0].minRate) /
+                2
+              ).toPrecision(3)}
+              %
+            </h2>
+          ) : (
+            <h2>평균 {item?.loanRateList[0]?.avgRate}%</h2>
+          )}
           <TagContent>
-            <span>{item.type}</span>
+            <span>{item.productType}</span>
           </TagContent>
         </TextContent>
       </Link>
-      <IconContent>{icon}</IconContent>
+      <IconContent
+        onClick={() => {
+          if (cart) {
+            if (!item.cartId) {
+              return;
+            }
+            handleDelete(item.cartId);
+          }
+        }}
+      >
+        {icon}
+      </IconContent>
     </ListContent>
   );
 };
@@ -121,6 +160,7 @@ const TagContent = styled.div`
 const IconContent = styled.div`
   width: 10%;
   padding-top: 10px;
+  cursor: pointer;
   svg {
     float: right;
   }

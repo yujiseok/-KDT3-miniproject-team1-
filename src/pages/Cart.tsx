@@ -1,18 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import colors from "constants/colors";
 import { useNavigate } from "react-router-dom";
 import ItemList from "components/ItemList";
 import { GrFormClose } from "react-icons/gr";
 import data from "data/listData.json";
-import type { ItemType } from "./Main";
+import { getCart } from "api/carts";
+import { useQuery } from "@tanstack/react-query";
+import OrderModal from "components/cart/OrderModal";
+import type { Item } from "types/itemType";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState<ItemType[]>(data.items);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
-  const emptyCart = cartItems?.length === 0;
+  const [openModal, setOpenModal] = useState(false);
+
   const navigate = useNavigate();
   const handleClick = () => {
+    if (checkedItems.length === 0) {
+      setOpenModal(true);
+    }
+
     navigate("/completeOrder");
   };
 
@@ -20,12 +27,20 @@ const Cart = () => {
     const { checked } = event.target;
     if (checked) {
       const newArr: string[] = [];
-      data.items.forEach((item) => newArr.push(item.id));
+      data.items.forEach((item) => newArr.push(item.productId));
       setCheckedItems(newArr);
     } else {
       setCheckedItems([]);
     }
   };
+
+  const {
+    isLoading,
+    error,
+    data: cartItems,
+  } = useQuery(["cart"], () => getCart());
+
+  const emptyCart = cartItems?.length === 0;
 
   return (
     <Wrapper>
@@ -41,9 +56,9 @@ const Cart = () => {
             전체 선택
           </CheckWrapper>
           {cartItems &&
-            cartItems.map((item) => (
+            cartItems.map((item: Item) => (
               <ItemList
-                key={item.id}
+                key={item.productId}
                 item={item}
                 icon={<GrFormClose />}
                 cart
@@ -60,6 +75,7 @@ const Cart = () => {
           신청하기
         </CartBtn>
       )}
+      {openModal ? <OrderModal /> : ""}
     </Wrapper>
   );
 };
@@ -75,6 +91,7 @@ const Wrapper = styled.div`
 
 const EmptyCart = styled.p`
   margin-top: 200px;
+  margin-bottom: 280px;
   text-align: center;
   font-size: 18px;
   font-weight: 500;

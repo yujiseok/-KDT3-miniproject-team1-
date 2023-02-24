@@ -5,17 +5,19 @@ import colors from "constants/colors";
 import Pagination from "components/Pagination";
 import { RiFileListLine } from "react-icons/ri";
 import { HiOutlineChevronRight } from "react-icons/hi2";
-
-import data from "data/listData.json";
+import { getSearch } from "api/search";
 import { useEffect, useState } from "react";
 import ItemList from "components/ItemList";
-import type { ItemType } from "./Main";
+import type { Item } from "types/itemType";
+import DropDown from "components/dropDown";
 
 const Search = () => {
   const location = useLocation();
   const searchValue = location.state;
+  const [dropdownVisibility, setDropdownVisibility] = useState(false);
 
-  const [result, setResult] = useState<Array<ItemType>>([]);
+  const [result, setResult] = useState<Array<Item>>([]);
+  const [sort, setSort] = useState(false);
 
   const [page, setPage] = useState<number>(1);
   const limit = 4;
@@ -24,13 +26,14 @@ const Search = () => {
   useEffect(() => {
     async function getData() {
       try {
-        await setResult(data.items);
+        const searchData = await getSearch(searchValue);
+        setResult(searchData);
       } catch (error) {
         console.log(error);
       }
     }
     getData();
-  }, []);
+  }, [location, searchValue]);
 
   if (searchValue === null) {
     return (
@@ -41,13 +44,40 @@ const Search = () => {
     );
   }
 
+  const nameSort = () => {
+    result.sort((a, b) => a.productName.localeCompare(b.productName));
+    setResult(result);
+    setSort(!sort);
+  };
+
+  const rateSort = () => {
+    result.sort((a, b) => a.bankName.localeCompare(b.bankName));
+    setResult(result);
+    setSort(!sort);
+  };
+
   const search = searchValue.trim();
   return (
     <SearchContent>
       <h3 className="title">
         <span>{search}</span>에 대한 검색결과입니다.
       </h3>
-      {result.length === 0 ? (
+      <DropContent>
+        <button onClick={() => setDropdownVisibility(!dropdownVisibility)}>
+          {dropdownVisibility ? "닫기" : "정렬"}
+        </button>
+        <DropDown visibility={dropdownVisibility}>
+          <ul>
+            <li role="presentation" onClick={() => nameSort()}>
+              이름순
+            </li>
+            <li role="presentation" onClick={() => rateSort()}>
+              은행순
+            </li>
+          </ul>
+        </DropDown>
+      </DropContent>
+      {result === undefined ? (
         <NullContent>
           <RiFileListLine className="icon" />
           <h3>검색결과가 존재하지 않습니다.</h3>
@@ -94,6 +124,7 @@ const SearchContent = styled.div`
   width: 100%;
   height: 100%;
   margin-top: 90px;
+  position: relative;
   .title {
     margin: 0 10px;
     letter-spacing: 0.5px;
@@ -108,4 +139,17 @@ const ResultContent = styled.ul`
   margin-top: 50px;
 `;
 
+const DropContent = styled.div`
+  position: absolute;
+  top: 0;
+  right: 15px;
+  button {
+    text-align: center;
+    border-radius: 7px;
+    padding: 3px 10px;
+    border: 1px solid ${colors["INDIGO-9"]};
+    font-size: 17px;
+    font-weight: 500;
+  }
+`;
 export default Search;

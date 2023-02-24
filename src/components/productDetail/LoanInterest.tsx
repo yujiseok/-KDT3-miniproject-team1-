@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import colors from "constants/colors";
 
@@ -40,6 +39,6 @@ const LiCase = styled.li`
 `;
 
 const LiValue = styled.li`
-  color: ${colors["GRAY-7"]};
+  color: #666b78;
   font-size: 15px;
 `;

@@ -1,40 +1,35 @@
-import { Pretendard, Info, InputFontStyle, Bold } from "global/FigmaStyles";
-import { MdInfo } from "react-icons/md";
+import { Pretendard } from "global/FigmaStyles";
 import colors from "constants/colors";
 import styled from "styled-components";
-import type {
-  FieldError,
-  FieldValues,
-  UseFormRegister,
-  RegisterOptions,
-} from "react-hook-form";
+import type { FormValues } from "pages/SingUp";
+import type { UseFormRegister, RegisterOptions } from "react-hook-form";
 import { GroupLeftBox } from "./StyledUtils";
 
 interface Props {
-  register: UseFormRegister<FieldValues>;
-  label: string;
-  type?: string;
+  register: UseFormRegister<FormValues>;
+  label: keyof FormValues;
+
   options?: RegisterOptions;
   Prefix?: JSX.Element;
   name: string;
-  error?: FieldError;
+  typeValue?: number;
 }
 
 const CheckBoxButton = ({
   name,
   register,
   label,
-  type = "checkbox",
+
   options,
-  error,
+  typeValue,
 }: Props) => {
   return (
     <ButtonWarpper>
       <InputComp
         id={name}
-        type={type}
+        type="radio"
         {...register(`${label}`, options)}
-        value={name}
+        value={typeValue}
         style={{ display: "none" }}
       />
       <LoginEmail htmlFor={name}>{name}</LoginEmail>
