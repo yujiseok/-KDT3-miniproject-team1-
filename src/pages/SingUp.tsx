@@ -184,13 +184,13 @@ const SignUp = () => {
 
   return (
     <Container>
-      {loading ? (
+      {/* {loading ? (
         <Loading
           loading={loading}
           outerCount={5}
           cancelRequest={cancelRequest}
         />
-      ) : null}
+      ) : null} */}
       <TitleBox>
         <Link to="/">
           <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>

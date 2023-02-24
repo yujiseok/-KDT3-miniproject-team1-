@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import {
   HiOutlineQueueList,
@@ -9,6 +9,8 @@ import {
 } from "react-icons/hi2";
 import colors from "constants/colors";
 import MaleAvatar from "components/svg/MaleAvatar";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { logoutAction } from "features/authSlice";
 
 interface LinkItem {
   icon?: JSX.Element;
@@ -40,6 +42,14 @@ const LINK_ITEM: LinkItem[] = [
 ];
 
 const MyPage = () => {
+  const { auth } = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleClickLogout = () => {
+    dispatch(logoutAction());
+    navigate("/");
+  };
   return (
     <Block>
       <H1>마이페이지</H1>
@@ -49,9 +59,9 @@ const MyPage = () => {
         <MaleAvatar />
         {/* <FemaleAvatar /> */}
         <div>
-          <Username>가나다라</Username>님 환영합니다.
+          <Username>{auth.name}</Username>님 환영합니다.
           <div>
-            <LogOutBtn>로그아웃</LogOutBtn>
+            <LogOutBtn onClick={handleClickLogout}>로그아웃</LogOutBtn>
           </div>
         </div>
       </ProfileWrapper>
