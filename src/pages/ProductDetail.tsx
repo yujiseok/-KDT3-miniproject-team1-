@@ -9,99 +9,109 @@ import {
 import colors from "constants/colors";
 import LoanInterest from "components/productDetail/LoanInterest";
 import { useParams } from "react-router-dom";
-import productData from "../data/productData.json";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getDetail } from "api/productDetail";
+import { addToCart, addCartt } from "api/carts";
+import { postLikeLists } from "api/likes";
 import type { IItem } from "../components/productDetail/LoanInterest";
 
-// interface IDetailProps {
-//   bankName: string;
-//   categoryName: string;
-//   delayRate: string;
-//   earlyRepayFee: string;
-//   joinWay: string;
-//   loanIncidentalExpenses: string;
-//   loanLimit: string;
-//   longRateDTO: IItem[];
-//   productId: string;
-//   productName: string;
-// }
-
-const {
-  bankName,
-  categoryName,
-  delayRate,
-  earlyRepayFee,
-  joinWay,
-  loanIncidentalExpenses,
-  loanLimit,
-  productName,
-  longRateDTO,
-  productId,
-} = productData.data;
+interface IDetail {
+  bankName: string;
+  categoryName: string;
+  delayRate: string;
+  earlyRepayFee: string;
+  joinWay: string;
+  loanIncidentalExpenses: string;
+  loanLimit: string;
+  loanRateList: IItem[];
+  productId: string;
+  productName: string;
+}
 
 const ProductDetail = () => {
-  const params = useParams();
-  console.log(params);
   const [openModal, setOpenModal] = useState(false);
   const [liked, setLiked] = useState(false);
 
-  const handleCart = () => {
+  const { id } = useParams();
+  // 상세 정보 data 불러오기
+  const { isLoading, data: detail } = useQuery([id], () =>
+    getDetail(id as string),
+  );
+
+  console.log(detail?.productId);
+  const queryClient = useQueryClient();
+
+  const likeMutation = useMutation((id: string) => postLikeLists(id), {
+    onSuccess(data) {
+      console.log(data.success);
+      queryClient.invalidateQueries(["like"]);
+    },
+  });
+  const addCart = () => {
     setOpenModal(true);
+    addToCart(detail.productId);
   };
 
   const handleLike = () => {
-    setLiked((prev) => !prev);
+    // setLiked((prev) => !prev);
   };
 
   return (
-    <Wrapper>
-      <BankImg
-        src="https://cdn.banksalad.com/graphic/color/logo/circle/woori.png"
-        alt="은행 이미지"
-      />
-      <BankTitle>{`${bankName} ${categoryName}`}</BankTitle>
-      <ProductBox>
-        <ProductTitle>{productName}</ProductTitle>
-        {liked ? (
-          <HiHeart onClick={handleLike} />
-        ) : (
-          <HiOutlineHeart onClick={handleLike} />
-        )}
-      </ProductBox>
-      <AverageBox>
-        <AverageContent>
-          <AverageTitle>최저 금리</AverageTitle>
-          <AverageValue>{longRateDTO[0].minRate}%</AverageValue>
-        </AverageContent>
-        <AverageContent>
-          <AverageTitle>최고 금리</AverageTitle>
-          <AverageValue>{longRateDTO[0].maxRate}%</AverageValue>
-        </AverageContent>
-      </AverageBox>
-      <BtnBox>
-        <Btn onClick={handleCart}>
-          <HiOutlineShoppingCart />
-          장바구니에 담기
-        </Btn>
-        {openModal && <CartModal setOpenModal={setOpenModal} />}
-      </BtnBox>
-      <DetailBox>
-        <DetailBoxTitle>상세정보</DetailBoxTitle>
-        <DetailTitle>대출 한도</DetailTitle>
-        <DetailContent>{loanLimit}</DetailContent>
-        <DetailTitle>연체 이자율</DetailTitle>
-        <DetailContent>{delayRate}</DetailContent>
-        <DetailTitle>상품 이자율</DetailTitle>
-        {longRateDTO.map((item): any => (
-          <LoanInterest key={item.id} item={item} />
-        ))}
-        <DetailTitle>대출 부대비용</DetailTitle>
-        <DetailContent>{loanIncidentalExpenses}</DetailContent>
-        <DetailTitle>중도상환 수수료</DetailTitle>
-        <DetailContent>{earlyRepayFee}</DetailContent>
-        <DetailTitle>가입방법</DetailTitle>
-        <DetailContent>{joinWay}</DetailContent>
-      </DetailBox>
-    </Wrapper>
+    <div>
+      {detail && (
+        <Wrapper>
+          <BankImg
+            src="https://cdn.banksalad.com/graphic/color/logo/circle/woori.png"
+            alt="은행 이미지"
+          />
+          <BankTitle>{`${detail?.bankName} ${detail.categoryName}`}</BankTitle>
+          <ProductBox>
+            <ProductTitle>{detail.productName}</ProductTitle>
+            <button onClick={() => likeMutation.mutate(detail?.productId)}>
+              {liked ? (
+                <HiHeart onClick={handleLike} />
+              ) : (
+                <HiOutlineHeart onClick={handleLike} />
+              )}
+            </button>
+          </ProductBox>
+          <AverageBox>
+            <AverageContent>
+              <AverageTitle>최저 금리</AverageTitle>
+              <AverageValue>{detail.loanRateList[0].minRate}%</AverageValue>
+            </AverageContent>
+            <AverageContent>
+              <AverageTitle>최고 금리</AverageTitle>
+              <AverageValue>{detail.loanRateList[0].maxRate}%</AverageValue>
+            </AverageContent>
+          </AverageBox>
+          <BtnBox>
+            <Btn onClick={addCart}>
+              <HiOutlineShoppingCart />
+              장바구니에 담기
+            </Btn>
+            {openModal && <CartModal setOpenModal={setOpenModal} />}
+          </BtnBox>
+          <DetailBox>
+            <DetailBoxTitle>상세정보</DetailBoxTitle>
+            <DetailTitle>대출 한도</DetailTitle>
+            <DetailContent>{detail.loanLimit}</DetailContent>
+            <DetailTitle>연체 이자율</DetailTitle>
+            <DetailContent>{detail.delayRate}</DetailContent>
+            <DetailTitle>상품 이자율</DetailTitle>
+            {detail.loanRateList.map((item: IItem) => (
+              <LoanInterest key={item.id} item={item} />
+            ))}
+            <DetailTitle>대출 부대비용</DetailTitle>
+            <DetailContent>{detail.loanIncidentalExpenses}</DetailContent>
+            <DetailTitle>중도상환 수수료</DetailTitle>
+            <DetailContent>{detail.earlyRepayFee}</DetailContent>
+            <DetailTitle>가입방법</DetailTitle>
+            <DetailContent>{detail.joinWay}</DetailContent>
+          </DetailBox>
+        </Wrapper>
+      )}
+    </div>
   );
 };
 export default ProductDetail;

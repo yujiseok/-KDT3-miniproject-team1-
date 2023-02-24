@@ -3,7 +3,7 @@ import type { ChangeEvent, FocusEvent, RefCallback } from "react";
 import styled, { css } from "styled-components";
 
 interface ITextFiled {
-  id: "username" | "password" | "confirmPassword";
+  id: "name" | "password" | "confirmPassword";
   label: "이름" | "비밀번호 변경" | "비밀번호 확인";
   type?: "text" | "password";
   error?: string;

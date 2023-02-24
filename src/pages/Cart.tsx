@@ -7,14 +7,19 @@ import { GrFormClose } from "react-icons/gr";
 import data from "data/listData.json";
 import { getCart } from "api/carts";
 import { useQuery } from "@tanstack/react-query";
+import OrderModal from "components/cart/OrderModal";
 import type { Item } from "types/itemType";
 
 const Cart = () => {
-  // const [cartItems, setCartItems] = useState<ItemType[]>(data.items);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const [openModal, setOpenModal] = useState(false);
 
   const navigate = useNavigate();
   const handleClick = () => {
+    if (checkedItems.length === 0) {
+      setOpenModal(true);
+    }
+
     navigate("/completeOrder");
   };
 
@@ -34,9 +39,10 @@ const Cart = () => {
     error,
     data: cartItems,
   } = useQuery(["cart"], () => getCart());
+
   const emptyCart = cartItems?.length === 0;
 
-  // console.log(cartItems);
+  console.log(cartItems);
 
   return (
     <Wrapper>
@@ -71,6 +77,7 @@ const Cart = () => {
           신청하기
         </CartBtn>
       )}
+      {openModal ? <OrderModal /> : ""}
     </Wrapper>
   );
 };
@@ -86,6 +93,7 @@ const Wrapper = styled.div`
 
 const EmptyCart = styled.p`
   margin-top: 200px;
+  margin-bottom: 280px;
   text-align: center;
   font-size: 18px;
   font-weight: 500;
