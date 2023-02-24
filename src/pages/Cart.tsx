@@ -42,6 +42,8 @@ const Cart = () => {
 
   const emptyCart = cartItems?.length === 0;
 
+  console.log(cartItems);
+
   return (
     <Wrapper>
       {emptyCart ? (
