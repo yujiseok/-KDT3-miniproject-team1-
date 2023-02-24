@@ -2,8 +2,6 @@ import { client } from "./api";
 
 const Headers = {
   accept: "application/json;charset=UTF-8",
-  Authorization:
-    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJ1c2VySWRcIjo0MDI4LFwiZW1haWxcIjpcInRlc3QxMTE4QGVtYWlsLmNvbVwiLFwiand0VHlwZVwiOlwiQUNDRVNTXCIsXCJlbmFibGVkXCI6ZmFsc2UsXCJhdXRob3JpdGllc1wiOm51bGwsXCJhY2NvdW50Tm9uRXhwaXJlZFwiOmZhbHNlLFwiY3JlZGVudGlhbHNOb25FeHBpcmVkXCI6ZmFsc2UsXCJhY2NvdW50Tm9uTG9ja2VkXCI6ZmFsc2UsXCJ1c2VybmFtZVwiOlwidGVzdDExMThAZW1haWwuY29tXCIsXCJwYXNzd29yZFwiOm51bGx9IiwiaXNzIjoiMSB0ZWFtIGJhY2tlbmQiLCJpYXQiOjE2NzcyNDA5NjQsImV4cCI6MTY3NzI0NDU2NH0.ZMhQbj-TFGiXklNjbkl8Z-fU-8deTS33pIHd4DLDMhw",
 };
 
 const NonToken = {
