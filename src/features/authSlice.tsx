@@ -6,7 +6,7 @@ export interface AuthState {
   id: string;
   email: string;
   name: string;
-  brith: string;
+  birth: string;
   joinType: number;
   accessToken: string;
   asset: number;
@@ -19,7 +19,7 @@ const initialState: AuthState = {
   id: "",
   email: "",
   name: "",
-  brith: "",
+  birth: "",
   joinType: 1,
   accessToken: "",
   asset: 0,
@@ -29,7 +29,7 @@ const initialState: AuthState = {
 };
 
 export const authSlice = createSlice({
-  name: "counter",
+  name: "auth",
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
@@ -37,7 +37,7 @@ export const authSlice = createSlice({
       state.id = action.payload.id;
       state.email = action.payload.email;
       state.name = action.payload.name;
-      state.brith = action.payload.brith;
+      state.birth = action.payload.birth;
       state.joinType = action.payload.joinType;
       state.accessToken = action.payload.accessToken;
     },
@@ -45,8 +45,8 @@ export const authSlice = createSlice({
       state.id = "";
       state.email = "";
       state.name = "";
-      state.brith = "";
-      state.joinType = 1;
+      state.birth = "";
+      state.joinType = 0;
       state.accessToken = "";
     },
   },
