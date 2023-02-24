@@ -164,7 +164,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (response) {
-      dispatch(loginAction(response));
+      navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response]);
@@ -180,7 +180,6 @@ const SignUp = () => {
         joinType: Number(data.interest),
       },
     });
-    // navigate("/");
   };
 
   return (
