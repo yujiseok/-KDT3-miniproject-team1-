@@ -3,7 +3,7 @@ export interface Item {
   avg_rate: string;
   type?: string;
   id?: string;
-  cartId?: string;
+  cartId?: string | number;
   likeId?: number;
   loanLimit: string;
   productName: string;
