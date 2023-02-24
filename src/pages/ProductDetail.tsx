@@ -32,52 +32,51 @@ const ProductDetail = () => {
   const [openModal, setOpenModal] = useState("");
   const [liked, setLiked] = useState(false);
 
-  // 전체 장바구니 정보
-  const {
-    getCartList: { data: cartItems },
-    addCartList,
-  } = useCart();
+  // 제공되지 않는 정보에 대한 예외 처리
+  const noInfo = "은행사에서 제공되지 않는 정보입니다.";
 
-  const { id } = useParams();
   // 상세 정보 data 불러오기
-  const { isLoading, data: detail } = useQuery(["data"], () =>
-    getDetail(id as string),
-  );
+  const { id } = useParams();
+  const { data: detail } = useQuery(["data"], () => getDetail(id as string));
 
-  // 장바구니에 동일한 상품이 있을 경우
-  const already = cartItems?.forEach((item: any) => item.productId === id);
-  console.log(detail?.productId);
+  // 찜하기
   const queryClient = useQueryClient();
-
   const likeMutation = useMutation((id: string) => postLikeLists(id), {
     onSuccess(data) {
       console.log(data.success);
       queryClient.invalidateQueries(["like"]);
     },
   });
-  const addCart = () => {
-    // if (already) {
-    //   setOpenModal("already");
-    //   return;
-    // }
-    addCartList.mutate(id as string);
-    setOpenModal("selected");
-    // setOpenModal(true);
-    // addToCart(detail.productId);
+  const handleLike = () => {
+    setLiked((prev) => !prev);
   };
 
-  const handleLike = () => {
-    // setLiked((prev) => !prev);
+  // 전체 장바구니 정보
+  const {
+    getCartList: { data: cartItems },
+    addCartList,
+  } = useCart();
+
+  const addCart = () => {
+    cartItems?.forEach((item: IDetail) =>
+      item.productId === id
+        ? setOpenModal("already")
+        : setOpenModal("selected"),
+    );
+    if (openModal === "selected") {
+      return;
+    }
+    addCartList.mutate(id as string);
   };
 
   return (
     <div>
       {detail && (
         <Wrapper>
-          <BankImg src={detail.bankImg} alt="은행 이미지" />
-          <BankTitle>{`${detail.bankName} ${detail.categoryName}`}</BankTitle>
+          <BankImg src={detail?.bankImg} alt="은행 이미지" />
+          <BankTitle>{`${detail?.bankName} ${detail?.categoryName}`}</BankTitle>
           <ProductBox>
-            <ProductTitle>{detail.productName}</ProductTitle>
+            <ProductTitle>{detail?.productName}</ProductTitle>
             <button onClick={() => likeMutation.mutate(detail?.productId)}>
               {liked ? (
                 <HiHeart onClick={handleLike} />
@@ -89,11 +88,15 @@ const ProductDetail = () => {
           <AverageBox>
             <AverageContent>
               <AverageTitle>최저 금리</AverageTitle>
-              <AverageValue>{detail.loanRateList[0].minRate}%</AverageValue>
+              <AverageValue>
+                {detail?.loanRateList[0].minRate || 0}%
+              </AverageValue>
             </AverageContent>
             <AverageContent>
               <AverageTitle>최고 금리</AverageTitle>
-              <AverageValue>{detail.loanRateList[0].maxRate}%</AverageValue>
+              <AverageValue>
+                {detail?.loanRateList[0].maxRate || 0}%
+              </AverageValue>
             </AverageContent>
           </AverageBox>
           <BtnBox>
@@ -115,19 +118,28 @@ const ProductDetail = () => {
           <DetailBox>
             <DetailBoxTitle>상세정보</DetailBoxTitle>
             <DetailTitle>대출 한도</DetailTitle>
-            <DetailContent>{detail.loanLimit}</DetailContent>
+            <DetailContent>{detail?.loanLimit || noInfo}</DetailContent>
             <DetailTitle>연체 이자율</DetailTitle>
-            <DetailContent>{detail.delayRate}</DetailContent>
+            <DetailContent>{detail?.delayRate || noInfo}</DetailContent>
             <DetailTitle>상품 이자율</DetailTitle>
-            {detail.loanRateList.map((item: IItem) => (
-              <LoanInterest key={item.id} item={item} />
-            ))}
+            {!detail.loanRateList.rateType ||
+            !detail.loanRateList.repayType ||
+            !detail.loanRateList.minRate ||
+            !detail.loanRateList.maxRate ? (
+              <DetailContent>{noInfo}</DetailContent>
+            ) : (
+              detail?.loanRateList.map((item: IItem) => (
+                <LoanInterest key={item.id} item={item} />
+              ))
+            )}
             <DetailTitle>대출 부대비용</DetailTitle>
-            <DetailContent>{detail.loanIncidentalExpenses}</DetailContent>
+            <DetailContent>
+              {detail?.loanIncidentalExpenses || noInfo}
+            </DetailContent>
             <DetailTitle>중도상환 수수료</DetailTitle>
-            <DetailContent>{detail.earlyRepayFee}</DetailContent>
+            <DetailContent>{detail?.earlyRepayFee || noInfo}</DetailContent>
             <DetailTitle>가입방법</DetailTitle>
-            <DetailContent>{detail.joinWay}</DetailContent>
+            <DetailContent>{detail?.joinWay || noInfo}</DetailContent>
           </DetailBox>
         </Wrapper>
       )}
