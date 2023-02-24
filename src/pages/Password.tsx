@@ -1,4 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { confirmPassword } from "api/user";
 import Button from "components/myPage/Button";
 import TextFiled from "components/myPage/TextFiled";
 import { useForm } from "react-hook-form";
@@ -25,15 +27,24 @@ const Password = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormValues>({
-    resolver: zodResolver(validationSchema),
+  } = useForm<FormValues>();
+
+  // {
+  //   resolver: zodResolver(validationSchema),
+  // }
+
+  const confirmMutation = useMutation((pw: string) => confirmPassword(pw), {
+    onSuccess(data) {
+      navigate("/mypage/user");
+    },
   });
 
   const navigate = useNavigate();
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
-    navigate("/mypage/user");
+    console.log(data.password);
+    confirmMutation.mutate(data.password);
+    // ;
   };
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>

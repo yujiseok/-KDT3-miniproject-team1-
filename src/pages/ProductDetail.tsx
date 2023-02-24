@@ -9,9 +9,10 @@ import {
 import colors from "constants/colors";
 import LoanInterest from "components/productDetail/LoanInterest";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getDetail } from "api/productDetail";
 import useCart from "hooks/useCart";
+import { postLikeLists } from "api/likes";
 import type { IItem } from "../components/productDetail/LoanInterest";
 
 interface IDetail {
@@ -45,7 +46,15 @@ const ProductDetail = () => {
 
   // 장바구니에 동일한 상품이 있을 경우
   const already = cartItems?.forEach((item: any) => item.productId === id);
+  console.log(detail?.productId);
+  const queryClient = useQueryClient();
 
+  const likeMutation = useMutation((id: string) => postLikeLists(id), {
+    onSuccess(data) {
+      console.log(data.success);
+      queryClient.invalidateQueries(["like"]);
+    },
+  });
   const addCart = () => {
     // if (already) {
     //   setOpenModal("already");
@@ -53,10 +62,12 @@ const ProductDetail = () => {
     // }
     addCartList.mutate(id as string);
     setOpenModal("selected");
+    // setOpenModal(true);
+    // addToCart(detail.productId);
   };
 
   const handleLike = () => {
-    setLiked((prev) => !prev);
+    // setLiked((prev) => !prev);
   };
 
   return (
@@ -67,11 +78,13 @@ const ProductDetail = () => {
           <BankTitle>{`${detail.bankName} ${detail.categoryName}`}</BankTitle>
           <ProductBox>
             <ProductTitle>{detail.productName}</ProductTitle>
-            {liked ? (
-              <HiHeart onClick={handleLike} />
-            ) : (
-              <HiOutlineHeart onClick={handleLike} />
-            )}
+            <button onClick={() => likeMutation.mutate(detail?.productId)}>
+              {liked ? (
+                <HiHeart onClick={handleLike} />
+              ) : (
+                <HiOutlineHeart onClick={handleLike} />
+              )}
+            </button>
           </ProductBox>
           <AverageBox>
             <AverageContent>

@@ -50,7 +50,7 @@ const Search = () => {
     setSort(!sort);
   };
 
-  const rateSort = () => {
+  const bankSort = () => {
     result.sort((a, b) => a.bankName.localeCompare(b.bankName));
     setResult(result);
     setSort(!sort);
@@ -71,7 +71,7 @@ const Search = () => {
             <li role="presentation" onClick={() => nameSort()}>
               이름순
             </li>
-            <li role="presentation" onClick={() => rateSort()}>
+            <li role="presentation" onClick={() => bankSort()}>
               은행순
             </li>
           </ul>
