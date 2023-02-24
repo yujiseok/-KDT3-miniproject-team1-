@@ -4,17 +4,28 @@ import { HiOutlineChevronRight, HiOutlineShoppingCart } from "react-icons/hi2";
 import colors from "constants/colors";
 import ItemList from "components/ItemList";
 import Skeleton from "components/SkeletonUi";
-import { useQuery } from "@tanstack/react-query";
-import { getLikeLists } from "api/likes";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteLikeList, getLikeLists } from "api/likes";
 import type { Item } from "types/itemType";
+import { GrFormClose } from "react-icons/gr";
 
 const Likes = () => {
   // const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { data, isLoading, isError } = useQuery<Item[]>({
     queryKey: ["like"],
     queryFn: getLikeLists,
   });
+
+  const deleteMutation = useMutation((id: number) => deleteLikeList(id), {
+    onSuccess(data) {
+      queryClient.invalidateQueries(["like"]);
+      console.log(data);
+    },
+  });
+
+  console.log(data);
 
   return (
     <Block>
@@ -27,14 +38,19 @@ const Likes = () => {
               item={item}
               key={item.productId}
               icon={
-                <IconWrapper>
-                  <Link to={`/product/${item.productId}`}>
-                    <HiOutlineChevronRight />
-                  </Link>
-                  <Link to="/cart">
-                    <HiOutlineShoppingCart />
-                  </Link>
-                </IconWrapper>
+                // <IconWrapper>
+                //   <Link to={`/product/${item.productId}`}>
+                //     <HiOutlineChevronRight />
+                //   </Link>
+                //   <Link to="/cart">
+                //     <HiOutlineShoppingCart />
+                //   </Link>
+                // </IconWrapper>
+                <button
+                  onClick={() => deleteMutation.mutate(item.likeId as number)}
+                >
+                  <GrFormClose size={24} />
+                </button>
               }
             />
           ))}
