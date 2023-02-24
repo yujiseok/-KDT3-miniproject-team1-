@@ -13,7 +13,7 @@ const useCart = () => {
   });
   // 상품 삭제
   const deleteCartList = useMutation(
-    (basketId: string) => removeFromCart(basketId),
+    (basketId: number) => removeFromCart(basketId),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["cart"]);

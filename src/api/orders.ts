@@ -31,7 +31,7 @@ const postHeader = {
   "Content-Type": "application/json;charset=UTF-8",
 };
 
-// 장바구니 상품 추가
+// 주문하기
 export const postOrder = async (id: string) => {
   const res = await client.post(
     "/order",

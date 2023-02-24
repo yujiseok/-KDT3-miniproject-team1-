@@ -39,9 +39,10 @@ const ItemList = ({
   // 장바구니 삭제
   const { deleteCartList } = useCart();
 
-  const handleDelete = (cartId: string) => {
+  const handleDelete = (cartId: number) => {
     deleteCartList.mutate(cartId);
   };
+
   return (
     <ListContent cart={typeof cart === "boolean" ? cart : false}>
       <CheckBox

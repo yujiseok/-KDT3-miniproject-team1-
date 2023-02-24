@@ -1,7 +1,7 @@
 import { client } from "./api";
 
 export const accessToken =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJ1c2VySWRcIjo0MDE1LFwiZW1haWxcIjpcImRhZGFAZW1haWwuY29tXCIsXCJqd3RUeXBlXCI6XCJBQ0NFU1NcIixcImVuYWJsZWRcIjpmYWxzZSxcImF1dGhvcml0aWVzXCI6bnVsbCxcImFjY291bnROb25FeHBpcmVkXCI6ZmFsc2UsXCJjcmVkZW50aWFsc05vbkV4cGlyZWRcIjpmYWxzZSxcImFjY291bnROb25Mb2NrZWRcIjpmYWxzZSxcInBhc3N3b3JkXCI6bnVsbCxcInVzZXJuYW1lXCI6XCJkYWRhQGVtYWlsLmNvbVwifSIsImlzcyI6IjEgdGVhbSBiYWNrZW5kIiwiaWF0IjoxNjc3MjMwMzc1LCJleHAiOjE2NzcyMzM5NzV9.rjYghOMGb8qc7GCHr7K6I_5rIzrfiQvrA-nOAY8lWl0";
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJ1c2VySWRcIjo0MDE1LFwiZW1haWxcIjpcImRhZGFAZW1haWwuY29tXCIsXCJqd3RUeXBlXCI6XCJBQ0NFU1NcIixcImVuYWJsZWRcIjpmYWxzZSxcImF1dGhvcml0aWVzXCI6bnVsbCxcImFjY291bnROb25FeHBpcmVkXCI6ZmFsc2UsXCJjcmVkZW50aWFsc05vbkV4cGlyZWRcIjpmYWxzZSxcImFjY291bnROb25Mb2NrZWRcIjpmYWxzZSxcInBhc3N3b3JkXCI6bnVsbCxcInVzZXJuYW1lXCI6XCJkYWRhQGVtYWlsLmNvbVwifSIsImlzcyI6IjEgdGVhbSBiYWNrZW5kIiwiaWF0IjoxNjc3MjMxOTEwLCJleHAiOjE2NzcyMzU1MTB9.do24lH-vhBYYc-lRG-48Ce_77MWuj43oN2nqkvonM5k";
 
 const Headers = {
   Authorization: `Bearer ${accessToken}`,
@@ -34,7 +34,7 @@ export const addToCart = async (id: string) => {
 };
 
 // 장바구니 상품 삭제
-export const removeFromCart = async (basketId: string) => {
+export const removeFromCart = async (basketId: number) => {
   const res = await client.delete(`/cart?basketId=${basketId}`, {
     headers: Headers,
   });
