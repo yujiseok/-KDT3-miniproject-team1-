@@ -4,10 +4,6 @@ const Headers = {
   accept: "application/json;charset=UTF-8",
 };
 
-const NonToken = {
-  accept: "application/json;charset=UTF-8",
-};
-
 // 신청 목록
 export const getOrder = async () => {
   const res = await client.get("/order", {
@@ -19,7 +15,7 @@ export const getOrder = async () => {
 // 추천 상품 리스트
 export const getProducts = async () => {
   const res = await client.get("/product", {
-    headers: NonToken,
+    headers: Headers,
   });
   return res.data.data;
 };

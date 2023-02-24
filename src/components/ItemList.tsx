@@ -2,8 +2,6 @@ import colors from "constants/colors";
 import type { SetStateAction } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { removeFromCart } from "api/carts";
 import useCart from "hooks/useCart";
 import type { Item } from "../types/itemType";
 
@@ -24,6 +22,7 @@ const ItemList = ({
 }: ListProps) => {
   const productId = item.productId ? item.productId : item.id;
   const detailUrl = `/product/${productId}`;
+
   // 장바구니 선택
   const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
@@ -39,7 +38,6 @@ const ItemList = ({
 
   // 장바구니 삭제
   const { deleteCartList } = useCart();
-
   const handleDelete = (cartId: number) => {
     deleteCartList.mutate(cartId);
   };

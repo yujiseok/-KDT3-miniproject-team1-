@@ -20,8 +20,9 @@ const Cart = () => {
     getCartList: { data: cartItems },
   } = useCart();
 
-  // 카트가 빈 경우, 아무것도 선택되지 않은 경우
+  // 카트가 빈 경우
   const emptyCart = cartItems?.length === 0 || !cartItems;
+  // 아무것도 선택되지 않은 경우
   const nothingChecked = checkedItems?.length === 0 || !checkedItems;
 
   // 전체 선택
@@ -36,14 +37,13 @@ const Cart = () => {
     }
   };
 
-  // 주문
+  // 주문하기
   const handleOrder = () => {
     if (nothingChecked) {
       setOpenModal(true);
       return;
     }
     checkedItems?.forEach((item) => postOrder(item));
-    // console.log(checkedItems);
     navigate("/completeOrder");
   };
 

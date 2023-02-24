@@ -1,8 +1,8 @@
 # Lonsily
 
-- 배포 사이트: [https://lonsily.vercel.app/](https://lonsily.vercel.app/)
-- 깃 허브: [https://github.com/KDT3-miniproject-team1/frontend](https://github.com/KDT3-miniproject-team1/frontend)
-- 노션: [https://www.notion.so/1-285c65e1866f4944935980bcd53171a1](https://www.notion.so/1-285c65e1866f4944935980bcd53171a1)
+- 배포 사이트: [Lonsily](https://lonsily.vercel.app/)
+- 깃 허브: [GitHub](https://github.com/KDT3-miniproject-team1/frontend)
+- 노션: [Notion](https://www.notion.so/1-285c65e1866f4944935980bcd53171a1)
 
 ## 📚 과제
 
@@ -86,6 +86,8 @@ zod 반영은 하루만에 끝났다
 - react hook form
 - zod
 
+---
+
 ### 김지원
 
 #### 장바구니 (/Cart)
@@ -100,6 +102,8 @@ zod 반영은 하루만에 끝났다
 - DetailTitle 컴포넌트와 DetailContent 컴포넌트가 반복되고 있습니다. map처럼 객체도 효율적으로 데이터를 출력하는 방법이 있을까요?
 
 #### 신청 완료(/CompleteOrder)
+
+---
 
 ### 유지석
 
@@ -129,6 +133,8 @@ zod 반영은 하루만에 끝났다
 #### 권한별 라우트 구현
 
 - PublicRouter, PrivateRouter를 통한 권한별 리다이렉트 구현
+
+---
 
 ### 박정민
 
