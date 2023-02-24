@@ -1,8 +1,8 @@
 # Lonsily
 
-- 배포 사이트: [https://lonsily.vercel.app/](https://lonsily.vercel.app/)
-- 깃 허브: [https://github.com/KDT3-miniproject-team1/frontend](https://github.com/KDT3-miniproject-team1/frontend)
-- 노션: [https://www.notion.so/1-285c65e1866f4944935980bcd53171a1](https://www.notion.so/1-285c65e1866f4944935980bcd53171a1)
+- 배포 사이트: [Lonsily](https://lonsily.vercel.app/)
+- 깃 허브: [GitHub](https://github.com/KDT3-miniproject-team1/frontend)
+- 노션: [Notion](https://www.notion.so/1-285c65e1866f4944935980bcd53171a1)
 
 ## 📚 과제
 
