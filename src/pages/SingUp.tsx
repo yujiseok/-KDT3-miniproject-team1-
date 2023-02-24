@@ -3,18 +3,17 @@ import styled from "styled-components";
 import { Bold, Pretendard, Info } from "global/FigmaStyles";
 import { Container, TitleBox, GroupLeftBox } from "components/auth/StyledUtils";
 import colors from "constants/colors";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import type { FieldError, RegisterOptions } from "react-hook-form";
-import { MdAlternateEmail, MdInfo } from "react-icons/md";
-import { CgLock } from "react-icons/cg";
+import { MdInfo } from "react-icons/md";
 import InputModule from "components/auth/InputModule";
 import SecurityNumberInput from "components/auth/SecurityNumberInput";
 import CheckBoxButton from "components/auth/CheckBoxButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useEffect } from "react";
 import Loading from "Loading";
 import { useAxios } from "hooks/useLoginAxios";
+import type { FieldError, RegisterOptions } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { loginAction, selectAccessToken } from "features/authSlice";
 
@@ -81,7 +80,7 @@ export type FormValues = z.infer<typeof validationSchema>;
 interface InputField {
   Prefix?: JSX.Element;
   name: string;
-  label: string;
+  label: keyof FormValues;
   type?: string;
   options?: RegisterOptions;
   placeholder?: string;
@@ -89,6 +88,30 @@ interface InputField {
 }
 
 type IForm = Record<string, FieldError | string>;
+const inputs: InputField[] = [
+  {
+    name: "이름",
+    label: "username",
+    placeholder: "홍길동",
+  },
+  {
+    name: "이메일",
+    label: "email",
+    placeholder: "email@example.com",
+  },
+  {
+    name: "비밀번호",
+    label: "newPassword",
+    type: "password",
+    placeholder: "8-20자 영문, 숫자, 특수문자를 사용하세요",
+  },
+  {
+    name: "비밀번호 확인",
+    label: "currentPassword",
+    type: "password",
+    placeholder: "8-20자 영문, 숫자, 특수문자를 사용하세요",
+  },
+];
 
 const interests: InputField[] = [
   {
@@ -120,11 +143,12 @@ const interests: InputField[] = [
 const SignUp = () => {
   const {
     register,
-    handleSubmit,
-    trigger,
     watch,
+    handleSubmit,
     formState: { errors },
-  } = useForm<IForm>();
+  } = useForm<FormValues>({
+    resolver: zodResolver(validationSchema),
+  });
 
   const { fetchData, cancelRequest, response, error, loading } = useAxios();
   const navigate = useNavigate();
@@ -140,7 +164,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (response) {
-      dispatch(loginAction(response));
+      navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response]);
@@ -156,121 +180,8 @@ const SignUp = () => {
         joinType: Number(data.interest),
       },
     });
-    // navigate("/");
   };
 
-  const inputs: InputField[] = [
-    {
-      name: "이름",
-      label: "name",
-      placeholder: "홍길동",
-      options: {
-        required: { value: true, message: "이름을 입력해주세요" },
-        pattern: {
-          value: /^[가-힣]+$/,
-          message: "한글로 입력해주세요",
-        },
-        minLength: {
-          value: 2,
-          message: "이름은 2글자 이상 입력해주세요",
-        },
-      },
-    },
-    {
-      name: "이메일",
-      label: "email",
-      placeholder: "email@example.com",
-      options: {
-        required: { value: true, message: "이메일을 입력해주세요" },
-        pattern: {
-          value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-          message: "이메일 주소를 확인해주세요.",
-        },
-      },
-    },
-    {
-      name: "비밀번호",
-      label: "new-password",
-      type: "password",
-      placeholder: "8-20자 영문, 숫자, 특수문자를 사용하세요",
-      options: {
-        required: { value: true, message: "비밀번호를 입력해주세요" },
-        minLength: { value: 8, message: "비밀번호는 8자 이상 입력해주세요." },
-        maxLength: {
-          value: 20,
-          message: "비밀번호는 20자 이하로 입력해주세요.",
-        },
-        pattern: {
-          value:
-            /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
-          message: "8-20자 영문, 숫자, 특수문자를 사용하세요",
-        },
-      },
-    },
-    {
-      name: "비밀번호 확인",
-      label: "current-password",
-      type: "password",
-      placeholder: "8-20자 영문, 숫자, 특수문자를 사용하세요",
-      options: {
-        required: { value: true, message: "비밀번호를 다시 입력해주세요" },
-        minLength: { value: 8, message: "비밀번호는 8자 이상 입력해주세요." },
-        maxLength: {
-          value: 20,
-          message: "비밀번호는 20자 이하로 입력해주세요.",
-        },
-        // pattern: {
-        //   value:
-        //     /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
-        //   message: "8-20자 영문, 숫자, 특수문자를 사용하세요",
-        // },
-        // eslint-disable-next-line consistent-return
-        validate: (val: string) => {
-          // if (watch("new-password") !== val) {
-          //   return "비밀번호가 일치하지 않습니다";
-          // }
-        },
-      },
-    },
-  ];
-
-  const interestsLabel = "interest";
-
-  const interests: InputField[] = [
-    {
-      name: "신용대출",
-      label: interestsLabel,
-      options: {
-        // eslint-disable-next-line consistent-return
-        validate: () => {
-          if (
-            // [] 또는 선언되지 않는 경우가 있음
-            !!watch(interestsLabel).length === false ||
-            // 초기 값이 false인 경우가 있음
-            !!watch(interestsLabel) === false
-          ) {
-            return "옵션을 선택해주세요";
-          }
-        },
-      },
-    },
-    {
-      name: "생활비대출",
-      label: interestsLabel,
-    },
-    {
-      name: "주택담보대출",
-      label: interestsLabel,
-    },
-    {
-      name: "저소득자대출",
-      label: interestsLabel,
-    },
-    {
-      name: "학자금 대출",
-      label: interestsLabel,
-    },
-  ];
   return (
     <Container>
       {loading ? (
@@ -281,11 +192,13 @@ const SignUp = () => {
         />
       ) : null}
       <TitleBox>
-        <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
+        <Link to="/">
+          <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
+        </Link>
         <Bold>회원가입</Bold>
       </TitleBox>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {inputs.map(({ label, type, options, Prefix, name, placeholder }) => (
+        {inputs.map(({ label, type, Prefix, name, placeholder }) => (
           <InputModule
             key={label}
             Prefix={Prefix}
@@ -294,25 +207,11 @@ const SignUp = () => {
             register={register}
             label={label}
             type={type}
-            options={options}
-            error={
-              typeof errors[label] !== "string" ? errors[label] : undefined
-            }
+            error={errors[label]}
           />
         ))}
         <SecurityNumberInput
           register={register}
-          options={{
-            pattern: {
-              value: /^[0-9]$/,
-              message: "숫자만 입력 가능합니다",
-            },
-            required: {
-              value: true,
-              message: "주민번호 뒷자리를 입력해주세요",
-            },
-            // eslint-disable-next-line consistent-return
-          }}
           error={{ front: errors.front, back: errors.back }}
         />
         <GroupLeftBox>
@@ -362,6 +261,7 @@ const SummitBox = styled.div`
   align-items: center;
   padding: 0px;
   gap: 16px;
+
   width: 100%;
   height: fit-content;
 `;
@@ -373,9 +273,12 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   padding: 0px;
+
   width: 100%;
   height: 48px;
+
   /* Primary Color/INDIGO 9 */
+
   background: ${colors["INDIGO-9"]};
   border-radius: 10px;
 `;

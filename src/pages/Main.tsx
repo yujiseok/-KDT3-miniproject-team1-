@@ -16,6 +16,7 @@ import type { Item } from "types/itemType";
 const Main = () => {
   const [recommend, setRecommend] = useState<Array<Item>>([]);
   const [order, setOrder] = useState<Array<Item>>([]);
+  const [allProducts, setAllProducts] = useState<Array<Item>>([]);
   const [products, setProducts] = useState<Array<Item>>([]);
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const Main = () => {
         const orderData = await getOrder();
         const productsData = await getProducts();
         setOrder(orderData);
+        setAllProducts(productsData);
         setProducts(productsData.splice(0, 5));
       } catch (error) {
         console.log(error);
@@ -31,6 +33,33 @@ const Main = () => {
     }
     getData();
   }, []);
+
+  // 개인신용대출
+  const recommend1 = allProducts.filter(
+    (item) => item.productType === "개인신용대출",
+  );
+
+  // 전세자금대출
+  const recommend2 = allProducts.filter(
+    (item) => item.productType === "전세자금대출",
+  );
+
+  // 주택담보대출
+  const recommend3 = allProducts.filter(
+    (item) => item.productType === "주택담보대출",
+  );
+
+  // 저소득자대출
+  const recommend4 = allProducts.filter(
+    (item) =>
+      item?.loanRateList[0]?.avgRate !== null &&
+      item?.loanRateList[0]?.avgRate < 5.1,
+  );
+
+  // 직장인대출
+  const recommend5 = allProducts.filter((item) =>
+    item.productName.includes("직장인"),
+  );
 
   return (
     <MainContent>
