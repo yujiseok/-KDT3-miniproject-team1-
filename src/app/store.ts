@@ -1,6 +1,5 @@
-import type { ThunkAction, Action } from "@reduxjs/toolkit";
-
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import authReducer from "features/authSlice";
 import {
   persistStore,
   persistReducer,
@@ -13,8 +12,6 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import authSlice from "features/authSlice";
-
 const persistConfig = {
   key: "root",
   storage,
@@ -22,12 +19,11 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  auth: authSlice,
+  auth: authReducer,
 });
-
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = configureStore({
+const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -38,14 +34,9 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
-
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
+
+export default store;

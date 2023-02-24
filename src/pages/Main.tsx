@@ -1,34 +1,37 @@
+import { HiOutlineChevronRight } from "react-icons/hi2";
+import styled from "styled-components";
 import colors from "constants/colors";
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import ItemList from "components/ItemList";
-import { Link } from "react-router-dom";
-
+import { Link, useLocation } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import "swiper/scss";
 import "swiper/scss/pagination";
-
-import { getOrder, getProducts } from "api/main";
-import { HiOutlineChevronRight } from "react-icons/hi2";
-import type { Item } from "types/itemType";
+import { getOrder, getProducts, getUserInfo } from "api/main";
+import type { Item, Auth } from "types/itemType";
 
 const Main = () => {
+  const location = useLocation();
   const [recommend, setRecommend] = useState<Array<Item>>([]);
   const [order, setOrder] = useState<Array<Item>>([]);
   const [allProducts, setAllProducts] = useState<Array<Item>>([]);
   const [products, setProducts] = useState<Array<Item>>([]);
+  const [authInfo, setAuthInfo] = useState<Array<Auth>>([]);
 
   useEffect(() => {
     async function getData() {
       try {
         const orderData = await getOrder();
-        const productsData = await getProducts();
+        const authData = await getUserInfo();
         setOrder(orderData);
-        setAllProducts(productsData);
-        setProducts(productsData.splice(0, 5));
+        setAuthInfo(authData);
       } catch (error) {
         console.log(error);
+      } finally {
+        const productsData = await getProducts();
+        setAllProducts(productsData);
+        setProducts(productsData.splice(0, 5));
       }
     }
     getData();
@@ -61,53 +64,76 @@ const Main = () => {
     item.productName.includes("직장인"),
   );
 
+  useEffect(() => {
+    function Recommend() {
+      if (Object(authInfo)?.joinType === 1) {
+        setRecommend(recommend1.splice(0, 5));
+      } else if (Object(authInfo)?.joinType === 2) {
+        setRecommend(recommend2.splice(0, 5));
+      } else if (Object(authInfo)?.joinType === 3) {
+        setRecommend(recommend3.splice(0, 5));
+      } else if (Object(authInfo)?.joinType === 4) {
+        setRecommend(recommend4.splice(0, 5));
+      } else if (Object(authInfo)?.joinType === 5) {
+        setRecommend(recommend5.splice(0, 5));
+      }
+    }
+    Recommend();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [Object(authInfo), allProducts]);
+
+  if (Object.keys(authInfo).length === 0) {
+    return (
+      <MainContent>
+        <TitleContent>
+          <h2>
+            안녕하세요 <span>Lonsily</span> 입니다.
+          </h2>
+          <h2>
+            로그인을 통해 <br />
+            맞춤 대출 정보를 확인해 보세요.
+          </h2>
+        </TitleContent>
+
+        <BtnContent>
+          <Link to="/signup">
+            <BtnWhite>회원가입</BtnWhite>
+          </Link>
+
+          <Link to="/signin">
+            <BtnIndigo>로그인</BtnIndigo>
+          </Link>
+        </BtnContent>
+        <RecommendContent>
+          <TitleContent>
+            <h2>가장 인기 있는 대출 상품입니다.</h2>
+          </TitleContent>
+          {products.length > 0
+            ? products.map((item) => {
+                return (
+                  <ItemList
+                    key={item.productId}
+                    item={item}
+                    icon={
+                      <Link to={`/product/${item.productId}`}>
+                        <HiOutlineChevronRight />
+                      </Link>
+                    }
+                  />
+                );
+              })
+            : null}
+        </RecommendContent>
+      </MainContent>
+    );
+  }
+
   return (
     <MainContent>
-      {/* 비회원용 */}
-      {/* <TitleContent>
-        <h2>
-          안녕하세요 <span>Lonsily</span> 입니다.
-        </h2>
-        <h2>
-          로그인을 통해 <br />
-          맞춤 대출 정보를 확인해 보세요.
-        </h2>
-      </TitleContent>
-
-      <BtnContent>
-        <Link to="/signup">
-          <BtnWhite>회원가입</BtnWhite>
-        </Link>
-
-        <Link to="/signin">
-          <BtnIndigo>로그인</BtnIndigo>
-        </Link>
-      </BtnContent>
-      <RecommendContent>
-        <TitleContent>
-          <h2>가장 인기 있는 대출 상품입니다.</h2>
-        </TitleContent>
-        {products.length > 0
-          ? products.map((item) => {
-              return (
-                <ItemList
-                  key={item.productId}
-                  item={item}
-                  icon={
-                    <Link to={`/product/${item.productId}`}>
-                      <HiOutlineChevronRight />
-                    </Link>
-                  }
-                />
-              );
-            })
-          : null}
-      </RecommendContent> */}
-
       {/* 회원용 */}
       <TitleContent>
         <h2>
-          <span>###</span> 님이
+          <span>{Object(authInfo)?.name}</span>님이
           <br />
           신청하신 대출 정보 입니다.
         </h2>
@@ -139,7 +165,7 @@ const Main = () => {
 
       <RecommendContent>
         <h2 className="recommend">
-          <span>###</span> 님의 맞춤 대출 정보 입니다.
+          <span>{Object(authInfo)?.name}</span>님의 맞춤 대출 정보 입니다.
         </h2>
         {recommend.length > 0
           ? recommend.map((item) => {

@@ -1,14 +1,31 @@
-import { Link, useLocation } from "react-router-dom";
-import styled from "styled-components";
-import colors from "constants/colors";
-
 import { BiHomeAlt, BiSearchAlt, BiLogInCircle } from "react-icons/bi";
 import { HiOutlineHeart } from "react-icons/hi2";
 import { HiOutlineUserCircle } from "react-icons/hi";
 
+import { Link, useLocation } from "react-router-dom";
+import styled from "styled-components";
+import colors from "constants/colors";
+import { useEffect, useState } from "react";
+
+import { getUserInfo } from "api/main";
+import type { Auth } from "types/itemType";
+
 const Footer = () => {
   const location = useLocation();
   let pathName = location.pathname;
+  const [authInfo, setAuthInfo] = useState<Array<Auth>>([]);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const authData = await getUserInfo();
+        setAuthInfo(authData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+  }, []);
 
   if (pathName.slice(1, 7) === "search") {
     pathName = "/search/page";
@@ -38,6 +55,26 @@ const Footer = () => {
     { name: "likes", content: <HiOutlineHeart />, path: "/mypage/likes" },
     { name: "mypage", content: <HiOutlineUserCircle />, path: "/mypage" },
   ];
+
+  if (Object.keys(authInfo).length === 0) {
+    return (
+      <FooterContent>
+        <ul role="navigation">
+          {nonMemberMenu.map((item, i) => (
+            <Link to={item.path} key={item.name}>
+              <li
+                className={
+                  item.path === pathName ? "tabmenu focused" : "tabmenu"
+                }
+              >
+                {item.content}
+              </li>
+            </Link>
+          ))}
+        </ul>
+      </FooterContent>
+    );
+  }
 
   return (
     <FooterContent>
