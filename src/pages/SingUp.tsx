@@ -97,7 +97,7 @@ const interests: InputField[] = [
     typeValue: 1,
   },
   {
-    name: "생활비대출",
+    name: "전세자금대출",
     label: interestsLabel,
     typeValue: 2,
   },
