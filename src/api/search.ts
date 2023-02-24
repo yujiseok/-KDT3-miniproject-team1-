@@ -6,7 +6,6 @@ const Headers = {
 
 export const getSearch = async (keyword: string) => {
   const res = await client.get("/product/search", {
-    headers: Headers,
     params: {
       keyword,
     },

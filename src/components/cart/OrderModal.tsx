@@ -2,6 +2,10 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import colors from "constants/colors";
 
+interface IOrderModalProps {
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 const orderModal = () => {
   return (
     <Overlay>
