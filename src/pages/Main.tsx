@@ -22,14 +22,15 @@ const Main = () => {
     async function getData() {
       try {
         const orderData = await getOrder();
-        const productsData = await getProducts();
         const authData = await getUserInfo();
         setOrder(orderData);
-        setAllProducts(productsData);
         setAuthInfo(authData);
-        setProducts(productsData.splice(0, 5));
       } catch (error) {
         console.log(error);
+      } finally {
+        const productsData = await getProducts();
+        setAllProducts(productsData);
+        setProducts(productsData.splice(0, 5));
       }
     }
     getData();
