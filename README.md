@@ -62,7 +62,7 @@
 
 ### 방준우
 
-api 해달라고 쪼는 역호..ㅏㄹ…
+api 해달라고 쪼는 역할 .. DB쪽 지식이 있어서 구체적으로 설명하려함
 
 타스 린트 에러 잡고 찾느라 시간을 많이 썻다
 
@@ -85,6 +85,7 @@ zod 반영은 하루만에 끝났다
 
 - react hook form
 - zod
+  비밀번호 확인을 먼저쓰고 비밀번호를 쓰면 바로 검증이 안되는 문제가 있었음
 
 ---
 
@@ -210,9 +211,9 @@ zod 반영은 하루만에 끝났다
 
 - **방준우**
   - react hook form, zod, redux, toolkit, ts ,persist 공부 열심히 했다
-  - axios 인터셉터랑 axios hooks 만드는 것도 재밌었다
   - react-hooks-form 단일 사용과 zod 사용의 차이를 알 수 있었음
   - 린트 어렵다
-  - axios 인터셉터나 useHooks를 만들어보려했는데 대부분 사라졌다
+  - axios 인터셉터나 axios Hooks를 만들어보려했는데 타입 에러등이 많았고 고도화 지식이 부족해서 쓰이진 못했다
   - http status 의 논쟁 포인트를 알 수 있었고 협의점 도출이 필요함을 알게 됨
   - https나 즉시 배포 과정을 미리 준비하는게 이로울듯하다
+  - form을 html 네이티브로 만들려다가 react form hook을 적용하게 됬고 zod로 업데이트를 하면서 좋은 경험이 됬다
