@@ -10,6 +10,7 @@ export const postLikeLists = async (productId: string) => {
   const { data } = await client.post("/like", {
     productId,
   });
+
   return data.data;
 };
 

@@ -27,7 +27,7 @@ export const useAxios = () => {
         ...params,
         signal: controllerRef.current.signal,
       });
-      console.log("", result);
+      // console.log("", result);
       if (result.data.errorCode) {
         // eslint-disable-next-line @typescript-eslint/no-throw-literal
         throw "200으로 온 에러";
