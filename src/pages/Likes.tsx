@@ -8,35 +8,40 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteLikeList, getLikeLists } from "api/likes";
 import type { Item } from "types/itemType";
 import { GrFormClose } from "react-icons/gr";
+import { deleteLike } from "features/likeSlice";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 
 const Likes = () => {
-  // const navigate = useNavigate();
   const queryClient = useQueryClient();
-
-  const { data, isLoading, isError } = useQuery<Item[]>({
+  const dispatch = useAppDispatch();
+  const {
+    data: likeItem,
+    isLoading,
+    isError,
+  } = useQuery<Item[]>({
     queryKey: ["like"],
     queryFn: getLikeLists,
   });
 
   const deleteMutation = useMutation((id: number) => deleteLikeList(id), {
-    onSuccess(data) {
-      console.log(data.success);
+    onSuccess(data, id) {
       queryClient.invalidateQueries(["like"]);
+      dispatch(deleteLike(id));
     },
   });
 
   return (
     <Block>
       <H1>
-        {(data?.length as number) < 1
+        {(likeItem?.length as number) < 1
           ? "관심상품 목록이 비었습니다."
           : "관심상품"}
       </H1>
       <ItemWrapper>
-        {data && isLoading ? (
+        {likeItem && isLoading ? (
           <Skeleton length={4} />
         ) : (
-          data?.map((item) => (
+          likeItem?.map((item) => (
             <ItemList
               item={item}
               key={item.productId}

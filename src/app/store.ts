@@ -1,5 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "features/authSlice";
+import likeReducer from "features/likeSlice";
 import {
   persistStore,
   persistReducer,
@@ -15,11 +16,12 @@ import storage from "redux-persist/lib/storage";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"],
+  whitelist: ["auth", "like"],
 };
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  like: likeReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

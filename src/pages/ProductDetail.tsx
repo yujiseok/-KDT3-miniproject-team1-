@@ -12,7 +12,10 @@ import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getDetail } from "api/productDetail";
 import useCart from "hooks/useCart";
-import { postLikeLists } from "api/likes";
+import { deleteLikeList, postLikeLists } from "api/likes";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { addLike, deleteLike, reset } from "features/likeSlice";
+// import type { Item, ItemDetail } from "types/itemType";
 import type { IItem } from "../components/productDetail/LoanInterest";
 
 interface IDetail {
@@ -30,7 +33,8 @@ interface IDetail {
 
 const ProductDetail = () => {
   const [openModal, setOpenModal] = useState("");
-  const [liked, setLiked] = useState(false);
+  const like = useAppSelector((state) => state.like);
+  const dispatch = useAppDispatch();
 
   // 제공되지 않는 정보에 대한 예외 처리
   const noInfo = "은행사에서 제공되지 않는 정보입니다.";
@@ -39,17 +43,27 @@ const ProductDetail = () => {
   const { id } = useParams();
   const { data: detail } = useQuery(["data"], () => getDetail(id as string));
 
+  const isLiked = like.find((item) => item.productId === detail?.productId);
+
   // 찜하기
   const queryClient = useQueryClient();
   const likeMutation = useMutation((id: string) => postLikeLists(id), {
     onSuccess(data) {
-      console.log(data.success);
       queryClient.invalidateQueries(["like"]);
+      dispatch(
+        addLike({
+          likeId: data.likeId,
+          productId: data.productId,
+        }),
+      );
     },
   });
-  const handleLike = () => {
-    setLiked((prev) => !prev);
-  };
+  const deleteLikeMutation = useMutation((id: number) => deleteLikeList(id), {
+    onSuccess(data, id) {
+      queryClient.invalidateQueries(["like"]);
+      dispatch(deleteLike(id));
+    },
+  });
 
   // 전체 장바구니 정보
   const {
@@ -77,13 +91,24 @@ const ProductDetail = () => {
           <BankTitle>{`${detail?.bankName} ${detail?.categoryName}`}</BankTitle>
           <ProductBox>
             <ProductTitle>{detail?.productName}</ProductTitle>
-            <button onClick={() => likeMutation.mutate(detail?.productId)}>
-              {liked ? (
-                <HiHeart onClick={handleLike} />
-              ) : (
-                <HiOutlineHeart onClick={handleLike} />
-              )}
-            </button>
+            {isLiked?.likeId ? (
+              <button
+                onClick={() =>
+                  deleteLikeMutation.mutate(isLiked.likeId as number)
+                }
+              >
+                <HiHeart />
+              </button>
+            ) : (
+              <button
+                onClick={
+                  // () => dispatch(reset())
+                  () => likeMutation.mutate(detail?.productId)
+                }
+              >
+                <HiOutlineHeart />
+              </button>
+            )}
           </ProductBox>
           <AverageBox>
             <AverageContent>

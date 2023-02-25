@@ -6,7 +6,6 @@ export const getOrderLists = async () => {
   return data.data;
 };
 
-
 export const postOrder = async (productId: string) => {
   const res = await client.post("/order", {
     productId,
