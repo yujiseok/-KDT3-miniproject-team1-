@@ -4,6 +4,7 @@ import axios from "axios";
 const config: AxiosRequestConfig = {
   baseURL: "http://15.164.195.118:3100/",
   headers: { "Content-type": "application/json" },
+  withCredentials: true,
   timeout: 1000,
 };
 
