@@ -3,14 +3,15 @@ import styled from "styled-components";
 import colors from "constants/colors";
 import { useEffect, useState } from "react";
 import ItemList from "components/ItemList";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import "swiper/scss";
 import "swiper/scss/pagination";
-import { getOrder, getProducts, getUserInfo } from "api/main";
+import { getProducts } from "api/main";
 import type { Item } from "types/itemType";
 import { useAppSelector } from "app/hooks";
+import { getOrderLists } from "../api/orders";
 
 const Main = () => {
   const [recommend, setRecommend] = useState<Array<Item>>([]);
@@ -23,8 +24,10 @@ const Main = () => {
   useEffect(() => {
     async function getData() {
       try {
-        const orderData = await getOrder();
-        setOrder(orderData);
+        if (auth.accessToken) {
+          const orderData = await getOrderLists();
+          setOrder(orderData);
+        }
       } catch (error) {
         console.log(error);
       } finally {
@@ -34,7 +37,7 @@ const Main = () => {
       }
     }
     getData();
-  }, []);
+  }, [auth.accessToken]);
 
   // 개인신용대출
   const recommend1 = allProducts.filter(
