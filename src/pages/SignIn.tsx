@@ -90,12 +90,12 @@ const SignIn = () => {
   const TokenUpdate = useAppSelector(selectAccessToken);
   useEffect(() => {
     if (TokenUpdate) {
-      console.log("잘못된 접근, 엑세스토큰 있음");
+      // console.log("잘못된 접근, 엑세스토큰 있음");
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [TokenUpdate]);
-  console.log("response", response);
+  // console.log("response", response);
   useEffect(() => {
     if (response) {
       dispatch(loginAction(response.data));
@@ -105,9 +105,9 @@ const SignIn = () => {
   }, [response]);
 
   const count = useAppSelector(selectAccessToken);
-  console.log("엑세스토큰", count);
+  // console.log("엑세스토큰", count);
   const info = useAppSelector(selectuserInfo);
-  console.log("info", info);
+  // console.log("info", info);
 
   const onSubmit = (data: FormValues) => {
     fetchData("/login", {
@@ -129,9 +129,6 @@ const SignIn = () => {
         />
       ) : null} */}
       <TitleBox>
-        <Link to="/">
-          <Bold color={colors["INDIGO-9"]}>사이트 이름</Bold>
-        </Link>
         <Bold>회원 로그인</Bold>
       </TitleBox>
       <Form onSubmit={handleSubmit(onSubmit)}>
