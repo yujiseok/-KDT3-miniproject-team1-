@@ -12,7 +12,10 @@ import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getDetail } from "api/productDetail";
 import useCart from "hooks/useCart";
-import { postLikeLists } from "api/likes";
+import { deleteLikeList, postLikeLists } from "api/likes";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { addLike, deleteLike, reset } from "features/likeSlice";
+// import type { Item, ItemDetail } from "types/itemType";
 import type { IItem } from "../components/productDetail/LoanInterest";
 
 interface IDetail {
@@ -30,7 +33,37 @@ interface IDetail {
 
 const ProductDetail = () => {
   const [openModal, setOpenModal] = useState("");
-  const [liked, setLiked] = useState(false);
+  const like = useAppSelector((state) => state.like);
+  const dispatch = useAppDispatch();
+
+  // 제공되지 않는 정보에 대한 예외 처리
+  const noInfo = "은행사에서 제공되지 않는 정보입니다.";
+
+  // 상세 정보 data 불러오기
+  const { id } = useParams();
+  const { data: detail } = useQuery(["data"], () => getDetail(id as string));
+
+  const isLiked = like.find((item) => item.productId === detail?.productId);
+
+  // 찜하기
+  const queryClient = useQueryClient();
+  const likeMutation = useMutation((id: string) => postLikeLists(id), {
+    onSuccess(data) {
+      queryClient.invalidateQueries(["like"]);
+      dispatch(
+        addLike({
+          likeId: data.likeId,
+          productId: data.productId,
+        }),
+      );
+    },
+  });
+  const deleteLikeMutation = useMutation((id: number) => deleteLikeList(id), {
+    onSuccess(data, id) {
+      queryClient.invalidateQueries(["like"]);
+      dispatch(deleteLike(id));
+    },
+  });
 
   // 전체 장바구니 정보
   const {
@@ -38,62 +71,57 @@ const ProductDetail = () => {
     addCartList,
   } = useCart();
 
-  const { id } = useParams();
-  // 상세 정보 data 불러오기
-  const { isLoading, data: detail } = useQuery(["data"], () =>
-    getDetail(id as string),
-  );
-
-  // 장바구니에 동일한 상품이 있을 경우
-  const already = cartItems?.forEach((item: any) => item.productId === id);
-  console.log(detail?.productId);
-  const queryClient = useQueryClient();
-
-  const likeMutation = useMutation((id: string) => postLikeLists(id), {
-    onSuccess(data) {
-      console.log(data.success);
-      queryClient.invalidateQueries(["like"]);
-    },
-  });
   const addCart = () => {
-    // if (already) {
-    //   setOpenModal("already");
-    //   return;
-    // }
+    cartItems?.forEach((item: IDetail) =>
+      item.productId === id
+        ? setOpenModal("already")
+        : setOpenModal("selected"),
+    );
+    if (openModal === "selected") {
+      return;
+    }
     addCartList.mutate(id as string);
-    setOpenModal("selected");
-    // setOpenModal(true);
-    // addToCart(detail.productId);
-  };
-
-  const handleLike = () => {
-    // setLiked((prev) => !prev);
   };
 
   return (
     <div>
       {detail && (
         <Wrapper>
-          <BankImg src={detail.bankImg} alt="은행 이미지" />
-          <BankTitle>{`${detail.bankName} ${detail.categoryName}`}</BankTitle>
+          <BankImg src={detail?.bankImg} alt="은행 이미지" />
+          <BankTitle>{`${detail?.bankName} ${detail?.categoryName}`}</BankTitle>
           <ProductBox>
-            <ProductTitle>{detail.productName}</ProductTitle>
-            <button onClick={() => likeMutation.mutate(detail?.productId)}>
-              {liked ? (
-                <HiHeart onClick={handleLike} />
-              ) : (
-                <HiOutlineHeart onClick={handleLike} />
-              )}
-            </button>
+            <ProductTitle>{detail?.productName}</ProductTitle>
+            {isLiked?.likeId ? (
+              <button
+                onClick={() =>
+                  deleteLikeMutation.mutate(isLiked.likeId as number)
+                }
+              >
+                <HiHeart />
+              </button>
+            ) : (
+              <button
+                onClick={
+                  // () => dispatch(reset())
+                  () => likeMutation.mutate(detail?.productId)
+                }
+              >
+                <HiOutlineHeart />
+              </button>
+            )}
           </ProductBox>
           <AverageBox>
             <AverageContent>
               <AverageTitle>최저 금리</AverageTitle>
-              <AverageValue>{detail.loanRateList[0].minRate}%</AverageValue>
+              <AverageValue>
+                {detail?.loanRateList[0].minRate || 0}%
+              </AverageValue>
             </AverageContent>
             <AverageContent>
               <AverageTitle>최고 금리</AverageTitle>
-              <AverageValue>{detail.loanRateList[0].maxRate}%</AverageValue>
+              <AverageValue>
+                {detail?.loanRateList[0].maxRate || 0}%
+              </AverageValue>
             </AverageContent>
           </AverageBox>
           <BtnBox>
@@ -115,19 +143,28 @@ const ProductDetail = () => {
           <DetailBox>
             <DetailBoxTitle>상세정보</DetailBoxTitle>
             <DetailTitle>대출 한도</DetailTitle>
-            <DetailContent>{detail.loanLimit}</DetailContent>
+            <DetailContent>{detail?.loanLimit || noInfo}</DetailContent>
             <DetailTitle>연체 이자율</DetailTitle>
-            <DetailContent>{detail.delayRate}</DetailContent>
+            <DetailContent>{detail?.delayRate || noInfo}</DetailContent>
             <DetailTitle>상품 이자율</DetailTitle>
-            {detail.loanRateList.map((item: IItem) => (
-              <LoanInterest key={item.id} item={item} />
-            ))}
+            {!detail.loanRateList.rateType ||
+            !detail.loanRateList.repayType ||
+            !detail.loanRateList.minRate ||
+            !detail.loanRateList.maxRate ? (
+              <DetailContent>{noInfo}</DetailContent>
+            ) : (
+              detail?.loanRateList.map((item: IItem) => (
+                <LoanInterest key={item.id} item={item} />
+              ))
+            )}
             <DetailTitle>대출 부대비용</DetailTitle>
-            <DetailContent>{detail.loanIncidentalExpenses}</DetailContent>
+            <DetailContent>
+              {detail?.loanIncidentalExpenses || noInfo}
+            </DetailContent>
             <DetailTitle>중도상환 수수료</DetailTitle>
-            <DetailContent>{detail.earlyRepayFee}</DetailContent>
+            <DetailContent>{detail?.earlyRepayFee || noInfo}</DetailContent>
             <DetailTitle>가입방법</DetailTitle>
-            <DetailContent>{detail.joinWay}</DetailContent>
+            <DetailContent>{detail?.joinWay || noInfo}</DetailContent>
           </DetailBox>
         </Wrapper>
       )}

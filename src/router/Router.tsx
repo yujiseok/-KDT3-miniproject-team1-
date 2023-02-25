@@ -50,7 +50,14 @@ const Router = createBrowserRouter(
           }
         />
         <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/completeOrder" element={<CompleteOrder />} />
+        <Route
+          path="/completeOrder"
+          element={
+            <PrivateRouter>
+              <CompleteOrder />
+            </PrivateRouter>
+          }
+        />
         <Route path="/" element={<Main />} />
         <Route path="/search/:value" element={<Search />} />
         <Route path="/mypage">
