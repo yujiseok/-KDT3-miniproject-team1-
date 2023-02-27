@@ -164,7 +164,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (response) {
-      navigate("/");
+      navigate("/signin");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response]);
