@@ -42,9 +42,7 @@ const Password = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data: FormValues) => {
-    console.log(data.password);
     confirmMutation.mutate(data.password);
-    // ;
   };
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
