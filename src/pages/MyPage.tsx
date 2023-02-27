@@ -12,6 +12,8 @@ import MaleAvatar from "components/svg/MaleAvatar";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { logoutAction } from "features/authSlice";
 import FemaleAvatar from "components/svg/FemaleAvatar";
+import { useQuery } from "@tanstack/react-query";
+import { getUserInfo } from "api/user";
 
 interface LinkItem {
   icon?: JSX.Element;
@@ -46,16 +48,21 @@ const MyPage = () => {
   const { auth } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  console.log(auth.birth);
-
+  const { data } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUserInfo,
+  });
   const { birth } = auth;
-  const gender = birth?.slice(-1);
+  // const gender = birth?.slice(-1);
+  const gender = data?.birth.slice(-1);
+
+  console.log(data);
 
   const handleClickLogout = () => {
     dispatch(logoutAction());
     navigate("/");
   };
+
   return (
     <Block>
       <H1>마이페이지</H1>
@@ -63,7 +70,7 @@ const MyPage = () => {
       <ProfileWrapper>
         {gender === "1" || gender === "3" ? <MaleAvatar /> : <FemaleAvatar />}
         <div>
-          <Username>{auth.name}</Username>님 환영합니다.
+          <Username>{data?.name}</Username>님 환영합니다.
           <div>
             <LogOutBtn onClick={handleClickLogout}>로그아웃</LogOutBtn>
           </div>

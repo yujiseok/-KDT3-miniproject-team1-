@@ -23,12 +23,17 @@ export const signUp = async (data: FormValues) => {
   console.log(res);
 };
 
+export const getUserInfo = async () => {
+  const res = await client.get("/users/me");
+  return res.data.data;
+};
+
 export const editUser = async (data: EditValues) => {
   const res = await client.put("/users/me", {
     name: data.name,
     password: data.password,
-    asset: data.asset,
-    income: data.income,
+    asset: Number(data.asset),
+    income: Number(data.income),
     job: data.job,
     region: data.region,
   });
@@ -37,6 +42,7 @@ export const editUser = async (data: EditValues) => {
 
 export const logoutUser = async () => {
   const res = await client.post("/user/logout");
+  console.log(res);
 };
 
 export const deleteUser = async () => {

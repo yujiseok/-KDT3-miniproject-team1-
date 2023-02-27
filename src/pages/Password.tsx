@@ -48,7 +48,7 @@ const Password = () => {
     <Form onSubmit={handleSubmit(onSubmit)}>
       <TextFiled
         id="password"
-        label="비밀번호 확인"
+        label="비밀번호 확인 *"
         placeholder="8-20자 영문, 숫자, 특수문자를 사용하세요."
         error={errors.password?.message}
         register={register("password")}
