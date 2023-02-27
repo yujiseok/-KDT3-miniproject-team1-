@@ -1,12 +1,18 @@
-import type { FormValues } from "components/myPage/UserForm";
+import { useMutation } from "@tanstack/react-query";
+import { editUser } from "api/user";
+import type { EditValues } from "components/myPage/UserForm";
 import UserForm from "components/myPage/UserForm";
-import type { FormEvent } from "react";
-import { useState } from "react";
 import styled from "styled-components";
 
 const User = () => {
-  const onSubmit = (data: FormValues) => {
+  const editMutation = useMutation((data: EditValues) => editUser(data), {
+    onSuccess(data) {
+      console.log(data);
+    },
+  });
+  const onSubmit = (data: EditValues) => {
     console.log(data);
+    editMutation.mutate(data);
   };
 
   return (

@@ -11,6 +11,7 @@ import colors from "constants/colors";
 import MaleAvatar from "components/svg/MaleAvatar";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { logoutAction } from "features/authSlice";
+import FemaleAvatar from "components/svg/FemaleAvatar";
 
 interface LinkItem {
   icon?: JSX.Element;
@@ -46,6 +47,11 @@ const MyPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  console.log(auth.birth);
+
+  const { birth } = auth;
+  const gender = birth?.slice(-1);
+
   const handleClickLogout = () => {
     dispatch(logoutAction());
     navigate("/");
@@ -55,9 +61,7 @@ const MyPage = () => {
       <H1>마이페이지</H1>
 
       <ProfileWrapper>
-        {/* 남성 여성에 따른 아바타? */}
-        <MaleAvatar />
-        {/* <FemaleAvatar /> */}
+        {gender === "1" || gender === "3" ? <MaleAvatar /> : <FemaleAvatar />}
         <div>
           <Username>{auth.name}</Username>님 환영합니다.
           <div>
