@@ -175,8 +175,8 @@ const SignUp = () => {
       data: {
         email: data.email,
         password: data.currentPassword,
-        name: data.currentPassword,
-        brith: `${data.front}${data.back}`,
+        name: data.username,
+        birth: `${data.front}${data.back}`,
         joinType: Number(data.interest),
       },
     });
