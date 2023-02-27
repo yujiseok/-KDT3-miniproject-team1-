@@ -1,8 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
-import { editUser } from "api/user";
-import type { EditValues } from "components/myPage/UserForm";
 import UserForm from "components/myPage/UserForm";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const User = () => {

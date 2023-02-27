@@ -35,6 +35,7 @@ const Password = () => {
 
   const confirmMutation = useMutation((pw: string) => confirmPassword(pw), {
     onSuccess(data) {
+      // sessionStorage.setItem('confirm','')
       navigate("/mypage/user");
     },
   });

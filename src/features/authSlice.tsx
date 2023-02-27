@@ -9,8 +9,8 @@ export interface AuthState {
   birth: string;
   joinType: number;
   accessToken: string;
-  asset?: number | null;
-  income?: number | null;
+  asset?: string | null;
+  income?: string | null;
   job?: string | null;
   region?: string | null;
 }
@@ -22,8 +22,8 @@ const initialState: AuthState = {
   birth: "",
   joinType: 1,
   accessToken: "",
-  asset: 0,
-  income: 0,
+  asset: "0",
+  income: "0",
   job: "무직",
   region: "서울",
 };
