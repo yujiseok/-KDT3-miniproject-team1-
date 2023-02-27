@@ -56,8 +56,6 @@ const MyPage = () => {
   // const gender = birth?.slice(-1);
   const gender = data?.birth.slice(-1);
 
-  console.log(data);
-
   const handleClickLogout = () => {
     dispatch(logoutAction());
     navigate("/");
