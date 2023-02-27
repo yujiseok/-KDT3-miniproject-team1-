@@ -138,7 +138,7 @@ zod 반영은 하루만에 끝났다
 ### 유지석
 
 - 전체 프로젝트 세팅을 진행하였습니다.
-  - eslint, prettier를 사용을 통해 코드의 컨벤션을 통일화하였습니다.
+  - eslint, prettier 사용을 통해 코드를 통일화하였습니다.
   - husky와 lint-staged를 이용한 pre-commit을 통해 린트를 자동화하였습니다.
   - github action을 통해 fork 한 레포지토리의 배포 자동화를 구현하였습니다.
 
