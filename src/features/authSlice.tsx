@@ -5,14 +5,14 @@ import type { RootState } from "app/store";
 export interface AuthState {
   id: string;
   email: string;
-  name: string;
+  name?: string;
   birth: string;
   joinType: number;
   accessToken: string;
-  asset: number;
-  income: number;
-  job: string;
-  region: string;
+  asset?: number | null;
+  income?: number | null;
+  job?: string | null;
+  region?: string | null;
 }
 
 const initialState: AuthState = {
@@ -49,10 +49,18 @@ export const authSlice = createSlice({
       state.joinType = 0;
       state.accessToken = "";
     },
+    updateUser: (state, { payload }: PayloadAction<AuthState>) => {
+      state.name = payload.name;
+      state.joinType = payload.joinType;
+      state.asset = payload.asset;
+      state.income = payload.income;
+      state.job = payload.job;
+      state.region = payload.region;
+    },
   },
 });
 
-export const { loginAction, logoutAction } = authSlice.actions;
+export const { loginAction, logoutAction, updateUser } = authSlice.actions;
 
 export const selectAccessToken = (state: RootState) => state.auth.accessToken;
 export const selectuserInfo = (state: RootState) => state.auth;

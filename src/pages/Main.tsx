@@ -11,6 +11,8 @@ import "swiper/scss/pagination";
 import { getProducts } from "api/main";
 import type { Item } from "types/itemType";
 import { useAppSelector } from "app/hooks";
+import { useQuery } from "@tanstack/react-query";
+import { getUserInfo } from "api/user";
 import { getOrderLists } from "../api/orders";
 
 const Main = () => {
@@ -20,6 +22,11 @@ const Main = () => {
   const [products, setProducts] = useState<Array<Item>>([]);
 
   const { auth } = useAppSelector((state) => state);
+
+  const { data } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUserInfo,
+  });
 
   useEffect(() => {
     async function getData() {
@@ -135,7 +142,8 @@ const Main = () => {
       {/* 회원용 */}
       <TitleContent>
         <h2>
-          <span>{Object(auth)?.name}</span>님이
+          {/* <span>{Object(auth)?.name}</span>님이 */}
+          <span>{data?.name}</span>님이
           <br />
           신청하신 대출 정보 입니다.
         </h2>
@@ -167,7 +175,7 @@ const Main = () => {
 
       <RecommendContent>
         <h2 className="recommend">
-          <span>{Object(auth)?.name}</span>님의 맞춤 대출 정보 입니다.
+          <span>{data?.name}</span>님의 맞춤 대출 정보 입니다.
         </h2>
         {recommend.length > 0
           ? recommend.map((item) => {

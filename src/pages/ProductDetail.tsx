@@ -100,12 +100,7 @@ const ProductDetail = () => {
                 <HiHeart />
               </button>
             ) : (
-              <button
-                onClick={
-                  // () => dispatch(reset())
-                  () => likeMutation.mutate(detail?.productId)
-                }
-              >
+              <button onClick={() => likeMutation.mutate(detail?.productId)}>
                 <HiOutlineHeart />
               </button>
             )}
