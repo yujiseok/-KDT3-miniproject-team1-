@@ -113,7 +113,7 @@ const inputs: InputField[] = [
   },
 ];
 
-const interests: InputField[] = [
+export const interests: InputField[] = [
   {
     name: "개인신용대출",
     label: interestsLabel,
@@ -292,7 +292,7 @@ const Form = styled(Container.withComponent("form"))`
   height: fit-content;
 `;
 
-const InterestBox = styled(GroupLeftBox)`
+export const InterestBox = styled(GroupLeftBox)`
   flex-direction: row;
   flex-wrap: wrap;
 `;

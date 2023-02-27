@@ -10,7 +10,8 @@ interface ITextFiled {
     | "asset"
     | "income"
     | "job"
-    | "region";
+    | "region"
+    | "joinType";
   label:
     | "이름 *"
     | "비밀번호 변경 *"
@@ -18,8 +19,9 @@ interface ITextFiled {
     | "총 자산"
     | "소득"
     | "직업"
-    | "지역";
-  type?: "text" | "password";
+    | "지역"
+    | "가입목적";
+  type?: "text" | "password" | "select";
   error?: string;
   placeholder?: string;
   register?: {
