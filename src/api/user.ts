@@ -10,18 +10,15 @@ export const confirmPassword = async (pw: string) => {
   return res;
 };
 
-export const signUp = async (data: FormValues) => {
-  console.log(data);
-  const res = await client.post("/signUp", {
-    email: data.email,
-    password: data.currentPassword,
-    name: data.currentPassword,
-    brith: `${data.front}${data.back}`,
-    joinType: Number(data.interest),
-  });
-
-  console.log(res);
-};
+// export const signUp = async (data: FormValues) => {
+//   const res = await client.post("/signUp", {
+//     email: data.email,
+//     password: data.currentPassword,
+//     name: data.username,
+//     brith: `${data.front}${data.back}`,
+//     joinType: Number(data.interest),
+//   });
+// };
 
 export const getUserInfo = async () => {
   const res = await client.get("/users/me");
@@ -37,12 +34,10 @@ export const editUser = async (data: EditValues) => {
     job: data.job,
     region: data.region,
   });
-  console.log(res.data);
 };
 
 export const logoutUser = async () => {
   const res = await client.post("/user/logout");
-  console.log(res);
 };
 
 export const deleteUser = async () => {

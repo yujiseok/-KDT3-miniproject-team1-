@@ -9,6 +9,8 @@ import { deleteUser, editUser } from "api/user";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { loginAction, logoutAction, updateUser } from "features/authSlice";
 import { useMutation } from "@tanstack/react-query";
+import { InterestBox, interests } from "pages/SingUp";
+import CheckBoxButton from "components/auth/CheckBoxButton";
 
 const validationSchema = z
   .object({
@@ -31,8 +33,9 @@ const validationSchema = z
       ),
     asset: z.string().optional(),
     income: z.string().optional(),
-    job: z.string().min(2, "직업을 입력해주세요.").optional(),
-    region: z.string().min(2, "지역을 입력해주세요.").optional(),
+    job: z.string().optional(),
+    region: z.string().optional(),
+    joinType: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -68,9 +71,20 @@ const UserForm = () => {
   });
   const onSubmit = (data: EditValues) => {
     console.log(data);
+
     editMutation.mutate(data);
 
-    // dispatch(updateUser(data));
+    dispatch(
+      updateUser({
+        ...auth,
+        name: data.name,
+        asset: data.asset,
+        income: data.income,
+        job: data.job,
+        region: data.region,
+        joinType: Number(data.joinType),
+      }),
+    );
   };
 
   return (
@@ -127,8 +141,25 @@ const UserForm = () => {
         // // error={errors.region?.message}
         register={register("region")}
       />
+      {/* <TextFiled
+        id="region"
+        label="지역"
+        type="select"
+        placeholder="지역을 입력해주세요."
+        // // error={errors.region?.message}
+        register={register("region")}
+      /> */}
 
-      {/* 선택 정보 추가 해야함 */}
+      <SelectWrapper>
+        <label htmlFor="joinType">가입 목적</label>
+        <select id="joinType" {...register("joinType")}>
+          {interests.map((item) => (
+            <option key={item.name} value={item.typeValue}>
+              {item.name}
+            </option>
+          ))}
+        </select>
+      </SelectWrapper>
       <BtnWrapper>
         <Button primary type="submit">
           {isSubmitting ? <span>제출중...</span> : <span>정보 수정</span>}
@@ -152,4 +183,14 @@ const BtnWrapper = styled.div`
   gap: 8px;
   margin-top: 24px;
 `;
+
+const SelectWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  select {
+    padding: 6px 8px;
+  }
+`;
+
 export default UserForm;
