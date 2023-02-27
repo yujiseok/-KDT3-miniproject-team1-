@@ -4,7 +4,7 @@ import axios from "axios";
 const config: AxiosRequestConfig = {
   baseURL: "http://15.164.195.118:3100/",
   headers: { "Content-type": "application/json" },
-  withCredentials: true,
+  // withCredentials: true,
   timeout: 1000,
 };
 
@@ -22,27 +22,25 @@ client.interceptors.request.use((config) => {
   return config;
 });
 
-// client.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     const {
-//       config,
-//       response: { status },
-//     } = error;
+client.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const {
+      config,
+      response: { status },
+    } = error;
 
-//     if (status !== 401 || config.sent) {
-//       return Promise.reject(error);
-//     }
+    if (status !== 401 || config.url !== "/refresh") {
+      return Promise.reject(error);
+    }
+    if (accessToken && status === 401) {
+      const { data: newAccessToken } = await axios.post(
+        `${config.baseURL}/refresh`,
+      );
 
-//     if (accessToken && status === 401) {
-//       const { data: refreshToken } = await axios.post(
-//         "http://15.164.195.118:3100/refresh",
-//       );
+      config.headers.Authorization = `Bearer ${newAccessToken}`;
+    }
 
-//       console.log("refreshToken", refreshToken);
-//       config.headers.Authorization = `Bearer ${refreshToken}`;
-//     }
-
-//     return axios(config);
-//   },
-// );
+    return axios(config);
+  },
+);

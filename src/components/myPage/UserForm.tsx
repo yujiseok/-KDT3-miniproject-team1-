@@ -4,9 +4,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import TextFiled from "components/myPage/TextFiled";
-import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { deleteUser } from "api/user";
+import { deleteUser, editUser } from "api/user";
+import { useAppDispatch } from "app/hooks";
+import { logoutAction } from "features/authSlice";
+import { useMutation } from "@tanstack/react-query";
 
 const validationSchema = z
   .object({
@@ -17,7 +19,6 @@ const validationSchema = z
       .max(20, "비밀번호는 20자 이하로 입력해주세요.")
       .regex(
         /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
-
         "8-20자 영문, 숫자, 특수문자를 사용하세요.",
       ),
     confirmPassword: z
@@ -26,23 +27,22 @@ const validationSchema = z
       .max(20, "비밀번호는 20자 이하로 입력해주세요.")
       .regex(
         /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
-
         "8-20자 영문, 숫자, 특수문자를 사용하세요.",
       ),
-    asset: z.number().optional(),
-    income: z.number().optional(),
-    job: z.string().min(2, "직업을 입력해주세요.").optional(),
-    region: z.string().min(2, "지역을 입력해주세요.").optional(),
+    asset: z.number().nullable(),
+    income: z.number().nullable(),
+    job: z.string().min(2, "직업을 입력해주세요.").nullable(),
+    region: z.string().min(2, "지역을 입력해주세요.").nullable(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
     message: "비밀번호가 일치하지 않습니다.",
   });
 
-export type FormValues = z.infer<typeof validationSchema>;
+export type EditValues = z.infer<typeof validationSchema>;
 
 interface IUserForm {
-  onSubmit: (data: FormValues) => void;
+  onSubmit: (data: EditValues) => void;
 }
 
 const UserForm = ({ onSubmit }: IUserForm) => {
@@ -50,18 +50,21 @@ const UserForm = ({ onSubmit }: IUserForm) => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormValues>({
+  } = useForm<EditValues>({
     resolver: zodResolver(validationSchema),
   });
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
-  const deleteMutation = useMutation((id: number) => deleteUser(id), {
+  const deleteMutation = useMutation(() => deleteUser(), {
     onSuccess(data) {
+      dispatch(logoutAction());
+      alert(data);
       navigate("/");
-      console.log(data);
     },
   });
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <TextFiled
@@ -94,7 +97,7 @@ const UserForm = ({ onSubmit }: IUserForm) => {
         <Button primary disabled={isSubmitting} type="submit">
           {isSubmitting ? <span>제출중...</span> : <span>정보 수정</span>}
         </Button>
-        <Button primary={false} onClick={() => deleteMutation.mutate(1)}>
+        <Button primary={false} onClick={() => deleteMutation.mutate()}>
           회원 탈퇴
         </Button>
       </BtnWrapper>
