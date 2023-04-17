@@ -12,26 +12,6 @@
 
 - 2023.2.13 ~ 2023.2.24
 
-## 😃 팀원
-
-<table>
-
-<tbody>
-
-<tr>
-
-<td align="center"><a href="https://github.com/yujiseok"><img src="https://avatars.githubusercontent.com/u/83855636?v=4" width="100px;" alt=""/><br /><sub><b>유지석(팀장)</b></sub></a><br /></td>
-
-<td align="center"><a href="https://github.com/zwonkim"><img src="https://avatars.githubusercontent.com/u/103507999?v=4" width="100px;" alt=""/><br /><sub><b>김지원</b></sub></a><br /></td>
-
-<td align="center"><a href="https://github.com/plou102"><img src="https://avatars.githubusercontent.com/u/107393773?v=4" width="100px;" alt=""/><br /><sub><b>박정민</b></sub></a><br /></td>
-
-<td align="center"><a href="https://github.com/mineclover"><img src="https://avatars.githubusercontent.com/u/61359316?v=4" width="100px;" alt=""/><br /><sub><b>방준우</b></sub></a><br /></td>
-
-</tbody>
-
-</table>
-
 ## 📖 깃 커밋 컨벤션
 
 - Feat: 새로운 기능 추가
@@ -60,35 +40,84 @@
 
 ## 기능 구현
 
-
 #### 전체 프로젝트 세팅
-  - eslint, prettier 사용을 통해 코드를 통일화하였습니다.
+  - CRA - TypeScript - Redux-Toolkit 템플릿을 활용하여 프로젝트 초기화를 하였습니다.
+  - eslint, prettier 를 통해 코드를 통일화하였습니다.
   - husky와 lint-staged를 이용한 pre-commit을 통해 린트를 자동화하였습니다.
   - github action을 통해 fork 한 레포지토리의 배포 자동화를 구현하였습니다.
 
 #### 마이페이지 ( /mypage )
 
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/83855636/220902609-d05a6a25-c87d-4254-a6c8-eb37fa6a0d37.png" width="300" height="400"/>
+</div>
+
 - 마이페이지 전체적인 레이아웃을 구성하였습니다.
-- 마이페이지 내부 중첩 라우팅을 통한 페이지를 구성하였습니다.
-
+  - 중첩 라우팅을 통해 공통 레이아웃을 공유하도록 하였습니다.
+- Redux-Toolkit을 활용하여 유저 정보를 조회할 수 있도록 하였습니다.
 #### 관심상품 ( /mypage/like )
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/83855636/219589810-f70852be-fe35-47a4-8795-ee69498540e2.gif" width="300" height="450"/>
+</div>
 
-- 관심 상품 출력, 추가, 삭제 기능을 구현하였습니다.
-- 리덕스를 이용해 관심 상품을 관리하는 기능을 구현하였습니다.
-
+- 관심상품 출력, 추가, 삭제 기능을 구현하였습니다.
+  - react-query의 useQuery 훅을 사용하여 관심상품 데이터 조회 기능을 구현하였습니다.
+  - react-query의 useMutation 훅과 queryClient를 사용하여 삭제 기능을 구현하였습니다.
+- Redux-Toolkit를 이용해 관심상품을 관리하는 기능을 구현하였습니다.
+  
 #### 구매내역 (/mypage/order )
 
 - 구매내역 출력, 추가, 삭제 기능을 구현하였습니다.
+  - react-query의 useQuery 훅을 사용하여 구매내역 데이터 조회 기능을 구현하였습니다.
+  - react-query의 useMutation 훅과 queryClient를 사용하여 삭제 기능을 구현하였습니다.
 
 #### 유저정보 ( /mypage/user/password, /mypage/user)
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/83855636/220310013-38fb80ae-3e78-4995-b2fe-7a0a24833f9f.png" width="300" height="400"/>
+  <img src="https://user-images.githubusercontent.com/83855636/219300410-36c09f5c-f520-4a37-8ff1-f963faad2f89.gif" width="300" height="400"/>
+</div>
 
-- 비밀번호 인증을 통한 회원정보 수정 페이지 이동을 구현하였습니다.
-- 회원정보 수정 기능을 구현하였습니다.
+- 비밀번호 인증을 통한 유저정보 수정 페이지 이동을 구현하였습니다.
+- 유저정보 수정 기능을 구현하였습니다.
+  - TextFiled 컴포넌트를 생성해 중복되는 코드를 줄이고 재사용성을 높였습니다. 
+  - zod와 react-hook-form을 활용하여 각 인풋 필드 별로 유효성 검사를 진행하였습니다.
+  - isSubmitting 속성을 활용해 중복 제출을 방지하였습니다.
 
 #### 권한별 라우트 구현
 
-- PublicRouter, PrivateRouter를 통한 권한별 리다이렉트를 구현하였습니다.
+- PublicRouter와 PrivateRouter를 통해 유저의 토큰 여부에 따른 리다이렉트 처리를 구현하였습니다.
+  
+#### axios interceptors를 활용한 인증 로직 구현
 
+- interceptors.request를 활용해, 요청 시 토큰 인증이 필요한 api 엔드포인트에 토큰을 Authorization에 주입하는 로직을 구현하였습니다.
+  -  반복되는 코드를 줄였습니다.
+- interceptors.response를 활용해, 응답 시 인증이 만료된 사용자일 경우 새로운 토큰을 발급하여  Authorization에 주입하는 로직을 구현하였습니다.
+
+
+## 마주한 문제
+
+
+#### http와 https
+
+Vercel을 이용해 배포를 진행하였는데, 배포 주소는 암호화된 https이고 백엔드 서버의 주소는 암호화되지않은 http로 `Mixed content` 에러가 발생하였습니다.
+제출 2시간 전에 발견한 문제여서 프론트와 백엔드 모두 적잖이 당황하고 서로 의견 충돌이 발생하였습니다. 
+백엔드 측은 2시간 안에 해결하긴 어렵다는 의견과 프론트 측에서 해결할 수 있는지 문의하였습니다.
+결과물 제출하기 위해 제가 시도한 해결법은 다음과 같습니다.
+
+1. upgrade-insecure-requests 추가
+`<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">`
+메타 태그에 위와 같은 태그를 추가하여 에러 해결을 시도하였으나, 여전히 에러는 사라지지 않았습니다. 
+
+2. 브라우저 안전하지 않은 콘텐츠 설정
+두 번째로 시도한 해결법은 브라우저 자체의 설정을 바꾸는 것이었습니다.
+안전하지 않은 콘텐츠 설정을 허용으로 바꾸어 https를 사용하지 않도록 하였습니다. 
+그 결과 http 서버 통신이 가능하게 되었습니다. 
+
+<div align="center">
+  <img src="https://files.slack.com/files-pri/T04K1GMKEKC-F04RA2B83KP/image.png" width="300" height="400"/>
+</div>
+
+위의 에러를 해결하며, 팀원들과의 소통의 필요성과 http 프로토콜의 중요성을 알게 되었습니다.
 
 ## 회고
 
@@ -106,3 +135,22 @@
   - 내가 작성한 코드가 아닌 다른 사람의 코드를 잘 읽는 것이 무척이나 중요하다는 것을 알게 되었고, 알기 쉬운 코드를 작성하는 것이 얼마나 어려운 것인지 알게 되었습니다.
 
  
+## 😃 팀원
+
+<table>
+
+<tbody>
+
+<tr>
+
+<td align="center"><a href="https://github.com/yujiseok"><img src="https://avatars.githubusercontent.com/u/83855636?v=4" width="100px;" alt=""/><br /><sub><b>유지석(팀장)</b></sub></a><br /></td>
+
+<td align="center"><a href="https://github.com/zwonkim"><img src="https://avatars.githubusercontent.com/u/103507999?v=4" width="100px;" alt=""/><br /><sub><b>김지원</b></sub></a><br /></td>
+
+<td align="center"><a href="https://github.com/plou102"><img src="https://avatars.githubusercontent.com/u/107393773?v=4" width="100px;" alt=""/><br /><sub><b>박정민</b></sub></a><br /></td>
+
+<td align="center"><a href="https://github.com/mineclover"><img src="https://avatars.githubusercontent.com/u/61359316?v=4" width="100px;" alt=""/><br /><sub><b>방준우</b></sub></a><br /></td>
+
+</tbody>
+
+</table>
