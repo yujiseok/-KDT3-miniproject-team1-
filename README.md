@@ -114,8 +114,9 @@ Vercel을 이용해 배포를 진행하였는데, 배포 주소는 암호화된 
 그 결과 http 서버 통신이 가능하게 되었습니다. 
 
 <div align="center">
-  <img src="https://files.slack.com/files-pri/T04K1GMKEKC-F04RA2B83KP/image.png" width="300" height="400"/>
+  <img src="https://user-images.githubusercontent.com/83855636/232403008-d96889ca-3ec4-4bea-bc99-eb4efd66716d.png" width="300" height="400"/>
 </div>
+
 
 위의 에러를 해결하며, 팀원들과의 소통의 필요성과 http 프로토콜의 중요성을 알게 되었습니다.
 
